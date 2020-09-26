@@ -1,0 +1,7 @@
+01-backend2/spring-boot-aw/.idea
+01-backend2/spring-boot-aw/*.iws
+01-backend2/spring-boot-aw/*.iml
+01-backend2/spring-boot-aw/*.ipr
+01-backend2/spring-boot-aw/target/*
+angular-recipe/node_modules/*
+
