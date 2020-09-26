@@ -13,6 +13,7 @@ export class RecipeListComponent implements OnInit {
 
   recipes: Recipe[];
   currentCategoryId: number;
+  searchMode: boolean;
 
   // tslint:disable-next-line: variable-name
   constructor(private _recipeService: RecipeService,
@@ -27,17 +28,13 @@ export class RecipeListComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   listRecipes(){
+    this.searchMode = this._activatedRoute.snapshot.paramMap.has('keyword');
 
-    const hasCategoryId: boolean = this._activatedRoute.snapshot.paramMap.has('id');
-    if (hasCategoryId){
-      this.currentCategoryId = +this._activatedRoute.snapshot.paramMap.get('id');
-    } else {
-      this.currentCategoryId = 1;
+    if (this.searchMode) {
+      this.handleSearchRecipes();
+    }else {
+      this.handleListRecipes();
     }
-
-    this._recipeService.getRecipes(this.currentCategoryId).subscribe(
-      data => this.recipes = data
-    );
   }
 
   // tslint:disable-next-line: typedef
@@ -62,5 +59,29 @@ isHard(difficulty: number){
     return true;
   }
   return false;
+}
+
+// tslint:disable-next-line: typedef
+handleListRecipes() {
+  const hasCategoryId: boolean = this._activatedRoute.snapshot.paramMap.has('id');
+  if (hasCategoryId){
+    this.currentCategoryId = +this._activatedRoute.snapshot.paramMap.get('id');
+  } else {
+    this.currentCategoryId = 1;
+  }
+
+  this._recipeService.getRecipes(this.currentCategoryId).subscribe(
+    data => this.recipes = data
+  );
+}
+
+// tslint:disable-next-line: typedef
+handleSearchRecipes() {
+  const keyword: string = this._activatedRoute.snapshot.paramMap.get('keyword');
+  this._recipeService.searchRecipes(keyword).subscribe(
+    data => {
+      this.recipes = data;
+    }
+  );
 }
 }

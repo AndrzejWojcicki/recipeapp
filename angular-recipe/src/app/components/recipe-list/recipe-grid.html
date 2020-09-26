@@ -1,30 +1,31 @@
 <div class="row text-center">
   <div class="col-lg-4 col-md-6 mb-4" *ngFor="let recipe of recipes">
     <div class="card h-100">
-      <a href="#"><img class="card-img-top" [src]='recipe.imageUrl' alt=""></a>
+      <a routerLink="/przepisy/{{recipe.id}}"><img class="card-img-top" style="max-height: 220px; width: auto;" [src]='recipe.imageUrl' alt=""></a>
       <div class="card-body">
         <h4 class="card-title">
-          <a href="#">{{recipe.name}}</a>
+          <a routerLink="/przepisy/{{recipe.id}}">{{recipe.name}}</a>
         </h4>
         <div class="row">
           <div class="col" >
-            <p>Czas przygotowania</p>
-            <p><i class="far fa-clock"></i> {{recipe.preparationTime}}</p>
+            <i class="far fa-clock"></i>
+            <p>{{recipe.preparationTime}} min</p>
           </div>
           <div class="col">
-            <p>Poziom trudności</p>
-            <div *ngIf="isEasy(recipe.difficulty)"><small class="text-muted" >&#9733; &#9734; &#9734;</small></div>
-            <div *ngIf="isMedium(recipe.difficulty)"><small class="text-muted" >&#9733; &#9733; &#9734;</small></div>
-            <div *ngIf="isHard(recipe.difficulty)"><small class="text-muted" >&#9733; &#9733; &#9733;</small></div>
+            <div *ngIf="isEasy(recipe.difficulty)"><i class="fas fa-utensils"></i><div><p>łatwe</p></div></div>
+            <div *ngIf="isMedium(recipe.difficulty)"><i class="fas fa-utensils"></i><div><p>średnie</p></div></div>
+            <div *ngIf="isHard(recipe.difficulty)"><i class="fas fa-utensils"></i><div><p>trudne</p></div></div>
           </div>
 
         </div>
-
 
       </div>
       <div class="card-footer">
         <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
       </div>
     </div>
+  </div>
+  <div *ngIf="recipes?.length == 0" class="col-md-12 alert alert-warning mt-3">
+  Nie znaleziono przepisów :(
   </div>
 </div>

@@ -9,9 +9,12 @@ import { CategoryListComponent } from './components/navbar/navbar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFountComponent } from './components/page-not-fount/page-not-fount.component';
 import { SearchComponent } from './components/search/search.component';
+import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
 
 const routes: Routes = [
+  {path: 'przepisy/:id', component: RecipeDetailsComponent},
   {path: 'przepisy', component: RecipeListComponent},
+  {path: 'szukaj/:keyword', component: RecipeListComponent},
   {path: 'kategoria/:id', component: RecipeListComponent},
   {path: '', redirectTo: '/przepisy', pathMatch: 'full'},
   {path: '**', component: PageNotFountComponent}
@@ -23,7 +26,8 @@ const routes: Routes = [
     RecipeListComponent,
     CategoryListComponent,
     PageNotFountComponent,
-    SearchComponent
+    SearchComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,

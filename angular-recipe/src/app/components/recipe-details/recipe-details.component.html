@@ -1,0 +1,56 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="position-fixed">
+      <h4 class="my-4">Składniki</h4>
+      <div class="list-group">
+      </div>
+
+      </div>
+    </div>
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-8">
+      <br>
+        <h2 class="card-title">{{recipe.name}}</h2>
+          <div class="card mt-4">
+            <img class="card-img-top img-fluid" src="{{recipe.imageUrl}}" alt="">
+          <div class="card-body">
+            <div class="row">
+              <div class="col text-center" >
+                <i class="far fa-clock"></i>
+                <p>{{recipe.preparationTime}} min</p>
+              </div>
+              <div class="col text-center">
+                <div *ngIf="recipe.difficulty === 1"><i class="fas fa-utensils"></i><div><p>łatwe</p></div></div>
+                <div *ngIf="recipe.difficulty === 2"><i class="fas fa-utensils"></i><div><p>średnie</p></div></div>
+                <div *ngIf="recipe.difficulty === 3">"<i class="fas fa-utensils"></i><div><p>trudne</p></div></div>
+              </div>
+              <div class="col text-center">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                <p>Śr. ocena</p>
+              </div>
+
+            </div>
+            <h4>Przygotowanie krok po kroku</h4>
+            <hr>
+            <div class="container" *ngFor="let step of steps">
+              <h5>Krok {{step.stepNumber}}</h5>
+              <p>{{step.description}}</p>
+            </div>
+        </div>
+      </div>
+      <br>
+      <!-- /.card -->
+
+
+      <!-- komentarze -->
+
+    </div>
+    <!-- /.col-lg-9 -->
+
+  </div>
+
+</div>
+<!-- /.container -->

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+  // tslint:disable-next-line: variable-name
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
   }
 
+  // tslint:disable-next-line: typedef
+  searchRecipes(keyword: string) {
+    console.log('keyword', keyword);
+    this._router.navigateByUrl('/szukaj/' + keyword);
+  }
 }

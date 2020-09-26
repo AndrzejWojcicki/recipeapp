@@ -26,6 +26,9 @@ public class Recipe {
     @JoinColumn(name = "category_id", nullable = false)
     private RecipeCategory category;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<RecipeSteps> steps;
+
     @Column(name = "name")
     private String name;
 
