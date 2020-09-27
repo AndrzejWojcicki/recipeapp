@@ -3,6 +3,7 @@ import { RecipeService } from './../../services/recipe.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-recipe-list',
@@ -35,6 +36,8 @@ export class RecipeListComponent implements OnInit {
               // tslint:disable-next-line: variable-name
               private _activatedRoute: ActivatedRoute,
               // tslint:disable-next-line: variable-name
+              private _spinnerService: NgxSpinnerService,
+              // tslint:disable-next-line: variable-name
               _config: NgbPaginationConfig) {
                 _config.maxSize = 3;
                 _config.boundaryLinks = true;
@@ -51,6 +54,8 @@ export class RecipeListComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   listRecipes() {
+    // starts the spinner
+    this._spinnerService.show();
     this.searchMode = this._activatedRoute.snapshot.paramMap.has('keyword');
 
     if (this.searchMode) {
@@ -126,11 +131,14 @@ updatePageSize(pageSize: number) {
 // tslint:disable-next-line: typedef
 processPaginate() {
   return data => {
-    this.recipes = data._embedded.recipes;
-    // page number starts from 1 index in frontend side
-    this.currentPage = data.page.number + 1;
-    this.totalRecords = data.page.totalElements;
-    this.pageSize = data.page.size;
-  };
+      // stops the spinner
+      this._spinnerService.hide();
+      this.recipes = data._embedded.recipes;
+      // page number starts from 1 index in frontend side
+      this.currentPage = data.page.number + 1;
+      this.totalRecords = data.page.totalElements;
+      this.pageSize = data.page.size;
+   };
+  }
 }
-}
+

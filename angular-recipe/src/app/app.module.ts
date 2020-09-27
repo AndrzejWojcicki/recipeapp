@@ -10,8 +10,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFountComponent } from './components/page-not-fount/page-not-fount.component';
 import { SearchComponent } from './components/search/search.component';
 import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
-import { JwPaginationComponent, JwPaginationModule } from 'jw-angular-pagination';
+import { JwPaginationModule } from 'jw-angular-pagination';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   {path: 'przepisy/:id', component: RecipeDetailsComponent},
@@ -36,7 +37,8 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     JwPaginationModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgxSpinnerModule
   ],
   providers: [
     RecipeService
