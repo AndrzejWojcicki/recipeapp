@@ -2,6 +2,7 @@ import { Recipe } from './../../common/recipe';
 import { RecipeService } from './../../services/recipe.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-recipe-list',
@@ -11,14 +12,33 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RecipeListComponent implements OnInit {
 
-  recipes: Recipe[];
-  currentCategoryId: number;
-  searchMode: boolean;
+  recipes: Recipe[] = [];
+  // tslint:disable-next-line: no-inferrable-types
+  currentCategoryId: number = 1;
+  // tslint:disable-next-line: no-inferrable-types
+  searchMode: boolean = false;
+  // tslint:disable-next-line: no-inferrable-types
+  previousCategory: number = 1;
+
+
+  // new properties for server side paging
+  // tslint:disable-next-line: no-inferrable-types
+  currentPage: number = 1;
+  // tslint:disable-next-line: no-inferrable-types
+  pageSize: number = 6;
+  // tslint:disable-next-line: no-inferrable-types
+  totalRecords: number = 0;
+
 
   // tslint:disable-next-line: variable-name
   constructor(private _recipeService: RecipeService,
               // tslint:disable-next-line: variable-name
-              private _activatedRoute: ActivatedRoute) { }
+              private _activatedRoute: ActivatedRoute,
+              // tslint:disable-next-line: variable-name
+              _config: NgbPaginationConfig) {
+                _config.maxSize = 3;
+                _config.boundaryLinks = true;
+              }
 
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(() => {
@@ -26,8 +46,11 @@ export class RecipeListComponent implements OnInit {
     });
   }
 
+
+
+
   // tslint:disable-next-line: typedef
-  listRecipes(){
+  listRecipes() {
     this.searchMode = this._activatedRoute.snapshot.paramMap.has('keyword');
 
     if (this.searchMode) {
@@ -70,18 +93,44 @@ handleListRecipes() {
     this.currentCategoryId = 1;
   }
 
-  this._recipeService.getRecipes(this.currentCategoryId).subscribe(
-    data => this.recipes = data
-  );
+  // setting up the current page to 1 if user navigate to other category
+  if (this.previousCategory !== this.currentCategoryId) {
+    this.currentPage = 1;
+  }
+
+  this.previousCategory = this.currentCategoryId;
+
+  this._recipeService.getRecipes(this.currentCategoryId,
+                                  this.currentPage - 1,
+                                  this.pageSize)
+                                  .subscribe(this.processPaginate());
 }
 
 // tslint:disable-next-line: typedef
 handleSearchRecipes() {
   const keyword: string = this._activatedRoute.snapshot.paramMap.get('keyword');
-  this._recipeService.searchRecipes(keyword).subscribe(
-    data => {
-      this.recipes = data;
-    }
-  );
+
+  this._recipeService.searchRecipes(keyword,
+                                    this.currentPage - 1,
+                                    this.pageSize
+                                    ).subscribe(this.processPaginate());
+}
+
+// tslint:disable-next-line: typedef
+updatePageSize(pageSize: number) {
+  this.pageSize = pageSize;
+  this.currentPage = 1;
+  this.listRecipes();
+}
+
+// tslint:disable-next-line: typedef
+processPaginate() {
+  return data => {
+    this.recipes = data._embedded.recipes;
+    // page number starts from 1 index in frontend side
+    this.currentPage = data.page.number + 1;
+    this.totalRecords = data.page.totalElements;
+    this.pageSize = data.page.size;
+  };
 }
 }

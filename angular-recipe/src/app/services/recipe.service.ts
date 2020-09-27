@@ -16,9 +16,9 @@ export class RecipeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRecipes(theCategoryId: number): Observable<Recipe[]>{
-    const searchUrl = `${this.baseUrl}/search/category?id=${theCategoryId}`;
-    return this.getRecipeList(searchUrl);
+  getRecipes(theCategoryId: number, currentPage: number, pageSize: number): Observable<GetResponseRecipe>{
+    const searchUrl = `${this.baseUrl}/search/category?id=${theCategoryId}&page=${currentPage}&size=${pageSize}`;
+    return this.httpClient.get<GetResponseRecipe>(searchUrl);
   }
 
   // tslint:disable-next-line: typedef
@@ -41,9 +41,9 @@ export class RecipeService {
       );
   }
 
-  searchRecipes(keyword: string): Observable<Recipe[]>{
-    const searchUrl = `${this.baseUrl}/search/search?name=${keyword}`;
-    return this.getRecipeList(searchUrl);
+  searchRecipes(keyword: string, currentPage: number, pageSize: number): Observable<GetResponseRecipe>{
+    const searchUrl = `${this.baseUrl}/search/search?name=${keyword}&page=${currentPage}&size=${pageSize}`;
+    return this.httpClient.get<GetResponseRecipe>(searchUrl);
   }
 
   get(recipeId: number): Observable<Recipe> {
@@ -57,6 +57,17 @@ export class RecipeService {
 interface GetResponseRecipe{
   _embedded: {
     recipes: [];
+  // tslint:disable-next-line: semicolon
+  },
+  page: {
+    // size of records in page
+    size: number,
+    // total number of records in database
+    totalElements: number,
+    // total number of pages, starts from 0 index
+    totalPages: number,
+    // current page
+    number: number
   };
 }
 

@@ -13,3 +13,13 @@ thead{
 body {
   padding-top: 56px;
 }
+
+.content{
+  padding-bottom: 100px;
+}
+
+a{
+  cursor: pointer;
+}
+
+
