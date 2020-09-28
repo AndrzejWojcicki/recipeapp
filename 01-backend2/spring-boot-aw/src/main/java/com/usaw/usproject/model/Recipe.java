@@ -26,8 +26,21 @@ public class Recipe {
     @JoinColumn(name = "category_id", nullable = false)
     private RecipeCategory category;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<RecipeSteps> steps;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Comment> comments ;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Rating> ratings ;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<RecipeIngredients> ingredients ;
 
     @Column(name = "name")
     private String name;
