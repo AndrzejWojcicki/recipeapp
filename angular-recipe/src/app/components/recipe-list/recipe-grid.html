@@ -7,7 +7,7 @@
   <p style="color: white">Proszę czekać...</p>
 </ngx-spinner>
 <div class="row text-center">
-  <div class="col-lg-4 col-md-6 mb-4" *ngFor="let recipe of recipes">
+  <div class="col-lg-4 col-md-6 mb-4" *ngFor="let recipe of recipes; let i = index">
     <div class="card h-100">
       <a routerLink="/przepisy/{{recipe.id}}"><img class="card-img-top" style="max-height: 220px; width: auto;" [src]='recipe.imageUrl' alt=""></a>
       <div class="card-body">
@@ -29,11 +29,16 @@
 
       </div>
       <div class="card-footer">
-        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        <div *ngIf="0.5 > avgRatings[i]"><small class="text-muted">&#9734; &#9734; &#9734; &#9734; &#9734;</small></div>
+                <div *ngIf=" 0.5 < avgRatings[i] && avgRatings[i] < 1.5"><small class="text-muted">&#9733; &#9734; &#9734; &#9734; &#9734;</small></div>
+                <div *ngIf=" 1.5 <= avgRatings[i] && avgRatings[i] < 2.5"><small class="text-muted">&#9733; &#9733; &#9734; &#9734; &#9734;</small></div>
+                <div *ngIf=" 2.5 <= avgRatings[i] && avgRatings[i] < 3.5"><small class="text-muted">&#9733; &#9733; &#9733; &#9734; &#9734;</small></div>
+                <div *ngIf=" 3.5 <= avgRatings[i] && avgRatings[i] < 4.5"><small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small></div>
+        <div *ngIf="4.5 <= avgRatings[i]"><small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9733;</small></div>
       </div>
     </div>
   </div>
-  <div *ngIf="recipes?.length == 0 && !recipes" class="col-md-12 alert alert-warning mt-3">
+  <div *ngIf="recipes?.length == 0 " class="col-md-12 alert alert-warning mt-3">
   Nie znaleziono przepisów :(
   </div>
 </div>

@@ -16,7 +16,13 @@ export class SearchComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   searchRecipes(keyword: string) {
-    console.log('keyword', keyword);
+    if (keyword === '') {
+      console.log(keyword);
+      this._router.navigateByUrl('/szukaj/' + keyword + 'null');
+
+    } else {
+    console.log(keyword);
     this._router.navigateByUrl('/szukaj/' + keyword);
+    }
   }
 }

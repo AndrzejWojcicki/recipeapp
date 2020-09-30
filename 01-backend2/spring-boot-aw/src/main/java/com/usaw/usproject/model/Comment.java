@@ -3,8 +3,10 @@ package com.usaw.usproject.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="comment")
@@ -28,4 +30,7 @@ public class Comment {
     @Column(name = "message")
     private String message;
 
+    @Column(name = "date_created")
+    @CreationTimestamp
+    private Date dateCreated;
 }

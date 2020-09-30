@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Rating } from 'src/app/common/rating';
 
 @Component({
   selector: 'app-recipe-list',
@@ -20,7 +21,7 @@ export class RecipeListComponent implements OnInit {
   searchMode: boolean = false;
   // tslint:disable-next-line: no-inferrable-types
   previousCategory: number = 1;
-
+  temp: unknown;
 
   // new properties for server side paging
   // tslint:disable-next-line: no-inferrable-types
@@ -30,6 +31,10 @@ export class RecipeListComponent implements OnInit {
   // tslint:disable-next-line: no-inferrable-types
   totalRecords: number = 0;
 
+  ratings: Rating[] = new Array();
+  total = 0;
+  avgRating: number;
+  avgRatings: number[] = [];
 
   // tslint:disable-next-line: variable-name
   constructor(private _recipeService: RecipeService,
@@ -57,7 +62,6 @@ export class RecipeListComponent implements OnInit {
     // starts the spinner
     this._spinnerService.show();
     this.searchMode = this._activatedRoute.snapshot.paramMap.has('keyword');
-
     if (this.searchMode) {
       this.handleSearchRecipes();
     }else {
@@ -114,17 +118,18 @@ handleListRecipes() {
 // tslint:disable-next-line: typedef
 handleSearchRecipes() {
   const keyword: string = this._activatedRoute.snapshot.paramMap.get('keyword');
-
   this._recipeService.searchRecipes(keyword,
                                     this.currentPage - 1,
                                     this.pageSize
                                     ).subscribe(this.processPaginate());
+
 }
 
 // tslint:disable-next-line: typedef
 updatePageSize(pageSize: number) {
   this.pageSize = pageSize;
   this.currentPage = 1;
+  console.log(this.recipes);
   this.listRecipes();
 }
 
@@ -134,11 +139,38 @@ processPaginate() {
       // stops the spinner
       this._spinnerService.hide();
       this.recipes = data._embedded.recipes;
+      this.recipes.sort((a: Recipe, b: Recipe) => (a.id > b.id) ? 1 : -1);
       // page number starts from 1 index in frontend side
       this.currentPage = data.page.number + 1;
       this.totalRecords = data.page.totalElements;
       this.pageSize = data.page.size;
+      this.getRecipeRatings();
+      this.avgRatings = [];
    };
   }
+
+  // tslint:disable-next-line: typedef
+  getRecipeRatings() {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.recipes.length; i++) {
+      this._recipeService.getRecipeRatings(this.recipes[i].id).subscribe(
+        data => {
+
+          this.ratings = data;
+          // tslint:disable-next-line: prefer-for-of
+          for (let j = 0; j < this.ratings.length; j++) {
+        this.total += this.ratings[j].value;
+      }
+          this.avgRating = this.total / this.ratings.length;
+          if (Number.isNaN(this.avgRating)){
+            this.avgRating = 0;
+          }
+          this.total = 0;
+          this.avgRatings.push(this.avgRating);
+        }
+      );
+    }
+  }
 }
+
 

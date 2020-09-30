@@ -1,18 +1,20 @@
-import { RecipeService } from './services/recipe.service';
+import { RecipeService } from './app/services/recipe.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from './app.component';
-import { RecipeListComponent } from './components/recipe-list/recipe-list.component';
-import { CategoryListComponent } from './components/navbar/navbar.component';
+import { AppComponent } from './app/app.component';
+import { RecipeListComponent } from './app/components/recipe-list/recipe-list.component';
+import { CategoryListComponent } from './app/components/navbar/navbar.component';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFountComponent } from './components/page-not-fount/page-not-fount.component';
-import { SearchComponent } from './components/search/search.component';
-import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
+import { PageNotFountComponent } from './app/components/page-not-fount/page-not-fount.component';
+import { SearchComponent } from './app/components/search/search.component';
+import { RecipeDetailsComponent } from './app/components/recipe-details/recipe-details.component';
 import { JwPaginationModule } from 'jw-angular-pagination';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 const routes: Routes = [
   {path: 'przepisy/:id', component: RecipeDetailsComponent},
@@ -38,7 +40,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     JwPaginationModule,
     NgbPaginationModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
   providers: [
     RecipeService
