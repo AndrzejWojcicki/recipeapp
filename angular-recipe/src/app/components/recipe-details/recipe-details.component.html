@@ -4,7 +4,7 @@
       <h4 class="my-4">Składniki</h4>
       <div class="list-group" *ngFor="let ingredientAmount of ingredientsAmount; let i = index" >
         <ul class="list-group" >
-          <div><li class="list-group-item " > {{ingredient[i].productName}} - {{ingredientAmount.amount}}</li></div>
+          <div><li class="list-group-item " > {{ingredient[i]?.productName}} - {{ingredientAmount.amount}}</li></div>
         </ul>
       </div>
     </div>

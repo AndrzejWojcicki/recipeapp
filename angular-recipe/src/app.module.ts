@@ -14,11 +14,12 @@ import { JwPaginationModule } from 'jw-angular-pagination';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomepageComponent } from './app/components/homepage/homepage.component';
 
 
 const routes: Routes = [
   {path: 'przepisy/:id', component: RecipeDetailsComponent},
-  {path: 'przepisy', component: RecipeListComponent},
+  {path: 'przepisy', component: HomepageComponent},
   {path: 'szukaj/:keyword', component: RecipeListComponent},
   {path: 'kategoria/:id', component: RecipeListComponent},
   {path: '', redirectTo: '/przepisy', pathMatch: 'full'},
@@ -32,7 +33,8 @@ const routes: Routes = [
     CategoryListComponent,
     PageNotFountComponent,
     SearchComponent,
-    RecipeDetailsComponent
+    RecipeDetailsComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

@@ -12,80 +12,86 @@ import { RecipeCategory } from '../common/recipe-Category';
 import { Ingredient } from '../common/ingredient';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeService {
-
   private recipesUrl = 'http://localhost:8080/api/recipes';
   private categoryUrl = 'http://localhost:8080/api/recipe-Category';
   private commentAuthorUrl = 'http://localhost:8080/api/recipe-comments';
   private recipeIngredientUrl = 'http://localhost:8080/api/recipe-ingredients';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  getRecipes(theCategoryId: number, currentPage: number, pageSize: number): Observable<GetResponseRecipe>{
+  getRecipes(
+    theCategoryId: number,
+    currentPage: number,
+    pageSize: number
+  ): Observable<GetResponseRecipe> {
     const searchUrl = `${this.recipesUrl}/search/category?id=${theCategoryId}&page=${currentPage}&size=${pageSize}`;
     return this.httpClient.get<GetResponseRecipe>(searchUrl);
   }
 
   // tslint:disable-next-line: typedef
   private getRecipeList(searchUrl: string) {
-    return this.httpClient.get<GetResponseRecipe>(searchUrl).pipe(
-      map(response => response._embedded.recipes)
-    );
+    return this.httpClient
+      .get<GetResponseRecipe>(searchUrl)
+      .pipe(map((response) => response._embedded.recipes));
   }
 
-  getRecipeCategory(): Observable<RecipeCategory[]>{
-    return this.httpClient.get<GetResponseCategory>(this.categoryUrl).pipe(
-      map(response => response._embedded.recipeCategory)
-    );
+  getRecipeCategory(): Observable<RecipeCategory[]> {
+    return this.httpClient
+      .get<GetResponseCategory>(this.categoryUrl)
+      .pipe(map((response) => response._embedded.recipeCategory));
   }
 
-  getRecipeSteps(recipeId: number): Observable<RecipeSteps[]>{
+  getRecipeSteps(recipeId: number): Observable<RecipeSteps[]> {
     const stepsUrl = `${this.recipesUrl}/${recipeId}/steps`;
-    return this.httpClient.get<GetResponseSteps>(stepsUrl).pipe(
-      map(response => response._embedded.stepsOfRecipe)
-      );
+    return this.httpClient
+      .get<GetResponseSteps>(stepsUrl)
+      .pipe(map((response) => response._embedded.stepsOfRecipe));
   }
 
-  getRecipeComments(recipeId: number): Observable<Comment[]>{
+  getRecipeComments(recipeId: number): Observable<Comment[]> {
     const recipeCommentsUrl = `${this.recipesUrl}/${recipeId}/comments`;
-    return this.httpClient.get<GetResponseComments>(recipeCommentsUrl).pipe(
-      map(response => response._embedded.commentsOfRecipe)
-      );
+    return this.httpClient
+      .get<GetResponseComments>(recipeCommentsUrl)
+      .pipe(map((response) => response._embedded.commentsOfRecipe));
   }
 
-  getRecipeRatings(recipeId: number): Observable<Rating[]>{
+  getRecipeRatings(recipeId: number): Observable<Rating[]> {
     const recipeRatingsUrl = `${this.recipesUrl}/${recipeId}/ratings`;
-    return this.httpClient.get<GetResponseRatings>(recipeRatingsUrl).pipe(
-      map(response => response._embedded.ratingsOfRecipe)
-      );
+    return this.httpClient
+      .get<GetResponseRatings>(recipeRatingsUrl)
+      .pipe(map((response) => response._embedded.ratingsOfRecipe));
   }
 
-
-  getRecipeAuthor(recipeId: number): Observable<User>{
+  getRecipeAuthor(recipeId: number): Observable<User> {
     const recipeRatingsUrl = `${this.recipesUrl}/${recipeId}/author`;
     return this.httpClient.get<User>(recipeRatingsUrl);
   }
 
-  getCommentsAuthor(commentId: number): Observable<User>{
+  getCommentsAuthor(commentId: number): Observable<User> {
     const findCommentAuthorUrl = `${this.commentAuthorUrl}/${commentId}/author`;
     return this.httpClient.get<User>(findCommentAuthorUrl);
   }
 
-  getAmountIngredients(recipeId: number): Observable<IngredientsForRecipe[]>{
+  getAmountIngredients(recipeId: number): Observable<IngredientsForRecipe[]> {
     const recipeRatingsUrl = `${this.recipesUrl}/${recipeId}/ingredients`;
-    return this.httpClient.get<GetResponseRecipeIngredients>(recipeRatingsUrl).pipe(
-      map(response => response._embedded.RecipeIngredients)
-      );
+    return this.httpClient
+      .get<GetResponseRecipeIngredients>(recipeRatingsUrl)
+      .pipe(map((response) => response._embedded.RecipeIngredients));
   }
 
-  getIngredient(ingredientId: number): Observable<Ingredient>{
+  getIngredient(ingredientId: number): Observable<Ingredient> {
     const findIngredient = `${this.recipeIngredientUrl}/${ingredientId}/ingredient`;
     return this.httpClient.get<Ingredient>(findIngredient);
   }
 
-  searchRecipes(keyword: string, currentPage: number, pageSize: number): Observable<GetResponseRecipe>{
+  searchRecipes(
+    keyword: string,
+    currentPage: number,
+    pageSize: number
+  ): Observable<GetResponseRecipe> {
     const searchUrl = `${this.recipesUrl}/search/search?name=${keyword}&page=${currentPage}&size=${pageSize}`;
     return this.httpClient.get<GetResponseRecipe>(searchUrl);
   }
@@ -96,55 +102,49 @@ export class RecipeService {
   }
 }
 
-
-
-interface GetResponseRecipe{
+interface GetResponseRecipe {
   _embedded: {
     recipes: [];
-  // tslint:disable-next-line: semicolon
-  },
+    // tslint:disable-next-line: semicolon
+  };
   page: {
     // size of records in page
-    size: number,
+    size: number;
     // total number of records in database
-    totalElements: number,
+    totalElements: number;
     // total number of pages, starts from 0 index
-    totalPages: number,
+    totalPages: number;
     // current page
-    number: number
+    number: number;
   };
 }
 
-interface GetResponseCategory{
+interface GetResponseCategory {
   _embedded: {
     recipeCategory: RecipeCategory[];
   };
 }
 
-interface GetResponseSteps{
+interface GetResponseSteps {
   _embedded: {
     stepsOfRecipe: RecipeSteps[];
   };
 }
 
-interface GetResponseComments{
+interface GetResponseComments {
   _embedded: {
     commentsOfRecipe: Comment[];
   };
 }
 
-interface GetResponseRatings{
+interface GetResponseRatings {
   _embedded: {
     ratingsOfRecipe: Rating[];
   };
 }
 
-interface GetResponseRecipeIngredients{
+interface GetResponseRecipeIngredients {
   _embedded: {
     RecipeIngredients: IngredientsForRecipe[];
   };
 }
-
-
-
-

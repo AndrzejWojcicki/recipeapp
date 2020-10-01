@@ -142,7 +142,7 @@ getRecipeRatings() {
   }
 
   // tslint:disable-next-line: typedef
-  getIngredientName(id: number) {
+  async getIngredientName(id: number) {
     this._recipeService.getIngredient(id).subscribe(
       temp => {
         this.ingredient.push(temp);
