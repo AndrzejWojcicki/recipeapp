@@ -1,6 +1,7 @@
 package com.usaw.usproject.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 @Table(name="ingredient")
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +24,8 @@ public class Ingredient {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient")
     private Set<RecipeIngredients> recipes ;
+
+    public Ingredient(String productName) {
+        this.productName = productName;
+    }
 }

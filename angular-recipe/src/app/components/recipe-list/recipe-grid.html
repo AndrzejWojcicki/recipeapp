@@ -25,9 +25,7 @@
       /></a>
       <div class="card-body">
         <h4 class="card-title">
-          <a routerLink="/przepisy/{{recipe.id}}"
-            >{{recipe.name}}{{ avgTest[1].key | keyvalue}}</a
-          >
+          <a routerLink="/przepisy/{{recipe.id}}">{{recipe.name}}</a>
         </h4>
         <div class="row">
           <div class="col">
@@ -51,32 +49,40 @@
         </div>
       </div>
       <div class="card-footer">
-        <div *ngIf="0.5 > avgRatings[i]">
+        <div *ngIf="0.5 > avgRatings[recipe.id]">
           <small class="text-muted"
             >&#9734; &#9734; &#9734; &#9734; &#9734;</small
           >
         </div>
-        <div *ngIf=" 0.5 < avgRatings[i] && avgRatings[i] < 1.5">
+        <div
+          *ngIf=" 0.5 < avgRatings[recipe.id] && avgRatings[recipe.id] < 1.5"
+        >
           <small class="text-muted"
             >&#9733; &#9734; &#9734; &#9734; &#9734;</small
           >
         </div>
-        <div *ngIf=" 1.5 <= avgRatings[i] && avgRatings[i] < 2.5">
+        <div
+          *ngIf=" 1.5 <= avgRatings[recipe.id] && avgRatings[recipe.id] < 2.5"
+        >
           <small class="text-muted"
             >&#9733; &#9733; &#9734; &#9734; &#9734;</small
           >
         </div>
-        <div *ngIf=" 2.5 <= avgRatings[i] && avgRatings[i] < 3.5">
+        <div
+          *ngIf=" 2.5 <= avgRatings[recipe.id] && avgRatings[recipe.id] < 3.5"
+        >
           <small class="text-muted"
             >&#9733; &#9733; &#9733; &#9734; &#9734;</small
           >
         </div>
-        <div *ngIf=" 3.5 <= avgRatings[i] && avgRatings[i] < 4.5">
+        <div
+          *ngIf=" 3.5 <= avgRatings[recipe.id] && avgRatings[recipe.id] < 4.5"
+        >
           <small class="text-muted"
             >&#9733; &#9733; &#9733; &#9733; &#9734;</small
           >
         </div>
-        <div *ngIf="4.5 <= avgRatings[i]">
+        <div *ngIf="4.5 <= avgRatings[recipe.id]">
           <small class="text-muted"
             >&#9733; &#9733; &#9733; &#9733; &#9733;</small
           >

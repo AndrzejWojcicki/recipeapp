@@ -1,6 +1,8 @@
 package com.usaw.usproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @Table(name="recipe_steps")
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
 public class RecipeSteps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +27,12 @@ public class RecipeSteps {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonIgnoreProperties("steps")
     private Recipe recipe;
+
+    public RecipeSteps(String description, Recipe recipe, int stepNumber) {
+        this.description = description;
+        this.recipe = recipe;
+        this.stepNumber = stepNumber;
+    }
 }

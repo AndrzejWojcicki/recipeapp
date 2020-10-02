@@ -1,8 +1,9 @@
 package com.usaw.usproject.model;
 
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Table(name="user")
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
 public class User {
 
     @Id

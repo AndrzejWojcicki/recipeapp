@@ -33,8 +33,7 @@ export class RecipeListComponent implements OnInit {
   ratings: Rating[] = new Array();
   total = 0;
   avgRating: number;
-  avgRatings: number[] = [];
-  avgTest: { [recipeid: number]: number } = {};
+  avgRatings: { [recipeid: number]: number } = {};
 
   constructor(
     // tslint:disable-next-line: variable-name
@@ -147,13 +146,13 @@ export class RecipeListComponent implements OnInit {
       this.totalRecords = data.page.totalElements;
       this.pageSize = data.page.size;
       this.getRecipeRatings();
-      console.log(this.avgTest);
+      console.log(this.avgRatings);
     };
   }
 
   // tslint:disable-next-line: typedef
   getRecipeRatings() {
-    this.avgTest = {};
+    this.avgRatings = {};
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.recipes.length; i++) {
       this._recipeService
@@ -169,7 +168,7 @@ export class RecipeListComponent implements OnInit {
             this.avgRating = 0;
           }
           this.total = 0;
-          this.avgTest[this.recipes[i].id] = this.avgRating;
+          this.avgRatings[this.recipes[i].id] = this.avgRating;
         });
     }
   }

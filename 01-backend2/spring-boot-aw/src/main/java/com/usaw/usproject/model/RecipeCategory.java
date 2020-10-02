@@ -1,6 +1,7 @@
 package com.usaw.usproject.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 @Table(name="recipe_category")
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
 public class RecipeCategory {
 
     @Id
