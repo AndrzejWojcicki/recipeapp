@@ -1,6 +1,8 @@
 package com.usaw.usproject.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,15 +39,19 @@ public class User {
     private String lastName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @JsonIgnore
     private Set<Recipe> recipes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @JsonIgnore
     private Set<Comment> comments;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private Set<Rating> ratings;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinTable(	name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

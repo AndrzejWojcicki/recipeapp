@@ -1,0 +1,34 @@
+<div class="container" *ngIf="currentUser; else loggedOut">
+  <header class="jumbotron">
+    <h3>
+      <strong>{{ currentUser.username }}</strong> Profil
+    </h3>
+  </header>
+  <p>
+    <strong>Nazwa Użytkownika:</strong>
+    {{ user.userName }}
+  </p>
+  <p>
+    <strong>Email:</strong>
+    {{ user.email }}
+  </p>
+  <p>
+    <strong>Imię:</strong>
+    {{ user.firstName }}
+  </p>
+  <p>
+    <strong>Nazwisko:</strong>
+    {{ user.lastName }}
+  </p>
+  <button type="button" class="btn btn-success mr-1">Dodaj Przepis</button>
+  <button type="button" class="btn btn-success mr-1">Moje Przepisy</button>
+  <a
+    type="button"
+    class="btn btn-success mr-1"
+    routerLink="/profil/edit/{{ currentUser.id }}"
+  >
+    Edytuj dane użytkownika
+  </a>
+</div>
+
+<ng-template #loggedOut> Zaloguj się !</ng-template>

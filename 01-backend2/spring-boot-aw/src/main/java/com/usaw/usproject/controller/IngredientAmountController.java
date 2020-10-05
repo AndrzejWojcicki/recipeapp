@@ -17,6 +17,7 @@ public class IngredientAmountController {
     @Autowired
     RecipeIngredientsRepository amountIngredientRepository;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("amountsOfIngredients")
     public ResponseEntity<RecipeIngredients> createIngredient(@RequestBody RecipeIngredients amount) {
 
@@ -29,6 +30,8 @@ public class IngredientAmountController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/amountsOfIngredients/{id}")
     public ResponseEntity<RecipeIngredients> updateIngredient(@PathVariable("id") long id, @RequestBody RecipeIngredients amount) {
 
@@ -44,6 +47,7 @@ public class IngredientAmountController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/amountsOfIngredients/{id}")
     public ResponseEntity<HttpStatus> deleteIngredient(@PathVariable("id") long id) {
         try {

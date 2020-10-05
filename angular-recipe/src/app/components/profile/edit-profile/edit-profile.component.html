@@ -1,0 +1,86 @@
+<div *ngIf="currentUser; else loggedOut">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+      <br />
+      <div class="card card-container align-items-center">
+        <i class="fas fa-user-circle fa-7x"></i>
+        <h1>Edytuj Dane</h1>
+        <br />
+        <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="form-group">
+            <label for="userName">Nowa Nazwa użytkownika </label>
+            <small>(Podaj stare jeśli nie chcesz zmieniać)</small>
+            <input type="text" class="form-control" name="userName" [(ngModel)]="form.userName" required minlength="3"
+              maxlength="20" #username="ngModel" />
+            <div class="alert-danger" *ngIf="f.submitted && username.invalid">
+              <div *ngIf="username.errors.required">
+                Nazwa użytkownika jest wymagana
+              </div>
+              <div *ngIf="username.errors.minlength">
+                Nazwa użytkownika musi posiadać przynajmniej 3 znaki
+              </div>
+              <div *ngIf="username.errors.maxlength">
+                Nazwa użytkownika nie może być dłuższa niż 20 znaków
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="firstName">Nowe Imię</label>
+            <input type="text" class="form-control" name="firstName" [(ngModel)]="form.firstName" optional firstName
+              #firstName="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Nowe Nazwisko</label>
+            <input type="text" class="form-control" name="lastName" [(ngModel)]="form.lastName" optional lastName
+              #firstName="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="password">Nowe Hasło </label>
+            <small>(Podaj stare jeśli nie chcesz zmieniać)</small>
+            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
+              minlength="6" #password="ngModel" />
+            <div class="alert-danger" *ngIf="f.submitted && password.invalid">
+              <div *ngIf="password.errors.required">Hasło jest wymagane</div>
+              <div *ngIf="password.errors.minlength">
+                Hasło musi posiadać przynajmniej 6 znaków
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block">Edytuj</button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block" [routerLink]="'/profil'">
+                Powrót
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="alert alert-warning text-center" *ngIf="f.submitted && isEditFailed">
+              Edycja się nie powiodła! Wprowadź nowe dane.<br />
+            </div>
+          </div>
+        </form>
+        <div *ngIf="isSuccessful">
+          <div class="alert alert-success text-center">Edycja powiodła się!</div>
+          <div class="d-flex justify-content-center">
+            <div class="form-group">
+              <a [routerLink]="'/zaloguj'" class="justify-content-center align-self-center">
+                <button class="btn btn-primary btn-block" (click)="logout()" [routerLink]="'/zaloguj'">
+                  Powrót
+                </button>
+                <br /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+<ng-template #loggedOut> Zaloguj się !</ng-template>

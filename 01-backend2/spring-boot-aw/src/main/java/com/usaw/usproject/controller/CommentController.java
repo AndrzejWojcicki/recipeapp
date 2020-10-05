@@ -15,9 +15,10 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("comments")
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
-
+        System.out.println(comment);
         try {
             Comment temp = new Comment( comment.getAuthor(), comment.getRecipe(),
                     comment.getMessage() );
@@ -30,6 +31,7 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<HttpStatus> deleteComment(@PathVariable("id") long id) {
         try {

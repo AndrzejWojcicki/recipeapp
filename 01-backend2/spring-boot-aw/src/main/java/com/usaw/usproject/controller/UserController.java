@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Optional;
@@ -26,12 +23,10 @@ public class UserController {
     @Autowired
     PasswordEncoder encoder;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateRecipe(@PathVariable("id") long id, @RequestBody User user) {
 
-        if (userRepository.existsByUserName(user.getUserName())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         Optional<User> userData = userRepository.findById(id);
         if(userData.isPresent()) {
             User _user = userData.get();

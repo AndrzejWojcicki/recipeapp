@@ -130,7 +130,6 @@ export class RecipeListComponent implements OnInit {
   updatePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.currentPage = 1;
-    console.log(this.recipes);
     this.listRecipes();
   }
 
@@ -146,7 +145,6 @@ export class RecipeListComponent implements OnInit {
       this.totalRecords = data.page.totalElements;
       this.pageSize = data.page.size;
       this.getRecipeRatings();
-      console.log(this.avgRatings);
     };
   }
 

@@ -18,6 +18,7 @@ public class RecipeController {
     @Autowired
     RecipeRepository recipeRepository;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("recipes")
     public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe recipe) {
 
@@ -36,6 +37,7 @@ public class RecipeController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/recipes/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable("id") long id, @RequestBody Recipe recipe) {
 

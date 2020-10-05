@@ -6,7 +6,7 @@ import { RecipeSteps } from './../common/recipe_step';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Recipe } from '../common/recipe';
 import { RecipeCategory } from '../common/recipe-Category';
 import { Ingredient } from '../common/ingredient';

@@ -17,6 +17,7 @@ public class RatingController {
     @Autowired
     RatingRepository ratingRepository;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("ratings")
     public ResponseEntity<Rating> createRating(@RequestBody Rating rate) {
 
@@ -30,6 +31,7 @@ public class RatingController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/ratings/{id}")
     public ResponseEntity<Rating> updateRating(@PathVariable("id") long id, @RequestBody Rating rating) {
 
@@ -45,6 +47,7 @@ public class RatingController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/ratings/{id}")
     public ResponseEntity<HttpStatus> deleteRating(@PathVariable("id") long id) {
         try {

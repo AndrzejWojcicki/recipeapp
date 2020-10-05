@@ -11,19 +11,29 @@ import { PageNotFountComponent } from './app/components/page-not-fount/page-not-
 import { SearchComponent } from './app/components/search/search.component';
 import { RecipeDetailsComponent } from './app/components/recipe-details/recipe-details.component';
 import { JwPaginationModule } from 'jw-angular-pagination';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomepageComponent } from './app/components/homepage/homepage.component';
+import { LoginComponent } from './app/components/login/login.component';
+import { RegisterComponent } from './app/components/register/register.component';
+import { ProfileComponent } from './app/components/profile/profile.component';
 
+import { authInterceptorProviders } from './app/helpers/auth.interceptor';
+import { FormsModule } from '@angular/forms';
+import { EditProfileComponent } from './app/components/profile/edit-profile/edit-profile.component';
 
 const routes: Routes = [
-  {path: 'przepisy/:id', component: RecipeDetailsComponent},
-  {path: 'przepisy', component: HomepageComponent},
-  {path: 'szukaj/:keyword', component: RecipeListComponent},
-  {path: 'kategoria/:id', component: RecipeListComponent},
-  {path: '', redirectTo: '/przepisy', pathMatch: 'full'},
-  {path: '**', component: PageNotFountComponent}
+  { path: 'przepisy/:id', component: RecipeDetailsComponent },
+  { path: 'przepisy', component: HomepageComponent },
+  { path: 'zaloguj', component: LoginComponent },
+  { path: 'zarejestruj', component: RegisterComponent },
+  { path: 'profil', component: ProfileComponent },
+  { path: 'profil/edit/:id', component: EditProfileComponent },
+  { path: 'szukaj/:keyword', component: RecipeListComponent },
+  { path: 'kategoria/:id', component: RecipeListComponent },
+  { path: '', redirectTo: '/przepisy', pathMatch: 'full' },
+  { path: '**', component: PageNotFountComponent },
 ];
 
 @NgModule({
@@ -34,7 +44,11 @@ const routes: Routes = [
     PageNotFountComponent,
     SearchComponent,
     RecipeDetailsComponent,
-    HomepageComponent
+    HomepageComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,11 +57,11 @@ const routes: Routes = [
     JwPaginationModule,
     NgbPaginationModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    NgbModule
   ],
-  providers: [
-    RecipeService
-  ],
-  bootstrap: [AppComponent]
+  providers: [RecipeService, authInterceptorProviders],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
