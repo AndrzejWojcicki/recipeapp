@@ -19,8 +19,9 @@ export class RecipeService {
   private categoryUrl = 'http://localhost:8080/api/recipe-Category';
   private commentAuthorUrl = 'http://localhost:8080/api/recipe-comments';
   private recipeIngredientUrl = 'http://localhost:8080/api/recipe-ingredients';
+  private manageRecipe = 'http://localhost:8080/recipes';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   getRecipes(
     theCategoryId: number,
@@ -100,7 +101,23 @@ export class RecipeService {
     const recipeDetailUrl = `${this.recipesUrl}/${recipeId}`;
     return this.httpClient.get<Recipe>(recipeDetailUrl);
   }
+
+  deleteRecipe(recipeId: number): Observable<object> {
+    return this.httpClient.delete(`${this.manageRecipe}/${recipeId}`);
+  }
+
+  addRecipe(data): Observable<object> {
+    return this.httpClient.post(`${this.manageRecipe}`, data);
+  }
+
+  updateRecipe(recipeId: number, data): Observable<object> {
+    return this.httpClient.put(`${this.manageRecipe}/${recipeId}`, data);
+  }
+
 }
+
+
+
 
 interface GetResponseRecipe {
   _embedded: {

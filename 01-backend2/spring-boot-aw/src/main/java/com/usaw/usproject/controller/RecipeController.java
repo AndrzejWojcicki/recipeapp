@@ -58,6 +58,7 @@ public class RecipeController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/recipes/{id}")
     public ResponseEntity<HttpStatus> deleteRecipe(@PathVariable("id") long id) {
         try {

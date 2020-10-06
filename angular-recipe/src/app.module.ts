@@ -22,14 +22,26 @@ import { ProfileComponent } from './app/components/profile/profile.component';
 import { authInterceptorProviders } from './app/helpers/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { EditProfileComponent } from './app/components/profile/edit-profile/edit-profile.component';
+import { MyRecipesComponent } from './app/components/profile/my-recipes/my-recipes/my-recipes.component';
+import { AddRecipeComponent } from './app/components/profile/add-recipe/add-recipe.component';
+import { EditRecipeComponent } from './app/components/profile/my-recipes/edit-recipe/edit-recipe.component';
+import { AddIngredientsComponent } from './app/components/profile/add-recipe/add-ingredients/add-ingredients.component';
+import { AddStepsComponent } from './app/components/profile/add-recipe/add-steps/add-steps.component';
+import { EditIngredientsComponent } from './app/components/profile/my-recipes/edit-recipe/edit-ingredients/edit-ingredients.component';
+import { EditStepsComponent } from './app/components/profile/my-recipes/edit-recipe/edit-steps/edit-steps.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
   { path: 'przepisy', component: HomepageComponent },
   { path: 'zaloguj', component: LoginComponent },
   { path: 'zarejestruj', component: RegisterComponent },
-  { path: 'profil', component: ProfileComponent },
+  { path: 'profil/mojeprzepisy/edytuj/:id', component: EditRecipeComponent },
+  { path: 'profil/dodajskladniki/:id', component: AddIngredientsComponent },
+  { path: 'profil/dodajkroki/:id', component: AddStepsComponent },
   { path: 'profil/edit/:id', component: EditProfileComponent },
+  { path: 'profil/dodajprzepis', component: AddRecipeComponent },
+  { path: 'profil/mojeprzepisy', component: MyRecipesComponent },
+  { path: 'profil', component: ProfileComponent },
   { path: 'szukaj/:keyword', component: RecipeListComponent },
   { path: 'kategoria/:id', component: RecipeListComponent },
   { path: '', redirectTo: '/przepisy', pathMatch: 'full' },
@@ -49,6 +61,13 @@ const routes: Routes = [
     RegisterComponent,
     ProfileComponent,
     EditProfileComponent,
+    MyRecipesComponent,
+    AddRecipeComponent,
+    AddIngredientsComponent,
+    EditRecipeComponent,
+    AddStepsComponent,
+    EditIngredientsComponent,
+    EditStepsComponent
   ],
   imports: [
     BrowserModule,
