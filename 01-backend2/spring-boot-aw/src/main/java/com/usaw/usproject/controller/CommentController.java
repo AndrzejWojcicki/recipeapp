@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 @RestController
@@ -17,7 +18,7 @@ public class CommentController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("comments")
-    public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
+    public ResponseEntity<Comment> createComment(@Valid @RequestBody Comment comment) {
         System.out.println(comment);
         try {
             Comment temp = new Comment( comment.getAuthor(), comment.getRecipe(),

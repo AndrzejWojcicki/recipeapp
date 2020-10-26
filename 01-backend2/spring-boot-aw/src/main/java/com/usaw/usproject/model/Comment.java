@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -28,11 +30,13 @@ public class Comment {
     }
 
     @ManyToOne
+    @NotNull(message = "Name cannot be null")
     @JoinColumn(name = "recipe_id", nullable = false)
     @JsonIgnoreProperties("comments")
     private Recipe recipe;
 
     @ManyToOne
+    @NotNull(message = "Author cannot be null")
     @JoinColumn(name = "author_id", nullable = false)
     @JsonIgnoreProperties("comments")
     private User author;

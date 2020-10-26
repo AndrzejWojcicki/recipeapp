@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +20,7 @@ public class IngredientAmountController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("amountsOfIngredients")
-    public ResponseEntity<RecipeIngredients> createIngredient(@RequestBody RecipeIngredients amount) {
+    public ResponseEntity<RecipeIngredients> createIngredient(@Valid  @RequestBody RecipeIngredients amount) {
 
         try {
             RecipeIngredients temp = new RecipeIngredients( amount.getRecipe(), amount.getIngredient(), amount.getAmount());
@@ -33,7 +34,7 @@ public class IngredientAmountController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/amountsOfIngredients/{id}")
-    public ResponseEntity<RecipeIngredients> updateIngredient(@PathVariable("id") long id, @RequestBody RecipeIngredients amount) {
+    public ResponseEntity<RecipeIngredients> updateIngredient(@Valid @PathVariable("id") long id, @RequestBody RecipeIngredients amount) {
 
         Optional<RecipeIngredients> amountData = amountIngredientRepository.findById(id);
         if(amountData.isPresent()) {

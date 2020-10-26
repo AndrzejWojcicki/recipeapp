@@ -1,28 +1,27 @@
-import { IngredientsForRecipe } from './../../../../../common/ingredients-for-recipe';
+import { IngredientsService } from './../../../../../services/ingredients.service';
+import { Ingredient } from './../../../../../common/ingredient';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
-import { IngredientsService } from 'src/app/services/ingredients.service';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { Ingredient } from 'src/app/common/ingredient';
 
 @Component({
-  selector: 'app-edit-ingredients',
-  templateUrl: './edit-ingredients.component.html',
-  styleUrls: ['./edit-ingredients.component.css']
+  selector: 'app-ingredients-result',
+  templateUrl: './ingredients-result.component.html',
+  styleUrls: ['./ingredients-result.component.css']
 })
-export class EditIngredientsComponent implements OnInit {
+export class IngredientsResultComponent implements OnInit {
 
   currentUser: any;
   isSucceded = false;
   isFailed = false;
   errorMessage = '';
   addedRecipeId: number;
-  addedIngredient: number;
   ownRecipe = false;
   searchProductName = '';
-  ingredient = new Ingredient();
+  isValid = true;
   form: any = {};
+  ingredients: Ingredient[] = [];
 
   constructor(
     // tslint:disable-next-line: variable-name
@@ -34,16 +33,23 @@ export class EditIngredientsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('recipeId');
-    this.addedIngredient = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.searchProductName = this._activatedRoute.snapshot.paramMap.get('searchName');
     this.currentUser = this.token.getUser();
     if (this.currentUser) {
       this.checkAuthor();
     }
-    if (this.addedIngredient) {
-      this.getIngredientAmountInfo();
-      this.getIngredientInfo();
+    if (this.searchProductName !== '') {
+      this.getIngredients();
     }
+  }
+
+  getIngredients(): void {
+    this.ingredientsSerivce.searchIngredients(this.searchProductName).subscribe(
+      (data) => {
+        this.ingredients = data._embedded.ingredients;
+      }
+    );
   }
 
   checkAuthor(): void {
@@ -56,33 +62,16 @@ export class EditIngredientsComponent implements OnInit {
     );
   }
 
-  getIngredientAmountInfo(): void {
-    this.ingredientsSerivce.getIngredientAmountData(this.addedIngredient).subscribe(
-      (data) => {
-        this.form.amount = data.amount;
-      }
-    );
-  }
-
-  getIngredientInfo(): void {
-    this.ingredientsSerivce.getIngredientData(this.addedIngredient).subscribe(
-      (data) => {
-        console.log(data);
-        this.ingredient = data;
-      }
-    );
-  }
-
   onSubmit(): void {
     const ingredientPack = {
       // tslint:disable-next-line: quotemark object-literal-key-quotes
       recipe: { "id": this.addedRecipeId },
       // tslint:disable-next-line: quotemark object-literal-key-quotes
-      ingredient: { "id": this.ingredient.id },
+      ingredient: { "id": this.form.productName },
       amount: this.form.amount
     };
 
-    this.ingredientsSerivce.updateIngredient(this.addedIngredient, ingredientPack).subscribe(
+    this.ingredientsSerivce.addIngredientAmount(ingredientPack).subscribe(
       (response) => {
         console.log(response);
         this.isSucceded = true;
@@ -93,10 +82,17 @@ export class EditIngredientsComponent implements OnInit {
         this.errorMessage = error.error.message;
       }
     );
-
   }
 
   returnToRecipe(): void {
     this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
+  }
+
+  addRecipeToDatabase(): void {
+    this.router.navigateByUrl('profil/dodajprodukt');
+  }
+
+  returnToAdding(): void {
+    this.router.navigateByUrl('profil/dodajskladnik/' + this.addedRecipeId);
   }
 }

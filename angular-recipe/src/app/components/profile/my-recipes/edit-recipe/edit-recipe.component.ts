@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/app/common/recipe';
 import { RecipeCategory } from 'src/app/common/recipe-Category';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
@@ -16,6 +16,7 @@ export class EditRecipeComponent implements OnInit {
   currentUser: any;
   isSucceded = false;
   isFailed = false;
+  isSubmitted = false;
   errorMessage = '';
   form: any = {};
 
@@ -33,22 +34,38 @@ export class EditRecipeComponent implements OnInit {
     { id: 3, name: 'trudne' },
   ];
 
+  ownRecipe = false;
+
   constructor(
     // tslint:disable-next-line: variable-name
     private _activatedRoute: ActivatedRoute,
     private token: TokenStorageService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
     this.getRecipeInfo();
+    if (this.currentUser) {
+      this.checkAuthor();
+    }
+  }
+
+  checkAuthor(): void {
+    const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.recipeService.getRecipeAuthor(id).subscribe(
+      (data) => {
+        if (data.user_id === this.currentUser.id) {
+          this.ownRecipe = true;
+        }
+      }
+    );
   }
 
   getRecipeInfo(): void {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
     this.recipeService.get(id).subscribe((data) => {
-      console.log(data);
       this.recipe = data;
       this.form.name = this.recipe.name;
       this.form.imageUrl = this.recipe.imageUrl;
@@ -58,7 +75,6 @@ export class EditRecipeComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.form);
     const recipePack = {
       name: this.form.name,
       preparationTime: this.form.preparationTime,
@@ -80,5 +96,9 @@ export class EditRecipeComponent implements OnInit {
       }
     );
     this.isSucceded = true;
+  }
+
+  returnToRecipe(): void {
+    this.router.navigateByUrl('przepisy/' + this.recipe.id);
   }
 }

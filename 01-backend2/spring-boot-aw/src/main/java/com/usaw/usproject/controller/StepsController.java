@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class StepsController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("steps")
-    public ResponseEntity<RecipeSteps> createStep(@RequestBody RecipeSteps steps) {
+    public ResponseEntity<RecipeSteps> createStep(@Valid @RequestBody RecipeSteps steps) {
         try {
             RecipeSteps temp = new RecipeSteps(steps.getDescription(), steps.getRecipe(), steps.getStepNumber());
             RecipeSteps _steps = stepsRepository
@@ -35,7 +36,7 @@ public class StepsController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/steps/{id}")
-    public ResponseEntity<RecipeSteps> updateStep(@PathVariable("id") long id, @RequestBody RecipeSteps step) {
+    public ResponseEntity<RecipeSteps> updateStep(@Valid @PathVariable("id") long id, @RequestBody RecipeSteps step) {
 
         Optional<RecipeSteps> stepData = stepsRepository.findById(id);
         if(stepData.isPresent()) {

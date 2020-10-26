@@ -1,3 +1,5 @@
+import { IngredientsService } from './../../services/ingredients.service';
+import { StepsService } from 'src/app/services/steps.service';
 import { RatingService } from './../../services/rating.service';
 import { CommentsService } from './../../services/comments.service';
 import { IngredientsForRecipe } from './../../common/ingredients-for-recipe';
@@ -23,7 +25,7 @@ registerLocaleData(localePl, 'pl');
 })
 export class RecipeDetailsComponent implements OnInit {
   recipe: Recipe = new Recipe();
-  steps: RecipeSteps[];
+  steps: RecipeSteps[] = new Array();
   comments: Comment[];
   authorofComment: User;
   authorofRecipe: string;
@@ -57,7 +59,9 @@ export class RecipeDetailsComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private router: Router,
     private commentService: CommentsService,
-    private ratingService: RatingService
+    private ratingService: RatingService,
+    private stepService: StepsService,
+    private ingredietService: IngredientsService
   ) { }
 
   ngOnInit(): void {
@@ -269,6 +273,54 @@ export class RecipeDetailsComponent implements OnInit {
   }
   deleteComment(commentId: number): void {
     this.commentService.deleteComent(commentId).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      });
+    this.reloadPage();
+  }
+
+  recipeDetailsEdit(): void {
+    this.router.navigateByUrl('profil/mojeprzepisy/edytuj/' + this.recipe.id);
+  }
+
+  ingredientAdd(): void {
+    this.router.navigateByUrl('profil/dodajskladnik/' + this.recipe.id);
+  }
+
+  stepAdd(): void {
+    this.router.navigateByUrl('profil/dodajkrok/' + this.recipe.id);
+  }
+
+  stepsAdd(): void {
+    this.router.navigateByUrl('profil/dodajkroki/' + this.recipe.id);
+  }
+
+
+  recipeStepEdit(stepId: number): void {
+    this.router.navigateByUrl('profil/mojeprzepisy/edytuj/kroki/' + stepId + '/przepis/' + this.recipe.id);
+  }
+
+  recipeStepDelete(stepId: number): void {
+    this.stepService.deleteStep(stepId).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      });
+    this.reloadPage();
+  }
+
+  recipeIngredientUpdate(ingredientAmountId: number): void {
+    this.router.navigateByUrl('profil/mojeprzepisy/edytuj/skladnik/' + ingredientAmountId + '/przepis/' + this.recipe.id);
+  }
+
+  recipeIngredientDelete(ingredientAmountId: number): void {
+    console.log(ingredientAmountId);
+    this.ingredietService.deleteIngredient(ingredientAmountId).subscribe(
       response => {
         console.log(response);
       },

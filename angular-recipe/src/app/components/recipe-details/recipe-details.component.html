@@ -1,15 +1,33 @@
 <div class="row">
   <div class="col-lg-4">
     <div class="fixed">
-      <h4 class="my-4">Składniki</h4>
+      <h4 class="my-4">Składniki
+
+      </h4>
       <div class="list-group" *ngFor="let ingredientAmount of ingredientsAmount; let i = index">
         <ul class="list-group">
           <div>
             <li class="list-group-item">
-              {{ ingredient[i]?.productName }} - {{ ingredientAmount.amount }}
+              <div class="row">
+                {{ ingredient[i]?.productName }} - {{ ingredientAmount.amount }}
+                <div *ngIf="authorofRecipe === username">
+                  &nbsp;
+                  <i class="fas fa-pencil-alt fa-sm" (click)="recipeIngredientUpdate(ingredientAmount.id)"
+                    type="button"></i>
+                </div>
+                <div *ngIf="authorofRecipe === username">
+                  &nbsp;
+                  <i class="fas fa-times close" (click)="recipeIngredientDelete(ingredientAmount.id)" type="button"></i>
+                </div>
+              </div>
+
             </li>
           </div>
         </ul>
+      </div>
+      <div *ngIf="authorofRecipe === username">
+        <hr>
+        <button (click)="ingredientAdd()" type="button" class="btn btn-success mr-1">Dodaj</button>
       </div>
     </div>
   </div>
@@ -17,7 +35,13 @@
 
   <div class="col-lg-8">
     <br />
-    <h2 class="card-title">{{ recipe.name }}</h2>
+    <div class="row">
+      <h2 class="card-title">{{ recipe.name }} &nbsp;
+      </h2>
+      <div *ngIf="authorofRecipe === username">
+        <i class="fas fa-edit fa-lg" (click)="recipeDetailsEdit()" type="button"></i>
+      </div>
+    </div>
     <small class="text-muted" *ngIf="recipe.dateUpdated === null">Dodane przez {{ authorofRecipe }} dnia
       {{ recipe.dateCreated | date: "mediumDate":"+0200":"pl" }}. Ilość ocen:
       {{ ratings.length }}</small>
@@ -82,9 +106,25 @@
           </div>
         </div>
         <h4>Przygotowanie krok po kroku</h4>
+        <div *ngIf="authorofRecipe === username && steps.length > 0">
+          <button (click)="stepAdd()" type="button" class="btn btn-success mr-1">Dodaj</button>
+        </div>
+        <div *ngIf="authorofRecipe === username && steps.length === 0">
+          <button (click)="stepsAdd()" type="button" class="btn btn-success mr-1">Dodaj</button>
+        </div>
         <hr />
         <div class="container" *ngFor="let step of steps">
-          <h5>Krok {{ step.stepNumber }}</h5>
+          <div class="row">
+            <h5>Krok {{ step.stepNumber }} &nbsp;</h5>
+            <div *ngIf="authorofRecipe === username">
+              <i class="fas fa-pencil-alt fa-sm" (click)="recipeStepEdit(step.id)" type="button"></i>
+            </div>
+            &nbsp;&nbsp;
+            <div *ngIf="step.stepNumber === steps.length && authorofRecipe === username">
+              <i class="fas fa-trash-alt" (click)="recipeStepDelete(step.id)" type="button"></i>
+            </div>
+          </div>
+
           <p>{{ step.description }}</p>
         </div>
       </div>

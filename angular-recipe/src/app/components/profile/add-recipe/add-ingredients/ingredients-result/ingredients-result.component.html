@@ -1,0 +1,110 @@
+<div class="container" *ngIf="currentUser; else loggedOut">
+  <div *ngIf="ownRecipe; else notAuthor">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-6 center">
+
+
+        <br />
+        <div *ngIf="ingredients.length > 0; else noIgredients">
+          <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+
+
+
+            <div class="form-group">
+              <label for="productName">Nazwa Produktu</label>
+              <select class="form-control" [(ngModel)]="form.productName" name="productName" required
+                #productName="ngModel">
+                <option *ngFor="let ingr of ingredients" [value]="ingr.id">{{ ingr.productName }}</option>
+              </select>
+              <div class="alert-danger" role="alert" *ngIf="f.submitted && productName.invalid">
+                <div *ngIf="productName.errors.required">
+                  Musisz wybrać jakiś produkt!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="amount">Ilość składnika </label> &nbsp; <small>np. 3 łyżki, 200g itp.</small>
+              <input type="text" class="form-control" name="amount" [(ngModel)]="form.amount" required minlength="3"
+                #amount="ngModel" />
+              <div class="alert-danger" role="alert" *ngIf="f.submitted && amount.invalid">
+                <div *ngIf="amount.errors.required">
+                  Musisz podać ilość składnika
+                </div>
+                <div *ngIf="amount.errors.minlength">
+                  Ilość składnika musi posiadać przynajmniej 3 znaki
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <div class="form-group">
+                <button class="btn btn-primary btn-block">Dodaj składnik</button>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <small><a href="profil/dodajprodukt">
+                  Brak produktu, którego szukasz? Dodaj go do naszej bazy !
+                </a></small>
+            </div>
+
+            <div class="alert alert-warning text-center" role="alert" *ngIf="f.submitted && isFailed">
+              Dodawanie nie powiodło się. Sprawdź czy podałeś prawidłowe dane.<br />{{ errorMessage }}
+              <div class="d-flex justify-content-center">
+                <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+                  Powrót
+                </button>
+              </div>
+            </div>
+
+          </form>
+          <div *ngIf="isSucceded">
+            <div class="alert alert-success text-center">
+              Dodawanie powiodło się!
+            </div>
+            <div class="d-flex justify-content-center">
+              <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+                Powrót
+              </button>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center">
+              <button (click)="returnToAdding()" class="btn btn-secondary btn-sm">
+                Dodaj Kolejny Składnik
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+        <ng-template #noIgredients>
+          <div class="card">
+            <br>
+            <div>
+              <p class="text-center">Brak wyników</p>
+              <br>
+              <div class="d-flex justify-content-center">
+                <button (click)="addRecipeToDatabase()" class="btn btn-success btn-sm">
+                  Dodaj produkt do bazy
+                </button>
+              </div>
+              <br>
+              <div class="d-flex justify-content-center">
+                <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+                  Wróć do przepisu
+                </button>
+              </div>
+            </div>
+            <br>
+          </div>
+        </ng-template>
+
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+  <ng-template #notAuthor> To nie twój przepis !</ng-template>
+</div>
+<ng-template #loggedOut> Zaloguj się !</ng-template>

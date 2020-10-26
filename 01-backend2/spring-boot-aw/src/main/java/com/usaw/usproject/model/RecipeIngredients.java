@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="recipe_ingredients")
@@ -30,6 +31,7 @@ public class RecipeIngredients {
     private Ingredient ingredient;
 
     @Column(name = "amount")
+    @NotNull(message = "Amount cannot be null")
     private String amount;
 
     public RecipeIngredients(Recipe recipe, Ingredient ingredient, String amount) {

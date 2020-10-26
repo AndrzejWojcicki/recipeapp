@@ -28,15 +28,23 @@ import { EditRecipeComponent } from './app/components/profile/my-recipes/edit-re
 import { AddIngredientsComponent } from './app/components/profile/add-recipe/add-ingredients/add-ingredients.component';
 import { AddStepsComponent } from './app/components/profile/add-recipe/add-steps/add-steps.component';
 import { EditIngredientsComponent } from './app/components/profile/my-recipes/edit-recipe/edit-ingredients/edit-ingredients.component';
-import { EditStepsComponent } from './app/components/profile/my-recipes/edit-recipe/edit-steps/edit-steps.component';
+import { EditStepComponent } from './app/components/profile/my-recipes/edit-recipe/edit-step/edit-step.component';
+import { AddStepComponent } from './app/components/profile/add-step/add-step.component';
+import { IngredientsResultComponent } from './app/components/profile/add-recipe/add-ingredients/ingredients-result/ingredients-result.component';
+import { AddIngredientToDatabaseComponent } from './app/components/profile/add-recipe/add-ingredients/ingredients-result/add-ingredient-to-database/add-ingredient-to-database.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
   { path: 'przepisy', component: HomepageComponent },
   { path: 'zaloguj', component: LoginComponent },
   { path: 'zarejestruj', component: RegisterComponent },
+  { path: 'profil/mojeprzepisy/edytuj/skladnik/:id/przepis/:recipeId', component: EditIngredientsComponent },
+  { path: 'profil/mojeprzepisy/edytuj/kroki/:id/przepis/:recipeId', component: EditStepComponent },
   { path: 'profil/mojeprzepisy/edytuj/:id', component: EditRecipeComponent },
-  { path: 'profil/dodajskladniki/:id', component: AddIngredientsComponent },
+  { path: 'profil/dodajskladnik/:id/searchIngredient/:searchName', component: IngredientsResultComponent },
+  { path: 'profil/dodajskladnik/:id', component: AddIngredientsComponent },
+  { path: 'profil/dodajprodukt', component: AddIngredientToDatabaseComponent },
+  { path: 'profil/dodajkrok/:id', component: AddStepComponent },
   { path: 'profil/dodajkroki/:id', component: AddStepsComponent },
   { path: 'profil/edit/:id', component: EditProfileComponent },
   { path: 'profil/dodajprzepis', component: AddRecipeComponent },
@@ -67,7 +75,10 @@ const routes: Routes = [
     EditRecipeComponent,
     AddStepsComponent,
     EditIngredientsComponent,
-    EditStepsComponent
+    EditStepComponent,
+    AddStepComponent,
+    IngredientsResultComponent,
+    AddIngredientToDatabaseComponent
   ],
   imports: [
     BrowserModule,

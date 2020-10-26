@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="recipe_steps")
@@ -20,9 +21,11 @@ public class RecipeSteps {
     private Long id;
 
     @Column(name = "description")
+    @NotNull(message = "Description cannot be null")
     private String description;
 
     @Column(name = "step_number")
+    @NotNull(message = "Step Number cannot be null")
     private int stepNumber;
 
     @ManyToOne

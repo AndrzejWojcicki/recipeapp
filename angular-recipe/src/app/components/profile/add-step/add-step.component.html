@@ -2,44 +2,37 @@
   <div *ngIf="ownRecipe; else notAuthor">
     <div class="row">
       <div class="col"></div>
-      <div class="col-6 center">
-
-
-        <br />
+      <div class="col-6">
+        <br>
         <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
           <div class="form-group">
-            <label for="amount">Ilość składnika </label> &nbsp; <small>np. 3 łyżki, 200g itp.</small>
-            <input type="text" class="form-control" name="amount" [(ngModel)]="form.amount" required minlength="3"
-              #amount="ngModel" />
-            <div class="alert-danger" role="alert" *ngIf="f.submitted && amount.invalid">
-              <div *ngIf="amount.errors.required">
-                Musisz podać ilość składnika
-              </div>
-              <div *ngIf="amount.errors.minlength">
-                Ilość składnika musi posiadać przynajmniej 3 znaki
+            <label for="description">Opis Kroku</label>
+            <textarea type="text" class="form-control" name="description" [(ngModel)]="form.description" required
+              #description="ngModel" style="resize: none;" rows="6"> </textarea>
+            <div class="alert-danger" role="alert" *ngIf="f.submitted && description.invalid">
+              <div *ngIf="description.errors.required">
+                Opis kroku jest wymagany
               </div>
             </div>
           </div>
-
           <div class="d-flex justify-content-center">
             <div class="form-group">
-              <button class="btn btn-primary btn-block">Edytuj ilość składnika</button>
+              <button class="btn btn-primary btn-block">Dodaj Krok</button>
             </div>
           </div>
           <div class="alert alert-warning text-center" role="alert" *ngIf="f.submitted && isFailed">
-            Edycja nie powiodła się. Sprawdź czy podałeś prawidłowe dane.<br />{{ errorMessage }}
-            <div class="d-flex justify-content-center">
-              <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
-                Powrót
-              </button>
-            </div>
+            Dodawanie nie powiodło się! Spróbuj ponownie.<br />{{ errorMessage }}
           </div>
-
+          <div class="d-flex justify-content-center">
+            <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+              Powrót
+            </button>
+          </div>
         </form>
         <div *ngIf="isSucceded">
           <div class="alert alert-success text-center">
-            Edycja powiodła się!
+            Dodawanie powiodło się!
           </div>
           <div class="d-flex justify-content-center">
             <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
@@ -47,10 +40,6 @@
             </button>
           </div>
         </div>
-
-
-
-
       </div>
       <div class="col"></div>
     </div>

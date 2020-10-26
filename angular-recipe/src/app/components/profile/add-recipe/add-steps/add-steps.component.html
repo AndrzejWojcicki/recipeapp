@@ -44,10 +44,10 @@
     <ng-template #submitted>
       <div *ngIf="isSucceded">
         <br>
-        <div class="d-flex justify-content-center text-center">
-          <p>Dodawanie powiodło się!</p>
-          <button routerLink="/profil/dodajskladniki/{{addedRecipeId}}" class="btn btn-secondary btn-sm">
-            Dodaj Składniki
+        <p class="text-center">Dodawanie powiodło się! </p>
+        <div class="d-flex justify-content-center">
+          <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+            Wróć do przepisu
           </button>
         </div>
       </div>

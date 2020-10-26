@@ -1,3 +1,4 @@
+import { RecipeSteps } from './../common/recipe_step';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 export class StepsService {
 
   private stepUrl = 'http://localhost:8080/steps';
+  private getStepUrl = 'http://localhost:8080/api/recipe-steps';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -22,4 +24,9 @@ export class StepsService {
   deleteStep(stepId: number): Observable<object> {
     return this.httpClient.delete(`${this.stepUrl}/${stepId}`);
   }
+
+  getStep(stepId: number): Observable<RecipeSteps> {
+    return this.httpClient.get<RecipeSteps>(`${this.getStepUrl}/${stepId}`);
+  }
+
 }

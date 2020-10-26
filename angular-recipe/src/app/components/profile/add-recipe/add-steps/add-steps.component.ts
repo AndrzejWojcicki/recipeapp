@@ -1,9 +1,9 @@
 import { User } from './../../../../common/user';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { UserDetailsService } from './../../../../services/userdetails.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
+import { StepsService } from 'src/app/services/steps.service';
 
 export class Descriptions {
   Value: string;
@@ -38,15 +38,17 @@ export class AddStepsComponent implements OnInit {
     // tslint:disable-next-line: variable-name
     private _activatedRoute: ActivatedRoute,
     private token: TokenStorageService,
-    private userService: UserDetailsService,
-    private recipeService: RecipeService
+    private stepsService: StepsService,
+    private recipeService: RecipeService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('id');
     this.currentUser = this.token.getUser();
-    this.checkAuthor();
-    console.log(this.currentUser.id);
+    if (this.currentUser) {
+      this.checkAuthor();
+    }
   }
 
   checkAuthor(): void {
@@ -60,9 +62,11 @@ export class AddStepsComponent implements OnInit {
   }
 
   addDescription(): void {
-    this.descriptions.push(
-      this.newDescription
-    );
+    if (Object.keys(this.newDescription).length !== 0) {
+      this.descriptions.push(
+        this.newDescription
+      );
+    }
     this.newDescription = {};
   }
 
@@ -84,7 +88,9 @@ export class AddStepsComponent implements OnInit {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.descriptions.length; i++) {
       if (i === data) {
-        this.descriptions[i].Value = this.newDescription.Value;
+        if (this.newDescription.Value !== '') {
+          this.descriptions[i].Value = this.newDescription.Value;
+        }
       }
     }
     this.isForUpdate = false;
@@ -92,8 +98,32 @@ export class AddStepsComponent implements OnInit {
   }
   onSubmit(): void {
     console.log(this.descriptions);
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.descriptions.length; i++) {
+      const stepPack = {
+        stepNumber: i + 1,
+        description: this.descriptions[i].Value,
+        // tslint:disable-next-line: quotemark object-literal-key-quotes
+        recipe: { "id": this.addedRecipeId }
+      };
 
+      this.stepsService.addStep(stepPack).subscribe(
+        (response) => {
+          console.log(response);
+          this.isSucceded = true;
+        },
+        (error) => {
+          console.log(error);
+          this.errorMessage = error.error.message;
+          this.isFailed = true;
+        }
+      );
+    }
+    this.isSubmitted = true;
   }
 
+  returnToRecipe(): void {
+    this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
+  }
 
 }

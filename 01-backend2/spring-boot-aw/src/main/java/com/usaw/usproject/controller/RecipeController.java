@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -20,7 +21,7 @@ public class RecipeController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("recipes")
-    public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe recipe) {
+    public ResponseEntity<Recipe> createRecipe(@Valid @RequestBody Recipe recipe) {
 
        try {
 
@@ -39,7 +40,7 @@ public class RecipeController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/recipes/{id}")
-    public ResponseEntity<Recipe> updateRecipe(@PathVariable("id") long id, @RequestBody Recipe recipe) {
+    public ResponseEntity<Recipe> updateRecipe(@Valid  @PathVariable("id") long id, @RequestBody Recipe recipe) {
 
         Optional<Recipe> recipeData = recipeRepository.findById(id);
         if(recipeData.isPresent()) {

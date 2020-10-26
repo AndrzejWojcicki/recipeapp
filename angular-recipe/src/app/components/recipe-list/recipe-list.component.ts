@@ -55,6 +55,9 @@ export class RecipeListComponent implements OnInit {
     });
   }
 
+  onImgError(event): void {
+    event.target.src = '/assets/images/noimage.png';
+  }
   // tslint:disable-next-line: typedef
   listRecipes() {
     // starts the spinner

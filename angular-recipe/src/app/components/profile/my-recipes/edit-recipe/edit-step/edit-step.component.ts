@@ -1,27 +1,26 @@
-import { IngredientsForRecipe } from './../../../../../common/ingredients-for-recipe';
+import { RecipeSteps } from './../../../../../common/recipe_step';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
-import { IngredientsService } from 'src/app/services/ingredients.service';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { Ingredient } from 'src/app/common/ingredient';
+import { StepsService } from 'src/app/services/steps.service';
 
 @Component({
-  selector: 'app-edit-ingredients',
-  templateUrl: './edit-ingredients.component.html',
-  styleUrls: ['./edit-ingredients.component.css']
+  selector: 'app-edit-steps',
+  templateUrl: './edit-step.component.html',
+  styleUrls: ['./edit-step.component.css']
 })
-export class EditIngredientsComponent implements OnInit {
+export class EditStepComponent implements OnInit {
 
   currentUser: any;
+  addedRecipeId: number;
+  stepId: number;
+  ownRecipe = false;
+  isSubmitted = false;
   isSucceded = false;
   isFailed = false;
   errorMessage = '';
-  addedRecipeId: number;
-  addedIngredient: number;
-  ownRecipe = false;
-  searchProductName = '';
-  ingredient = new Ingredient();
+  currentStep: RecipeSteps = new RecipeSteps();
   form: any = {};
 
   constructor(
@@ -29,21 +28,18 @@ export class EditIngredientsComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private token: TokenStorageService,
     private recipeService: RecipeService,
-    private ingredientsSerivce: IngredientsService,
+    private stepsService: StepsService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('recipeId');
-    this.addedIngredient = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.stepId = + this._activatedRoute.snapshot.paramMap.get('id');
     this.currentUser = this.token.getUser();
     if (this.currentUser) {
       this.checkAuthor();
     }
-    if (this.addedIngredient) {
-      this.getIngredientAmountInfo();
-      this.getIngredientInfo();
-    }
+    this.getStepInfo();
   }
 
   checkAuthor(): void {
@@ -56,33 +52,24 @@ export class EditIngredientsComponent implements OnInit {
     );
   }
 
-  getIngredientAmountInfo(): void {
-    this.ingredientsSerivce.getIngredientAmountData(this.addedIngredient).subscribe(
+  getStepInfo(): void {
+    this.stepsService.getStep(this.stepId).subscribe(
       (data) => {
-        this.form.amount = data.amount;
-      }
-    );
-  }
-
-  getIngredientInfo(): void {
-    this.ingredientsSerivce.getIngredientData(this.addedIngredient).subscribe(
-      (data) => {
-        console.log(data);
-        this.ingredient = data;
+        this.form.description = data.description;
+        this.currentStep = data;
       }
     );
   }
 
   onSubmit(): void {
-    const ingredientPack = {
+    const stepPack = {
+      stepNumber: this.currentStep.stepNumber,
+      description: this.form.description,
       // tslint:disable-next-line: quotemark object-literal-key-quotes
-      recipe: { "id": this.addedRecipeId },
-      // tslint:disable-next-line: quotemark object-literal-key-quotes
-      ingredient: { "id": this.ingredient.id },
-      amount: this.form.amount
+      recipe: { "id": this.addedRecipeId }
     };
 
-    this.ingredientsSerivce.updateIngredient(this.addedIngredient, ingredientPack).subscribe(
+    this.stepsService.updateStep(this.stepId, stepPack).subscribe(
       (response) => {
         console.log(response);
         this.isSucceded = true;
@@ -93,7 +80,7 @@ export class EditIngredientsComponent implements OnInit {
         this.errorMessage = error.error.message;
       }
     );
-
+    this.isSubmitted = true;
   }
 
   returnToRecipe(): void {

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -35,11 +36,13 @@ public class Recipe {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     @JsonIgnoreProperties("recipes")
+    @NotNull(message = "Category cannot be null")
     private RecipeCategory category;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     @JsonIgnoreProperties("recipes")
+    @NotNull(message = "Author cannot be null")
     private User author;
 
 
@@ -56,12 +59,15 @@ public class Recipe {
     private Set<RecipeIngredients> ingredients ;
 
     @Column(name = "name")
+    @NotNull(message = "Name cannot be null")
     private String name;
 
     @Column(name = "difficulty")
+    @NotNull(message = "Difficulty cannot be null")
     private int difficulty;
 
     @Column(name = "preparation_time")
+    @NotNull(message = "Preparation Time cannot be null")
     private int preparationTime;
 
     @Column(name = "image_url")

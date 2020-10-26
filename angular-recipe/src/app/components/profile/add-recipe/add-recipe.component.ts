@@ -60,7 +60,6 @@ export class AddRecipeComponent implements OnInit {
       (response) => {
         console.log(response);
         this.addedRecipeId = response;
-        console.log(this.addedRecipeId.id);
         this.isSucceded = true;
       },
       (error) => {

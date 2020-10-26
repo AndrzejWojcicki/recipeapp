@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +20,7 @@ public class RatingController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("ratings")
-    public ResponseEntity<Rating> createRating(@RequestBody Rating rate) {
+    public ResponseEntity<Rating> createRating(@Valid @RequestBody Rating rate) {
 
         try {
             Rating temp = new Rating( rate.getRecipe(), rate.getUser(), rate.getValue());
@@ -33,7 +34,7 @@ public class RatingController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/ratings/{id}")
-    public ResponseEntity<Rating> updateRating(@PathVariable("id") long id, @RequestBody Rating rating) {
+    public ResponseEntity<Rating> updateRating(@Valid @PathVariable("id") long id, @RequestBody Rating rating) {
 
         Optional<Rating> rateData = ratingRepository.findById(id);
         if(rateData.isPresent()) {

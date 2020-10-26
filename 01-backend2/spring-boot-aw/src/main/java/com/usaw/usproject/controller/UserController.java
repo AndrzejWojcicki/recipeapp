@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateRecipe(@PathVariable("id") long id, @RequestBody User user) {
+    public ResponseEntity<User> updateRecipe(@Valid @PathVariable("id") long id, @RequestBody User user) {
 
         Optional<User> userData = userRepository.findById(id);
         if(userData.isPresent()) {

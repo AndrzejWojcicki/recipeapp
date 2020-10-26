@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,12 +26,16 @@ public class User {
     private Long user_id;
 
     @Column(name = "username")
+    @NotNull(message = "UserName cannot be null")
     private String userName;
 
     @Column(name = "password")
+    @NotNull(message = "Password cannot be null")
     private String password;
 
     @Column(name = "email")
+    @NotNull(message = "email cannot be null")
+    @Email
     private String email;
 
     @Column(name = "first_name")

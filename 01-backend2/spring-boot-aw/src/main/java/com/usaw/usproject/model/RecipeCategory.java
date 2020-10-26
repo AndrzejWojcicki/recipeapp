@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,7 @@ public class RecipeCategory {
     private Long id;
 
     @Column(name = "category_name")
+    @NotNull(message = "Name cannot be null")
     private String categoryName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
