@@ -35,13 +35,13 @@
 
   <div class="col-lg-8">
     <br />
-    <div class="row">
+
       <h2 class="card-title">{{ recipe.name }} &nbsp;
       </h2>
       <div *ngIf="authorofRecipe === username">
         <i class="fas fa-edit fa-lg" (click)="recipeDetailsEdit()" type="button"></i>
       </div>
-    </div>
+
     <small class="text-muted" *ngIf="recipe.dateUpdated === null">Dodane przez {{ authorofRecipe }} dnia
       {{ recipe.dateCreated | date: "mediumDate":"+0200":"pl" }}. Ilość ocen:
       {{ ratings.length }}</small>
@@ -131,16 +131,16 @@
     </div>
 
     <div class="card card-outline-secondary my-4 text-center" *ngIf="username">
-      <div class="card-header ">Zostaw Ocenę</div>
+      <div class="card-header ">Zostaw ocenę</div>
       <div class="card-body">
 
         <ngb-rating [(rate)]="currentRate" max="5"></ngb-rating>
         <hr>
         <pre>Twoja ocena: <b>{{currentRate}}</b></pre>
         <div class="row d-flex justify-content-center">
-          <a class="badge badge-success mr-2" *ngIf="!rateAdded" (click)="addRate(currentRate)">Dodaj Ocenę</a>
-          <a class="badge badge-danger mr-2" *ngIf="rateAdded" (click)="editRate(currentRate)">Edytuj Ocenę</a>
-          <a class="badge badge-warning" *ngIf="rateAdded" (click)="deleteRate()">Usuń Ocenę</a>
+          <a class="badge badge-success mr-2" *ngIf="!rateAdded" (click)="addRate(currentRate)">Dodaj ocenę</a>
+          <a class="badge badge-danger mr-2" *ngIf="rateAdded" (click)="editRate(currentRate)">Edytuj ocenę</a>
+          <a class="badge badge-warning" *ngIf="rateAdded" (click)="deleteRate()">Usuń ocenę</a>
         </div>
       </div>
     </div>
@@ -172,7 +172,7 @@
             <div class="col-md-12">
               <div class="panel-body">
                 <textarea placeholder="Napisz swój komentarz tutaj!" class="pb-cmnt-textarea" #message></textarea>
-                <a class="btn btn-success" (click)="addComment(message)">Dodaj Komentarz</a>
+                <a class="btn btn-success" (click)="addComment(message)">Dodaj komentarz</a>
               </div>
             </div>
           </div>
@@ -186,3 +186,4 @@
   </div>
 
   <!-- /.container -->
+</div>>

@@ -5,11 +5,11 @@
       <br />
       <div class="card card-container align-items-center">
         <i class="fas fa-user-circle fa-7x"></i>
-        <h1>Edytuj Dane</h1>
+        <h1>Edytuj dane</h1>
         <br />
         <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
           <div class="form-group">
-            <label for="userName">Nowa Nazwa użytkownika </label>
+            <label for="userName">Nowa nazwa użytkownika </label>
             <small>(Podaj stare jeśli nie chcesz zmieniać)</small>
             <input type="text" class="form-control" name="userName" [(ngModel)]="form.userName" required minlength="3"
               maxlength="20" #username="ngModel" />
@@ -26,17 +26,17 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="firstName">Edytuj Imię</label>
+            <label for="firstName">Edytuj imię</label>
             <input type="text" class="form-control" name="firstName" [(ngModel)]="form.firstName" optional firstName
               #firstName="ngModel" />
           </div>
           <div class="form-group">
-            <label for="lastName">Edytuj Nazwisko</label>
+            <label for="lastName">Edytuj nazwisko</label>
             <input type="text" class="form-control" name="lastName" [(ngModel)]="form.lastName" optional lastName
               #firstName="ngModel" />
           </div>
           <div class="form-group">
-            <label for="password">Nowe Hasło </label>
+            <label for="password">Nowe hasło </label>
             <small>(Podaj stare jeśli nie chcesz zmieniać)</small>
             <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
               minlength="6" #password="ngModel" />

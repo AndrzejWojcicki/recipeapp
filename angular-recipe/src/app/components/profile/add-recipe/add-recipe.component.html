@@ -6,7 +6,7 @@
       <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
         <div class="form-group">
-          <label for="name">Nazwa Przepisu</label>
+          <label for="name">Nazwa przepisu</label>
           <input type="text" class="form-control" name="name" [(ngModel)]="form.name" required minlength="3"
             #name="ngModel" />
           <div class="alert-danger" role="alert" *ngIf="f.submitted && name.invalid">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-          <label for="preparationTime">Czas Przygotowania</label>
+          <label for="preparationTime">Czas przygotowania</label>
           <small>
             <p> (Podaj w minutach)</p>
           </small>
@@ -33,16 +33,16 @@
             required #preparationTime="ngModel" />
           <div class="alert-danger" role="alert" *ngIf="f.submitted && name.invalid">
             <div *ngIf="preparationTime.errors.required">
-              Czas Przygotowania jest wymagany
+              Czas przygotowania jest wymagany
             </div>
             <div class="alert-danger" role="alert" *ngIf="preparationTime.errors.min">
-              Czas Przygotowania nie może być ujemny
+              Czas przygotowania nie może być ujemny
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="category">Kategoria Przepisu</label>
+          <label for="category">Kategoria przepisu</label>
           <select class="form-control" [(ngModel)]="form.category" name="category" required #category="ngModel">
             <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.categoryName }}</option>
           </select>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="difficulty">Poziom Trudności Przepisu</label>
+          <label for="difficulty">Poziom trudności przepisu</label>
           <select class="form-control" [(ngModel)]="form.difficulty" name="difficulty" required #difficulty="ngModel">
             <option *ngFor="let dif of difficulties" [value]="dif.id">{{ dif.name }}</option>
           </select>
@@ -78,7 +78,7 @@
         </div>
         <div class="d-flex justify-content-center">
           <button routerLink="/profil/dodajkroki/{{addedRecipeId.id}}" class="btn btn-secondary btn-sm">
-            Dodaj Kroki
+            Dodaj kroki
           </button>
         </div>
       </div>

@@ -11,9 +11,12 @@
   border: 1px solid #F2F2F2;
 }
 
-.fixed {
-        position: fixed;
-        width: 19%;
+@media (min-width: 992px) {
+  .fixed {
+    position: fixed;
+    width: 25%;
+    max-width: 360px;
+  }
 }
 
 .close {

@@ -7,7 +7,7 @@
         <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
           <div class="form-group">
-            <label for="description">Opis Kroku</label>
+            <label for="description">Opis kroku</label>
             <textarea type="text" class="form-control" name="description" [(ngModel)]="form.description" required
               #description="ngModel" style="resize: none;" rows="6"> </textarea>
             <div class="alert-danger" role="alert" *ngIf="f.submitted && description.invalid">
@@ -18,7 +18,7 @@
           </div>
           <div class="d-flex justify-content-center">
             <div class="form-group">
-              <button class="btn btn-primary btn-block">Edytuj Krok</button>
+              <button class="btn btn-primary btn-block">Edytuj krok</button>
             </div>
           </div>
           <div class="alert alert-warning text-center" role="alert" *ngIf="f.submitted && isFailed">

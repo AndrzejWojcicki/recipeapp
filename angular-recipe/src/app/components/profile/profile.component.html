@@ -5,7 +5,7 @@
     </h3>
   </header>
   <p>
-    <strong>Nazwa Użytkownika:</strong>
+    <strong>Nazwa użytkownika:</strong>
     {{ user.userName }}
   </p>
   <p>
@@ -20,8 +20,8 @@
     <strong>Nazwisko:</strong>
     {{ user.lastName }}
   </p>
-  <button [routerLink]="'/profil/dodajprzepis'" type="button" class="btn btn-success mr-1">Dodaj Przepis</button>
-  <button [routerLink]="'/profil/mojeprzepisy'" type="button" class="btn btn-success mr-1">Moje Przepisy</button>
+  <button [routerLink]="'/profil/dodajprzepis'" type="button" class="btn btn-success mr-1">Dodaj przepis</button>
+  <button [routerLink]="'/profil/mojeprzepisy'" type="button" class="btn btn-success mr-1">Moje przepisy</button>
   <a type="button" class="btn btn-success mr-1" routerLink="/profil/edit/{{ currentUser.id }}">
     Edytuj dane użytkownika
   </a>
