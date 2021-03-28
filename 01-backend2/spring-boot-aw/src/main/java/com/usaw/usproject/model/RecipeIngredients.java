@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,9 +31,13 @@ public class RecipeIngredients {
 
     @Column(name = "amount")
     @NotNull(message = "Amount cannot be null")
-    private String amount;
+    private Double amount;
 
-    public RecipeIngredients(Recipe recipe, Ingredient ingredient, String amount) {
+    @Column(name = "unit")
+    @NotNull(message = "Unit cannot be null")
+    private String unit;
+
+    public RecipeIngredients(Recipe recipe, Ingredient ingredient, Double amount) {
         this.recipe = recipe;
         this.ingredient = ingredient;
         this.amount = amount;

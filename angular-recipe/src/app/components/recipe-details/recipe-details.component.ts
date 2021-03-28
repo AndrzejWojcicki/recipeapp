@@ -302,6 +302,9 @@ export class RecipeDetailsComponent implements OnInit {
   recipeStepEdit(stepId: number): void {
     this.router.navigateByUrl('profil/mojeprzepisy/edytuj/kroki/' + stepId + '/przepis/' + this.recipe.id);
   }
+  recipeStepsEdit(stepId: number): void {
+    this.router.navigateByUrl('profil/edytujkroki/' + this.recipe.id);
+  }
 
   recipeStepDelete(stepId: number): void {
     this.stepService.deleteStep(stepId).subscribe(

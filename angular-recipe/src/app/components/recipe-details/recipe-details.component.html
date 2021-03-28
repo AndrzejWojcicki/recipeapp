@@ -35,14 +35,13 @@
 
   <div class="col-lg-8">
     <br />
-
-      <h2 class="card-title">{{ recipe.name }} &nbsp;
+    <div class="title">
+      <h2 style="display: inline;">{{ recipe.name }} &nbsp;
       </h2>
-      <div *ngIf="authorofRecipe === username">
-        <i class="fas fa-edit fa-lg" (click)="recipeDetailsEdit()" type="button"></i>
-      </div>
-
-    <small class="text-muted" *ngIf="recipe.dateUpdated === null">Dodane przez {{ authorofRecipe }} dnia
+        <i *ngIf="authorofRecipe === username"  class="fas fa-edit fa-lg"(click)="recipeDetailsEdit()" type="button"></i>
+    </div>
+    <br />
+    <small style="display: block;"class="text-muted" *ngIf="recipe.dateUpdated === null">Dodane przez {{ authorofRecipe }} dnia
       {{ recipe.dateCreated | date: "mediumDate":"+0200":"pl" }}. Ilość ocen:
       {{ ratings.length }}</small>
     <small class="text-muted" *ngIf="recipe.dateCreated === null">Dodane przez {{ authorofRecipe }} ostatnio
@@ -105,13 +104,16 @@
             <p>Śr. ocena ({{ avgRatings }})</p>
           </div>
         </div>
-        <h4>Przygotowanie krok po kroku</h4>
+        <h4>Przygotowanie krok po kroku
+        </h4>
         <div *ngIf="authorofRecipe === username && steps.length > 0">
-          <button (click)="stepAdd()" type="button" class="btn btn-success mr-1">Dodaj</button>
+          <button (click)="stepAdd()" type="button" class="btn btn-success mr-1">Dodaj krok</button>
+          <button (click)="recipeStepsEdit()" type="button" class="btn btn-warning mr-1">Edytuj wszystkie kroki</button>
         </div>
         <div *ngIf="authorofRecipe === username && steps.length === 0">
-          <button (click)="stepsAdd()" type="button" class="btn btn-success mr-1">Dodaj</button>
+          <button (click)="stepsAdd()" type="button" class="btn btn-success mr-1">Dodaj kroki</button>
         </div>
+
         <hr />
         <div class="container" *ngFor="let step of steps">
           <div class="row">

@@ -28,10 +28,30 @@ public class Ingredient {
             = "About Me must be between 2 and 200 characters")
     private String productName;
 
+    @Column(name = "caloric_value")
+    @NotNull(message = "Caloric value cannot be null")
+    private String calories;
+
+    @Column(name = "fats")
+    @NotNull(message = "Fats cannot be null")
+    private String fat;
+
+    @Column(name = "carbohydrates")
+    @NotNull(message = "Carbohydrates cannot be null")
+    private String carbohydrates;
+
+    @Column(name = "proteins")
+    @NotNull(message = "Proteins cannot be null")
+    private String proteins;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient")
     private Set<RecipeIngredients> recipes ;
 
-    public Ingredient(String productName) {
+    public Ingredient(String productName, String calories, String fat, String carbohydrates, String proteins) {
         this.productName = productName;
+        this.calories = calories;
+        this.fat = fat;
+        this.carbohydrates = carbohydrates;
+        this.proteins = proteins;
     }
 }

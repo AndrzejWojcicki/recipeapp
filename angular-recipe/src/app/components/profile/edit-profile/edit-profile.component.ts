@@ -31,12 +31,9 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.form);
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
-    console.log(id);
     this.userDetailsService.updateUser(id, this.form).subscribe(
       (data) => {
-        console.log(data);
         this.isSuccessful = true;
         this.isEditFailed = false;
       },
@@ -60,7 +57,6 @@ export class EditProfileComponent implements OnInit {
         this.form.userName = this.user.userName;
         this.form.firstName = this.user.firstName;
         this.form.lastName = this.user.lastName;
-        console.log(this.user);
       });
   }
 }

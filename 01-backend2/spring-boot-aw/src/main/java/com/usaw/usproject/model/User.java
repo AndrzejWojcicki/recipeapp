@@ -44,6 +44,18 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "calories")
+    private Long calories;
+
+    @Column(name = "fat")
+    private Long fat;
+
+    @Column(name = "carbohydrates")
+    private Long carbohydrates;
+
+    @Column(name = "proteins")
+    private Long proteins;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     @JsonIgnore
     private Set<Recipe> recipes;
@@ -56,6 +68,10 @@ public class User {
     @JsonIgnore
     private Set<Rating> ratings;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @JsonIgnore
+    private Set<ShoppingList> shoppingLists;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinTable(	name = "user_role",
@@ -67,6 +83,7 @@ public class User {
     this.userName = username;
     this.email = email;
     this.password = encode;
+
     }
 
 }

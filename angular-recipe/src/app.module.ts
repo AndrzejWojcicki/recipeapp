@@ -2,6 +2,7 @@ import { RecipeService } from './app/services/recipe.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app/app.component';
 import { RecipeListComponent } from './app/components/recipe-list/recipe-list.component';
@@ -32,6 +33,7 @@ import { EditStepComponent } from './app/components/profile/my-recipes/edit-reci
 import { AddStepComponent } from './app/components/profile/add-step/add-step.component';
 import { IngredientsResultComponent } from './app/components/profile/add-recipe/add-ingredients/ingredients-result/ingredients-result.component';
 import { AddIngredientToDatabaseComponent } from './app/components/profile/add-recipe/add-ingredients/ingredients-result/add-ingredient-to-database/add-ingredient-to-database.component';
+import { EditStepsComponent } from './app/components/profile/my-recipes/edit-recipe/edit-steps/edit-steps.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
@@ -46,6 +48,7 @@ const routes: Routes = [
   { path: 'profil/dodajprodukt', component: AddIngredientToDatabaseComponent },
   { path: 'profil/dodajkrok/:id', component: AddStepComponent },
   { path: 'profil/dodajkroki/:id', component: AddStepsComponent },
+  { path: 'profil/edytujkroki/:id', component: EditStepsComponent },
   { path: 'profil/edit/:id', component: EditProfileComponent },
   { path: 'profil/dodajprzepis', component: AddRecipeComponent },
   { path: 'profil/mojeprzepisy', component: MyRecipesComponent },
@@ -78,7 +81,8 @@ const routes: Routes = [
     EditStepComponent,
     AddStepComponent,
     IngredientsResultComponent,
-    AddIngredientToDatabaseComponent
+    AddIngredientToDatabaseComponent,
+    EditStepsComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,8 @@ const routes: Routes = [
     NgxSpinnerModule,
     BrowserAnimationsModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    DragDropModule
   ],
   providers: [RecipeService, authInterceptorProviders],
   bootstrap: [AppComponent],

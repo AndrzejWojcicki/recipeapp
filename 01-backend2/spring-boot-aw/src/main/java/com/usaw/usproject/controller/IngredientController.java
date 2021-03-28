@@ -22,8 +22,10 @@ public class IngredientController {
     public ResponseEntity<Ingredient> createIngredient(@Valid  @RequestBody Ingredient ingredient) {
 
         try {
-            Ingredient temp = new Ingredient( ingredient.getProductName());
+            Ingredient temp = new Ingredient( ingredient.getProductName(), ingredient.getCalories(),
+                    ingredient.getFat(), ingredient.getCarbohydrates(), ingredient.getProteins());
             Ingredient _ingredient = ingredientRepository.save(temp);
+
 
             return new ResponseEntity<>(_ingredient, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -38,6 +40,10 @@ public class IngredientController {
         if(ingredientData.isPresent()) {
             Ingredient _ingredient = ingredientData.get();
             _ingredient.setProductName(ingredient.getProductName());
+            _ingredient.setCalories(ingredient.getCalories());
+            _ingredient.setProteins(ingredient.getProteins());
+            _ingredient.setFat(ingredient.getFat());
+            _ingredient.setCarbohydrates(ingredient.getCarbohydrates());
             return new ResponseEntity<>(ingredientRepository.save(_ingredient), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

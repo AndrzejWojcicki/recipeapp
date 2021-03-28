@@ -5,7 +5,7 @@
         <div class="col"></div>
         <div class="col-8">
           <div class="form-group">
-            <form>
+            <form *ngIf="!isSucceded" name="description" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
               <textarea id="Value" name="Value" [(ngModel)]="newDescription.Value" class="form-control"
                 placeholder="Wprowadź Krok" id="itemDesc" rows="3" style="resize: none;"></textarea>
             </form>
@@ -33,8 +33,13 @@
             <div *ngIf="descriptions.length == 0" class="alert alert-info" style="text-align: center;">
               Brak kroków!
             </div>
-            <a class="btn btn-success" *ngIf="descriptions.length >= 1" (click)="onSubmit()">Dodaj kroki do przepisu</a>
+            <div class="d-flex justify-content-center">
+              <a class="btn btn-success" *ngIf="descriptions.length >= 1" (click)="onSubmit()">Zatwierdź kroki</a>
+            </div>
 
+            <br>
+            <hr>
+            <br>
         </div>
         <div class="col"></div>
       </div>
@@ -42,7 +47,7 @@
     <ng-template #submitted>
       <div *ngIf="isSucceded">
         <br>
-        <p class="text-center">Dodawanie powiodło się! </p>
+        <p class="text-center">Edycja powiodła się! </p>
         <div class="d-flex justify-content-center">
           <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
             Wróć do przepisu
@@ -52,7 +57,7 @@
       <div *ngIf="isSubmitted && isFailed">
         <br>
         <div class="d-flex justify-content-center text-center">
-          <p>Dodawanie nie powiodło się. Spróbuj ponownie.<br />{{ errorMessage }}</p>
+          <p>Edycja nie powiodła się. Spróbuj ponownie.<br />{{ errorMessage }}</p>
         </div>
       </div>
     </ng-template>

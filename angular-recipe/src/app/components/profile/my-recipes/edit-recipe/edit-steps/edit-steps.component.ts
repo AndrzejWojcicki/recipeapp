@@ -1,10 +1,12 @@
-import { User } from './../../../../common/user';
+
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
 import { StepsService } from 'src/app/services/steps.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { User } from 'src/app/common/user';
+import { RecipeSteps } from 'src/app/common/recipe_step';
 
 export class Descriptions {
   Value: string;
@@ -14,14 +16,15 @@ export class Descriptions {
 }
 
 @Component({
-  selector: 'app-add-steps',
-  templateUrl: './add-steps.component.html',
-  styleUrls: ['./add-steps.component.css']
+  selector: 'app-edit-steps',
+  templateUrl: './edit-steps.component.html',
+  styleUrls: ['./edit-steps.component.css']
 })
-export class AddStepsComponent implements OnInit {
+export class EditStepsComponent implements OnInit {
 
   currentUser: any;
   currentUserDetails: User = new User();
+  steps: RecipeSteps[] = new Array();
   isSubmitted = false;
   isSucceded = false;
   isFailed = false;
@@ -29,11 +32,13 @@ export class AddStepsComponent implements OnInit {
   form: any = [];
   addedRecipeId: number;
   ownRecipe = false;
-
+  temps: Descriptions[] = new Array();
   descriptions: Descriptions[] = new Array();
   isForUpdate = false;
   newDescription: any = {};
   updatedDescription;
+  temp: Descriptions;
+
 
   constructor(
     // tslint:disable-next-line: variable-name
@@ -49,6 +54,7 @@ export class AddStepsComponent implements OnInit {
     this.currentUser = this.token.getUser();
     if (this.currentUser) {
       this.checkAuthor();
+      this.loadSteps();
     }
   }
 
@@ -60,6 +66,22 @@ export class AddStepsComponent implements OnInit {
         }
       }
     );
+  }
+
+  // tslint:disable-next-line: typedef
+  loadSteps() {
+    this.recipeService.getRecipeSteps(this.addedRecipeId).subscribe((data) => {
+      data.sort((a: RecipeSteps, b: RecipeSteps) =>
+        a.stepNumber > b.stepNumber ? 1 : -1
+      );
+      this.steps = data;
+      for (const step of this.steps) {
+        this.temp = new Descriptions('');
+        this.temp.Value = step.description;
+        this.temps.push(this.temp);
+      }
+      this.descriptions = this.temps;
+    });
   }
 
   addDescription(): void {
@@ -81,7 +103,6 @@ export class AddStepsComponent implements OnInit {
     this.updatedDescription = id;
     this.isForUpdate = true;
   }
-
 
   // when user clicks on update button to submit updated value
   updateStep(): void {
@@ -106,6 +127,18 @@ export class AddStepsComponent implements OnInit {
   onSubmit(): void {
     console.log(this.descriptions);
     // tslint:disable-next-line: prefer-for-of
+    for (const step of this.steps) {
+      this.stepsService.deleteStep(step.id).subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          this.isFailed = true;
+          console.log(error);
+        });
+    }
+
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.descriptions.length; i++) {
       const stepPack = {
         stepNumber: i + 1,
@@ -126,11 +159,12 @@ export class AddStepsComponent implements OnInit {
         }
       );
     }
-    this.isSubmitted = true;
+
+
   }
 
   returnToRecipe(): void {
     this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
   }
-
 }
+
