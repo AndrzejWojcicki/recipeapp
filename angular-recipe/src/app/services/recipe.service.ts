@@ -80,7 +80,7 @@ export class RecipeService {
     const recipeRatingsUrl = `${this.recipesUrl}/${recipeId}/ingredients`;
     return this.httpClient
       .get<GetResponseRecipeIngredients>(recipeRatingsUrl)
-      .pipe(map((response) => response._embedded.RecipeIngredients));
+      .pipe(map((response) => response._embedded.recipeIngredients));
   }
 
   getIngredient(ingredientId: number): Observable<Ingredient> {
@@ -162,6 +162,6 @@ interface GetResponseRatings {
 
 interface GetResponseRecipeIngredients {
   _embedded: {
-    RecipeIngredients: IngredientsForRecipe[];
+    recipeIngredients: IngredientsForRecipe[];
   };
 }

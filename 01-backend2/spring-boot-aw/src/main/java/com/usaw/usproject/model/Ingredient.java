@@ -30,24 +30,27 @@ public class Ingredient {
 
     @Column(name = "caloric_value")
     @NotNull(message = "Caloric value cannot be null")
-    private String calories;
+    private Long calories;
 
     @Column(name = "fats")
     @NotNull(message = "Fats cannot be null")
-    private String fat;
+    private Long fat;
 
     @Column(name = "carbohydrates")
     @NotNull(message = "Carbohydrates cannot be null")
-    private String carbohydrates;
+    private Long carbohydrates;
 
     @Column(name = "proteins")
     @NotNull(message = "Proteins cannot be null")
-    private String proteins;
+    private Long proteins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient")
     private Set<RecipeIngredients> recipes ;
 
-    public Ingredient(String productName, String calories, String fat, String carbohydrates, String proteins) {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient")
+    private Set<UserDiet> diets;
+
+    public Ingredient(String productName, Long calories, Long fat, Long carbohydrates, Long proteins) {
         this.productName = productName;
         this.calories = calories;
         this.fat = fat;

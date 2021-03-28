@@ -1,4 +1,5 @@
 export class IngredientsForRecipe {
   id: number;
-  amount: string;
+  amount: number;
+  unit: string;
 }

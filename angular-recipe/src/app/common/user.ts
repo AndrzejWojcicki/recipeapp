@@ -6,5 +6,8 @@ export class User {
   email: string;
   firstName: string;
   lastName: string;
-
+  calories: number;
+  fat: number;
+  carbohydrates: number;
+  proteins: number;
 }

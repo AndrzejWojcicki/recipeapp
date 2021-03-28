@@ -70,6 +70,8 @@ export class RecipeDetailsComponent implements OnInit {
       this.username = this.user.username;
       this.isLoggedIn = true;
     }
+    // tslint:disable-next-line: deprecation
+    // tslint:disable-next-line: deprecation
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.router.navigated = false;
@@ -82,6 +84,7 @@ export class RecipeDetailsComponent implements OnInit {
     });
     // tslint:disable-next-line: label-position
     const data = '';
+    // tslint:disable-next-line: deprecation
     this._activatedRoute.paramMap.subscribe(() => {
       this.getRecipeInfo();
       this.getRecipeSteps();
@@ -95,6 +98,7 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeSteps() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this._recipeService.getRecipeSteps(id).subscribe((data) => {
       data.sort((a: RecipeSteps, b: RecipeSteps) =>
         a.stepNumber > b.stepNumber ? 1 : -1
@@ -106,6 +110,7 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeComments() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this._recipeService.getRecipeComments(id).subscribe((data) => {
       data.sort((a: Comment, b: Comment) =>
         a.dateCreated > b.dateCreated ? 1 : -1
@@ -120,6 +125,7 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeRatings() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this._recipeService.getRecipeRatings(id).subscribe((data) => {
       this.ratings = data;
       // tslint:disable-next-line: prefer-for-of
@@ -135,6 +141,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   compareRatingAuthor(ratingId: number): void {
+    // tslint:disable-next-line: deprecation
     this.ratingService.getRatingAuthor(ratingId).subscribe((data) => {
       if (this.username === data.userName) {
         this.rateAdded = true;
@@ -145,6 +152,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   getRating(ratingId: number): void {
+    // tslint:disable-next-line: deprecation
     this.ratingService.getRating(ratingId).subscribe((data) => {
       this.currentRate = data.value;
     });
@@ -159,6 +167,7 @@ export class RecipeDetailsComponent implements OnInit {
       recipe: { "id": id },
       value: this.currentRate
     };
+    // tslint:disable-next-line: deprecation
     this.ratingService.addRate(ratePack).subscribe(
       (response) => {
         console.log(response);
@@ -180,6 +189,7 @@ export class RecipeDetailsComponent implements OnInit {
       value: this.currentRate
     };
 
+    // tslint:disable-next-line: deprecation
     this.ratingService.updateRate(this.userRateId, ratePack).subscribe(
       (response) => {
         console.log(response);
@@ -192,6 +202,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   deleteRate(): void {
+    // tslint:disable-next-line: deprecation
     this.ratingService.deleteRate(this.userRateId).subscribe(
       (response) => {
         console.log(response);
@@ -205,6 +216,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   getCommentAuthor(commentId: number) {
+    // tslint:disable-next-line: deprecation
     this._recipeService.getCommentsAuthor(commentId).subscribe((data) => {
       this.authorofComment = data;
       this.authorsOfComments.push(this.authorofComment.userName);
@@ -214,6 +226,7 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeAuthor() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this._recipeService.getRecipeAuthor(id).subscribe((data) => {
       this.authorofRecipe = data.userName;
     });
@@ -222,6 +235,7 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeInfo() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this._recipeService.get(id).subscribe((data) => {
       this.recipe = data;
     });
@@ -230,6 +244,7 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeIngredientsAmount() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this._recipeService.getAmountIngredients(id).subscribe((data) => {
       data.sort((a: IngredientsForRecipe, b: IngredientsForRecipe) =>
         a.id > b.id ? 1 : -1
@@ -243,6 +258,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   async getIngredientName(id: number) {
+    // tslint:disable-next-line: deprecation
     this._recipeService.getIngredient(id).subscribe((temp) => {
       this.ingredient.push(temp);
       this.ingredient.sort((a: Ingredient, b: Ingredient) =>
@@ -261,6 +277,7 @@ export class RecipeDetailsComponent implements OnInit {
       // tslint:disable-next-line: object-literal-key-quotes
       message: message.value
     };
+    // tslint:disable-next-line: deprecation
     this.commentService.addComent(commentPack).subscribe(
       (response) => {
         console.log(response);
@@ -272,6 +289,7 @@ export class RecipeDetailsComponent implements OnInit {
     this.reloadPage();
   }
   deleteComment(commentId: number): void {
+    // tslint:disable-next-line: deprecation
     this.commentService.deleteComent(commentId).subscribe(
       response => {
         console.log(response);
@@ -307,6 +325,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   recipeStepDelete(stepId: number): void {
+    // tslint:disable-next-line: deprecation
     this.stepService.deleteStep(stepId).subscribe(
       response => {
         console.log(response);
@@ -323,6 +342,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   recipeIngredientDelete(ingredientAmountId: number): void {
     console.log(ingredientAmountId);
+    // tslint:disable-next-line: deprecation
     this.ingredietService.deleteIngredient(ingredientAmountId).subscribe(
       response => {
         console.log(response);

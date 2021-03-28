@@ -2,7 +2,6 @@ package com.usaw.usproject.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -71,6 +70,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     @JsonIgnore
     private Set<ShoppingList> shoppingLists;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private Set<UserDiet> diets;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore

@@ -9,7 +9,7 @@
           <div>
             <li class="list-group-item">
               <div class="row">
-                {{ ingredient[i]?.productName }} - {{ ingredientAmount.amount }}
+                {{ ingredient[i]?.productName }} - {{ ingredientAmount.amount }} {{ingredientAmount.unit}}
                 <div *ngIf="authorofRecipe === username">
                   &nbsp;
                   <i class="fas fa-pencil-alt fa-sm" (click)="recipeIngredientUpdate(ingredientAmount.id)"

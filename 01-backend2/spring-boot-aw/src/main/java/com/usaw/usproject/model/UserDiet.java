@@ -9,25 +9,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="recipe_ingredients")
+@Table(name="user_diet")
 @Getter
 @Setter
 @NoArgsConstructor
-public class RecipeIngredients {
+public class UserDiet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id_diet")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "recipe_id", nullable = false)
-    @JsonIgnoreProperties("ingredients")
-    private Recipe recipe;
-
-    @ManyToOne
-    @JoinColumn(name = "ingredient_id", nullable = false)
-    @JsonIgnoreProperties("ingredients")
-    private Ingredient ingredient;
 
     @Column(name = "amount")
     @NotNull(message = "Amount cannot be null")
@@ -37,8 +27,20 @@ public class RecipeIngredients {
     @NotNull(message = "Unit cannot be null")
     private String unit;
 
-    public RecipeIngredients(Recipe recipe, Ingredient ingredient, Float amount, String unit) {
-        this.recipe = recipe;
+    @ManyToOne
+    @NotNull(message = "Diet cannot be null")
+    @JoinColumn(name = "id_user_diet", nullable = false)
+    @JsonIgnoreProperties("diets")
+    private User user;
+
+    @ManyToOne
+    @NotNull(message = "Ingredient cannot be null")
+    @JoinColumn(name = "id_product", nullable = false)
+    @JsonIgnoreProperties("diets")
+    private Ingredient ingredient;
+
+    public UserDiet(User user, Ingredient ingredient, Float amount, String unit) {
+        this.user = user;
         this.ingredient = ingredient;
         this.amount = amount;
         this.unit = unit;

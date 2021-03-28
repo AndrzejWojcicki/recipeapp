@@ -23,7 +23,7 @@ public class IngredientAmountController {
     public ResponseEntity<RecipeIngredients> createIngredient(@Valid  @RequestBody RecipeIngredients amount) {
 
         try {
-            RecipeIngredients temp = new RecipeIngredients( amount.getRecipe(), amount.getIngredient(), amount.getAmount());
+            RecipeIngredients temp = new RecipeIngredients( amount.getRecipe(), amount.getIngredient(), amount.getAmount(), amount.getUnit());
             RecipeIngredients _ingredient = amountIngredientRepository.save(temp);
 
             return new ResponseEntity<>(_ingredient, HttpStatus.CREATED);
@@ -42,6 +42,7 @@ public class IngredientAmountController {
             _amount.setRecipe(amount.getRecipe());
             _amount.setIngredient(amount.getIngredient());
             _amount.setAmount(amount.getAmount());
+            _amount.setUnit(amount.getUnit());
             return new ResponseEntity<>(amountIngredientRepository.save(_amount), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
