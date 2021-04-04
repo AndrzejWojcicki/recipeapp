@@ -17,6 +17,12 @@ export class EditProfileComponent implements OnInit {
   errorMessage = '';
   user: User = new User();
 
+  // percentages
+  calProc = 0;
+  calProt = 0;
+  calFat = 0;
+  calCarb = 0;
+
   constructor(
     // tslint:disable-next-line: variable-name
     private _activatedRoute: ActivatedRoute,
@@ -32,6 +38,7 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit(): void {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    // tslint:disable-next-line: deprecation
     this.userDetailsService.updateUser(id, this.form).subscribe(
       (data) => {
         this.isSuccessful = true;
@@ -44,19 +51,35 @@ export class EditProfileComponent implements OnInit {
     );
   }
 
-  logout(): void {
-    this.tokenStorage.signOut();
-    window.location.reload();
-  }
-
   getUserInfo(): void {
     this.userDetials
       .getUserDetials(this.currentUser.username)
+      // tslint:disable-next-line: deprecation
       .subscribe((data) => {
         this.user = data;
         this.form.userName = this.user.userName;
         this.form.firstName = this.user.firstName;
         this.form.lastName = this.user.lastName;
+        this.form.calories = this.user.calories;
+        this.form.fat = this.user.fat;
+        this.form.carbohydrates = this.user.carbohydrates;
+        this.form.proteins = this.user.proteins;
       });
+  }
+
+  // tslint:disable-next-line: typedef
+  caloriesChange(newValue) {
+    this.calProc = ((this.form.fat * 9) + (this.form.carbohydrates * 4) + (this.form.proteins * 4)) / this.form.calories;
+    this.calProt = (this.form.proteins * 4) / this.form.calories;
+    this.calFat = (this.form.fat * 9) / this.form.calories;
+    this.calCarb = (this.form.carbohydrates * 4) / this.form.calories;
+    this.calProc = this.calProc * 100;
+    this.calProt = this.calProt * 100;
+    this.calFat = this.calFat * 100;
+    this.calCarb = this.calCarb * 100;
+    this.calProc = Math.round(this.calProc);
+    this.calProt = Math.round(this.calProt);
+    this.calFat = Math.round(this.calFat);
+    this.calCarb = Math.round(this.calCarb);
   }
 }

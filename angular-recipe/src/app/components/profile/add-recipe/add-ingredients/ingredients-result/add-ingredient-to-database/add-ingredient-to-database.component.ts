@@ -29,9 +29,13 @@ export class AddIngredientToDatabaseComponent implements OnInit {
 
   onSubmit(): void {
     const ingredientPack = {
-      productName: this.form.name
+      productName: this.form.name,
+      calories: this.form.calories,
+      fat: this.form.fat,
+      carbohydrates: this.form.carbohydrates,
+      proteins: this.form.proteins
     };
-
+    // tslint:disable-next-line: deprecation
     this.ingredientsSerivce.addIngredient(ingredientPack).subscribe(
       (response) => {
         console.log(response);

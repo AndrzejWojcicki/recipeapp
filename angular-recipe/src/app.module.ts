@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app/app.component';
 import { RecipeListComponent } from './app/components/recipe-list/recipe-list.component';
@@ -19,7 +20,6 @@ import { HomepageComponent } from './app/components/homepage/homepage.component'
 import { LoginComponent } from './app/components/login/login.component';
 import { RegisterComponent } from './app/components/register/register.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
-
 import { authInterceptorProviders } from './app/helpers/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { EditProfileComponent } from './app/components/profile/edit-profile/edit-profile.component';
@@ -34,6 +34,10 @@ import { AddStepComponent } from './app/components/profile/add-step/add-step.com
 import { IngredientsResultComponent } from './app/components/profile/add-recipe/add-ingredients/ingredients-result/ingredients-result.component';
 import { AddIngredientToDatabaseComponent } from './app/components/profile/add-recipe/add-ingredients/ingredients-result/add-ingredient-to-database/add-ingredient-to-database.component';
 import { EditStepsComponent } from './app/components/profile/my-recipes/edit-recipe/edit-steps/edit-steps.component';
+import { ShoppingListComponent } from './app/components/shopping-list/shopping-list.component';
+import { CaloricBalanceComponent } from './app/components/caloric-balance/caloric-balance.component';
+import { ImageUploadComponent } from './app/components/image-upload/image-upload.component';
+import { AddDialogComponent } from './app/components/shopping-list/add-dialog/add-dialog.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
@@ -52,7 +56,10 @@ const routes: Routes = [
   { path: 'profil/edit/:id', component: EditProfileComponent },
   { path: 'profil/dodajprzepis', component: AddRecipeComponent },
   { path: 'profil/mojeprzepisy', component: MyRecipesComponent },
+  { path: 'profil/lista-zakupow', component: ShoppingListComponent },
+  { path: 'profil/dieta', component: CaloricBalanceComponent },
   { path: 'profil', component: ProfileComponent },
+  { path: 'FAQ-zdjecia', component: ImageUploadComponent },
   { path: 'szukaj/:keyword', component: RecipeListComponent },
   { path: 'kategoria/:id', component: RecipeListComponent },
   { path: '', redirectTo: '/przepisy', pathMatch: 'full' },
@@ -82,7 +89,11 @@ const routes: Routes = [
     AddStepComponent,
     IngredientsResultComponent,
     AddIngredientToDatabaseComponent,
-    EditStepsComponent
+    EditStepsComponent,
+    ShoppingListComponent,
+    CaloricBalanceComponent,
+    ImageUploadComponent,
+    AddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -94,9 +105,11 @@ const routes: Routes = [
     BrowserAnimationsModule,
     FormsModule,
     NgbModule,
-    DragDropModule
+    DragDropModule,
+    MatDialogModule
   ],
   providers: [RecipeService, authInterceptorProviders],
   bootstrap: [AppComponent],
+  entryComponents: [AddDialogComponent]
 })
 export class AppModule { }

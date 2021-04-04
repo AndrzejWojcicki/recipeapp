@@ -7,10 +7,11 @@
         <i class="fas fa-user-circle fa-7x"></i>
         <h1>Edytuj dane</h1>
         <br />
-        <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
           <div class="form-group">
-            <label for="userName">Nowa nazwa użytkownika </label>
+            <label for="userName">Nowa nazwa użytkownika </label> <br>
             <small>(Podaj stare jeśli nie chcesz zmieniać)</small>
+
             <input type="text" class="form-control" name="userName" [(ngModel)]="form.userName" required minlength="3"
               maxlength="20" #username="ngModel" />
             <div class="alert-danger" *ngIf="f.submitted && username.invalid">
@@ -36,7 +37,52 @@
               #firstName="ngModel" />
           </div>
           <div class="form-group">
-            <label for="password">Nowe hasło </label>
+            <label for="calories">Limit Kalorii na dzień</label>
+            <div *ngIf="this.calProc > 0">
+              <small>
+                {{calProc}} %
+              </small>
+            </div>
+
+            <input type="number" min="0" class="form-control" name="calories" [(ngModel)]="form.calories" optional calories
+            (ngModelChange)="caloriesChange($event)"
+              #calories="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="proteins">Limit gram białka na dzień</label>
+            <div *ngIf="this.calProc > 0">
+              <small>
+                {{calProt}} %
+              </small>
+            </div>
+            <input type="number" class="form-control" min=0 name="proteins" [(ngModel)]="form.proteins" optional proteins
+            (ngModelChange)="caloriesChange($event)"
+              #proteins="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="fat">Limit gram tłuszczu na dzień</label>
+            <div *ngIf="this.calProc > 0">
+              <small>
+                {{calFat}} %
+              </small>
+            </div>
+            <input type="number" min="0" class="form-control" name="fat" [(ngModel)]="form.fat" optional fat
+            (ngModelChange)="caloriesChange($event)"
+              #fat="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="carbohydrates">Limit gram węglowodanów na dzień</label>
+            <div *ngIf="this.calProc > 0">
+              <small>
+                {{calCarb}} %
+              </small>
+            </div>
+            <input type="number" class="form-control" min="0" name="carbohydrates" [(ngModel)]="form.carbohydrates" optional carbohydrates
+            (ngModelChange)="caloriesChange($event)"
+              #carbohydrates="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="password">Nowe hasło </label><br>
             <small>(Podaj stare jeśli nie chcesz zmieniać)</small>
             <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
               minlength="6" #password="ngModel" />
@@ -70,8 +116,8 @@
           <div class="alert alert-success text-center">Edycja powiodła się!</div>
           <div class="d-flex justify-content-center">
             <div class="form-group">
-              <a [routerLink]="'/zaloguj'" class="justify-content-center align-self-center">
-                <button class="btn btn-primary btn-block" (click)="logout()" [routerLink]="'/zaloguj'">
+              <a [routerLink]="'/profil'" class="justify-content-center align-self-center">
+                <button class="btn btn-primary btn-block">
                   Powrót
                 </button>
                 <br /></a>

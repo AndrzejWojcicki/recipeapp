@@ -74,7 +74,6 @@ export class MyRecipesComponent implements OnInit {
   // tslint:disable-next-line: typedef
   handleListRecipes() {
     this.userService.getUserRecipes(this.currentUser.id).subscribe((data) => {
-      console.log(data);
       this.recipes = data;
       this.recipes.sort((a: Recipe, b: Recipe) => (a.id > b.id ? 1 : -1));
       this.getRecipeRatings();

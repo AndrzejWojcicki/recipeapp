@@ -72,6 +72,14 @@ export class EditRecipeComponent implements OnInit {
       this.form.preparationTime = this.recipe.preparationTime;
       this.form.difficulty = this.recipe.difficulty;
     });
+    this.getCategory();
+  }
+
+  getCategory(): void {
+    const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.recipeService.getRecipeCategoryId(id).subscribe((data) => {
+      this.form.category = data.id;
+    });
   }
 
   onSubmit(): void {
@@ -86,7 +94,6 @@ export class EditRecipeComponent implements OnInit {
       // tslint:disable-next-line: object-literal-key-quotes
       imageUrl: this.form.imageUrl
     };
-    console.log(recipePack);
     this.recipeService.updateRecipe(this.recipe.id, recipePack).subscribe(
       (response) => {
         console.log(response);

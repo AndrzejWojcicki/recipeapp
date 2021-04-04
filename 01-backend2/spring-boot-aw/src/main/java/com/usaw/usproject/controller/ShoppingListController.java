@@ -26,7 +26,7 @@ public class ShoppingListController {
         try {
 
             ShoppingList temp = new ShoppingList(shoppingList.getAuthor(), shoppingList.getProductName(),
-                    shoppingList.getQuantity(), shoppingList.getAdditionalNote());
+                    shoppingList.getQuantity(), shoppingList.getAdditionalNote(), shoppingList.isBought());
             ShoppingList _shoppingList = shoppingListRepository.save(temp);
             return new ResponseEntity<>(_shoppingList, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -44,6 +44,7 @@ public class ShoppingListController {
             _shoppingList.setProductName(shoppingList.getProductName());
             _shoppingList.setQuantity(shoppingList.getQuantity());
             _shoppingList.setAdditionalNote(shoppingList.getAdditionalNote());
+            _shoppingList.setBought(shoppingList.isBought());
             return new ResponseEntity<>(shoppingListRepository.save(_shoppingList), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

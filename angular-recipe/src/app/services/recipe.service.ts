@@ -20,6 +20,7 @@ export class RecipeService {
   private commentAuthorUrl = 'http://localhost:8080/api/recipe-comments';
   private recipeIngredientUrl = 'http://localhost:8080/api/recipe-ingredients';
   private manageRecipe = 'http://localhost:8080/recipes';
+  private getIngredients = 'http://localhost:8080/recipeingredient';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -43,6 +44,11 @@ export class RecipeService {
     return this.httpClient
       .get<GetResponseCategory>(this.categoryUrl)
       .pipe(map((response) => response._embedded.recipeCategory));
+  }
+
+  getRecipeCategoryId(recipeId: number): Observable<RecipeCategory> {
+    const categoryUrl = `${this.recipesUrl}/${recipeId}/category`;
+    return this.httpClient.get<RecipeCategory>(categoryUrl);
   }
 
   getRecipeSteps(recipeId: number): Observable<RecipeSteps[]> {
@@ -74,6 +80,13 @@ export class RecipeService {
   getCommentsAuthor(commentId: number): Observable<User> {
     const findCommentAuthorUrl = `${this.commentAuthorUrl}/${commentId}/author`;
     return this.httpClient.get<User>(findCommentAuthorUrl);
+  }
+
+  // tslint:disable-next-line: typedef
+  // tslint:disable-next-line: adjacent-overload-signatures
+  getRecipeIngredientId(idAmount: number, idIngredient: number): Observable<GetResponseIngredient> {
+    const ingredientURL = `${this.getIngredients}/${idAmount}/${idIngredient}`;
+    return this.httpClient.get<GetResponseIngredient>(ingredientURL);
   }
 
   getAmountIngredients(recipeId: number): Observable<IngredientsForRecipe[]> {
@@ -164,4 +177,10 @@ interface GetResponseRecipeIngredients {
   _embedded: {
     recipeIngredients: IngredientsForRecipe[];
   };
+}
+
+// tslint:disable-next-line: no-empty-interface
+interface GetResponseIngredient {
+  ingredient: Ingredient;
+  amount: IngredientsForRecipe;
 }

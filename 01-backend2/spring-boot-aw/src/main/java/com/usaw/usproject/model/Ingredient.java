@@ -30,19 +30,19 @@ public class Ingredient {
 
     @Column(name = "caloric_value")
     @NotNull(message = "Caloric value cannot be null")
-    private Long calories;
+    private Float calories;
 
     @Column(name = "fats")
     @NotNull(message = "Fats cannot be null")
-    private Long fat;
+    private Float fat;
 
     @Column(name = "carbohydrates")
     @NotNull(message = "Carbohydrates cannot be null")
-    private Long carbohydrates;
+    private Float carbohydrates;
 
     @Column(name = "proteins")
     @NotNull(message = "Proteins cannot be null")
-    private Long proteins;
+    private Float proteins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient")
     private Set<RecipeIngredients> recipes ;
@@ -50,7 +50,7 @@ public class Ingredient {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient")
     private Set<UserDiet> diets;
 
-    public Ingredient(String productName, Long calories, Long fat, Long carbohydrates, Long proteins) {
+    public Ingredient(String productName, Float calories, Float fat, Float carbohydrates, Float proteins) {
         this.productName = productName;
         this.calories = calories;
         this.fat = fat;

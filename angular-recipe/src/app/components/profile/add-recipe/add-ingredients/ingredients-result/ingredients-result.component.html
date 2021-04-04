@@ -7,7 +7,7 @@
 
         <br />
         <div *ngIf="ingredients.length > 0; else noIgredients">
-          <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
 
 
 
@@ -25,15 +25,26 @@
             </div>
 
             <div class="form-group">
-              <label for="amount">Ilość składnika </label> &nbsp; <small>np. 3 łyżki, 200g itp.</small>
-              <input type="text" class="form-control" name="amount" [(ngModel)]="form.amount" required minlength="3"
+              <label for="unit">Jednostka</label>
+              <select class="form-control" [(ngModel)]="form.unit" name="unit" required
+                #unit="ngModel">
+                <option *ngFor="let unit of units" [value]="unit">{{ unit }}</option>
+              </select>
+              <div class="alert-danger" role="alert" *ngIf="f.submitted && unit.invalid">
+                <div *ngIf="unit.errors.required">
+                  Musisz wybrać jednostkę
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="amount">Ilość</label> <br>
+              <small></small>
+              <input type="number" step ="0.01" min="0" class="form-control" pattern="^\d*(\.\d+)?$"  name="amount" [(ngModel)]="form.amount" required
                 #amount="ngModel" />
               <div class="alert-danger" role="alert" *ngIf="f.submitted && amount.invalid">
                 <div *ngIf="amount.errors.required">
-                  Musisz podać ilość składnika
-                </div>
-                <div *ngIf="amount.errors.minlength">
-                  Ilość składnika musi posiadać przynajmniej 3 znaki
+                  Musisz podać ilość produktu
                 </div>
               </div>
             </div>

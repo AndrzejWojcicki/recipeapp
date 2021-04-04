@@ -1,15 +1,18 @@
 package com.usaw.usproject.controller;
 
+import com.usaw.usproject.model.Ingredient;
 import com.usaw.usproject.model.Recipe;
+import com.usaw.usproject.model.RecipeIngredientData;
+import com.usaw.usproject.model.RecipeIngredients;
+import com.usaw.usproject.repository.IngredientRepository;
+import com.usaw.usproject.repository.RecipeIngredientsRepository;
 import com.usaw.usproject.repository.RecipeRepository;
-import com.usaw.usproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -18,6 +21,24 @@ public class RecipeController {
 
     @Autowired
     RecipeRepository recipeRepository;
+    @Autowired
+    IngredientRepository ingredientRepository;
+    @Autowired
+    RecipeIngredientsRepository amountRepository;
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/recipeingredient/{id}/{id2}")
+    public RecipeIngredientData getIngredientsData(@Valid @PathVariable("id") Long idAmount, @PathVariable("id2")Long ingredientId) {
+        try {
+            Optional<RecipeIngredients> amount = amountRepository.findById(idAmount);
+            Optional<Ingredient> ingredient = ingredientRepository.findById(ingredientId);
+            RecipeIngredientData ingredientAmount = new RecipeIngredientData(ingredient, amount);
+
+            return (ingredientAmount);
+        } catch (Exception e) {
+            return (null);
+        }
+    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("recipes")

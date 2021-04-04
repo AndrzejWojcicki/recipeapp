@@ -40,6 +40,11 @@
           </div>
         </li>
 
+      <li class="nav-item" *ngIf="username">
+        <a [routerLink]="'/profil/lista-zakupow'" class="nav-link" routerLink="profile">
+            Lista zakupów <i class="fas fa-shopping-basket"></i>
+        </a>
+      </li>
 
       <li class="nav-item" *ngIf="!username">
         <a class="nav-link" [routerLink]="'/zaloguj'"

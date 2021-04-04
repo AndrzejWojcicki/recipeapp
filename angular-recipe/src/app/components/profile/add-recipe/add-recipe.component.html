@@ -3,7 +3,7 @@
     <div class="col"></div>
     <div class="col-6">
       <br />
-      <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" >
 
         <div class="form-group">
           <label for="name">Nazwa przepisu</label>
@@ -21,6 +21,15 @@
 
         <div class="form-group">
           <label for="imageUrl">Url zdjęcia</label>
+          <small>
+            <p>
+              Skorzystaj z stron do dodawania zdjęć
+              <br>
+              <a routerLink="/FAQ-zdjecia">
+              (Jeśli nie wiesz jak dodać zdjęcie wejdź tutaj)
+              </a>
+            </p>
+          </small>
           <input type="url" class="form-control" name="imageUrl" [(ngModel)]="form.imageUrl" #imageUrl="ngModel" />
         </div>
 

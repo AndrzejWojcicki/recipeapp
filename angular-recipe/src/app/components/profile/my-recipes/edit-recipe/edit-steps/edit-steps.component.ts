@@ -59,6 +59,7 @@ export class EditStepsComponent implements OnInit {
   }
 
   checkAuthor(): void {
+    // tslint:disable-next-line: deprecation
     this.recipeService.getRecipeAuthor(this.addedRecipeId).subscribe(
       (data) => {
         if (data.user_id === this.currentUser.id) {
@@ -70,6 +71,7 @@ export class EditStepsComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   loadSteps() {
+    // tslint:disable-next-line: deprecation
     this.recipeService.getRecipeSteps(this.addedRecipeId).subscribe((data) => {
       data.sort((a: RecipeSteps, b: RecipeSteps) =>
         a.stepNumber > b.stepNumber ? 1 : -1
@@ -128,6 +130,7 @@ export class EditStepsComponent implements OnInit {
     console.log(this.descriptions);
     // tslint:disable-next-line: prefer-for-of
     for (const step of this.steps) {
+      // tslint:disable-next-line: deprecation
       this.stepsService.deleteStep(step.id).subscribe(
         response => {
           console.log(response);
@@ -147,6 +150,7 @@ export class EditStepsComponent implements OnInit {
         recipe: { "id": this.addedRecipeId }
       };
 
+      // tslint:disable-next-line: deprecation
       this.stepsService.addStep(stepPack).subscribe(
         (response) => {
           console.log(response);
@@ -159,7 +163,7 @@ export class EditStepsComponent implements OnInit {
         }
       );
     }
-
+    this.isSubmitted = true;
 
   }
 

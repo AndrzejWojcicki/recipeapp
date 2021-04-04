@@ -1,4 +1,3 @@
-import { Rating } from './rating';
 export class Recipe {
   id: number;
   name: string;

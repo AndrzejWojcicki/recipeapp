@@ -22,6 +22,20 @@ export class IngredientsResultComponent implements OnInit {
   isValid = true;
   form: any = {};
   ingredients: Ingredient[] = [];
+  tempUnit = '';
+  units = [
+    'g',
+    'dag',
+    'kg',
+    'ml',
+    'l',
+    'łyżeczka',
+    'łyżka',
+    'ząbek',
+    'szklanka',
+    'szczypta',
+    'pęczek'
+  ];
 
   constructor(
     // tslint:disable-next-line: variable-name
@@ -63,14 +77,16 @@ export class IngredientsResultComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.unitTranslation();
     const ingredientPack = {
       // tslint:disable-next-line: quotemark object-literal-key-quotes
       recipe: { "id": this.addedRecipeId },
       // tslint:disable-next-line: quotemark object-literal-key-quotes
       ingredient: { "id": this.form.productName },
-      amount: this.form.amount
+      amount: this.form.amount,
+      unit: this.tempUnit
     };
-
+    console.log(ingredientPack);
     this.ingredientsSerivce.addIngredientAmount(ingredientPack).subscribe(
       (response) => {
         console.log(response);
@@ -82,6 +98,84 @@ export class IngredientsResultComponent implements OnInit {
         this.errorMessage = error.error.message;
       }
     );
+  }
+  // tslint:disable-next-line: typedef
+  unitTranslation() {
+    if (this.form.unit === 'łyżeczka' && this.form.amount === 1) {
+      this.tempUnit = 'łyżeczka';
+    }
+    else if ((this.form.unit === 'łyżeczka' && this.form.amount > 1 && this.form.amount < 5)
+      || (this.form.unit === 'łyżeczka' && this.form.amount < 1)) {
+      this.tempUnit = 'łyżeczki';
+    }
+    else if (this.form.unit === 'łyżeczka' && this.form.amount >= 5) {
+      this.tempUnit = 'łyżeczek';
+    }
+    else if (this.form.unit === 'łyżka' && this.form.amount === 1) {
+      this.tempUnit = 'łyżka';
+    }
+    else if (this.form.unit === 'łyżka' && this.form.amount > 1 && this.form.amount < 5
+      || (this.form.unit === 'łyżka' && this.form.amount < 1)) {
+      this.tempUnit = 'łyżki';
+    }
+    else if (this.form.unit === 'łyżka' && this.form.amount >= 5) {
+      this.tempUnit = 'łyżek';
+    }
+    else if (this.form.unit === 'ząbek' && this.form.amount === 1) {
+      this.tempUnit = 'ząbek';
+    }
+    else if (this.form.unit === 'ząbek' && this.form.amount > 1 && this.form.amount < 5) {
+      this.tempUnit = 'ząbki';
+    }
+    else if (this.form.unit === 'ząbek' && this.form.amount >= 5
+      || (this.form.unit === 'ząbek' && this.form.amount < 1)) {
+      this.tempUnit = 'ząbków';
+    }
+    else if (this.form.unit === 'szklanka' && this.form.amount === 1) {
+      this.tempUnit = 'szklanka';
+    }
+    else if (this.form.unit === 'szklanka' && this.form.amount > 1 && this.form.amount < 5
+      || (this.form.unit === 'szklanka' && this.form.amount < 1)) {
+      this.tempUnit = 'szklanki';
+    }
+    else if (this.form.unit === 'szklanka' && this.form.amount >= 5) {
+      this.tempUnit = 'szklanek';
+    }
+    else if (this.form.unit === 'szczypta' && this.form.amount === 1) {
+      this.tempUnit = 'szczypta';
+    }
+    else if (this.form.unit === 'szczypta' && this.form.amount > 1 && this.form.amount < 5
+      || (this.form.unit === 'szczypta' && this.form.amount < 1)) {
+      this.tempUnit = 'szczypty';
+    }
+    else if (this.form.unit === 'szczypta' && this.form.amount >= 5) {
+      this.tempUnit = 'szczypt';
+    }
+    else if (this.form.unit === 'pęczek' && this.form.amount === 1) {
+      this.tempUnit = 'pęczek';
+    }
+    else if (this.form.unit === 'pęczek' && this.form.amount > 1 && this.form.amount < 5) {
+      this.tempUnit = 'pęczki';
+    }
+    else if (this.form.unit === 'pęczek' && this.form.amount >= 5
+      || (this.form.unit === 'pęczek' && this.form.amount < 1)) {
+      this.tempUnit = 'pęczków';
+    }
+    else if (this.form.unit === 'kg') {
+      this.tempUnit = 'kg';
+    }
+    else if (this.form.unit === 'dag') {
+      this.tempUnit = 'dag';
+    }
+    else if (this.form.unit === 'g') {
+      this.tempUnit = 'g';
+    }
+    else if (this.form.unit === 'ml') {
+      this.tempUnit = 'ml';
+    }
+    else if (this.form.unit === 'l') {
+      this.tempUnit = 'l';
+    }
   }
 
   returnToRecipe(): void {

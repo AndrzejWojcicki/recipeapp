@@ -22,6 +22,13 @@
 
           <div class="form-group">
             <label for="imageUrl">Url zdjęcia</label>
+            <p>
+              Skorzystaj z stron do dodawania zdjęć
+              <br>
+              <a routerLink="/FAQ-zdjecia">
+              (Jeśli nie wiesz jak dodać zdjęcie wejdź tutaj)
+              </a>
+            </p>
             <input type="url" class="form-control" name="imageUrl" [(ngModel)]="form.imageUrl" #imageUrl="ngModel" />
           </div>
 
@@ -66,7 +73,7 @@
           </div>
           <div class="d-flex justify-content-center">
             <div class="form-group">
-              <button class="btn btn-primary btn-block">Dodaj dane przepisu</button>
+              <button class="btn btn-primary btn-block">Zaktualizuj dane przepisu</button>
             </div>
           </div>
           <div class="alert alert-warning text-center" role="alert" *ngIf="f.submitted && isFailed">

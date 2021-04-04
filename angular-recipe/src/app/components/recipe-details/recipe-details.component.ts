@@ -33,6 +33,7 @@ export class RecipeDetailsComponent implements OnInit {
   ratings: Rating[] = new Array();
   total = 0;
   avgRatings: number;
+  tempIA: IngredientsForRecipe[] = new Array();
   ingredientsAmount: IngredientsForRecipe[] = new Array();
   ingredient: Ingredient[] = new Array();
   user;
@@ -49,7 +50,17 @@ export class RecipeDetailsComponent implements OnInit {
   rateAdded = false;
   userRateId: number;
 
-
+  //
+  temporary = 0;
+  totalCalories = 0;
+  totalProteins = 0;
+  totalFat = 0;
+  totalCarbs = 0;
+  grams = 0;
+  caloricValue = 0;
+  proteins = 0;
+  fat = 0;
+  carbs = 0;
 
   constructor(
     // tslint:disable-next-line: variable-name
@@ -244,27 +255,90 @@ export class RecipeDetailsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipeIngredientsAmount() {
     const id: number = +this._activatedRoute.snapshot.paramMap.get('id');
-    // tslint:disable-next-line: deprecation
     this._recipeService.getAmountIngredients(id).subscribe((data) => {
       data.sort((a: IngredientsForRecipe, b: IngredientsForRecipe) =>
         a.id > b.id ? 1 : -1
       );
-      this.ingredientsAmount = data;
-      this.ingredientsAmount.forEach((ingredient) =>
-        this.getIngredientName(ingredient.id)
+      this.tempIA = data;
+      console.log(this.tempIA);
+      this.tempIA.forEach((ingredient) =>
+        // tslint:disable-next-line: no-shadowed-variable
+        this._recipeService.getIngredient(ingredient.id).subscribe((data) => {
+          // tslint:disable-next-line: no-shadowed-variable
+          this._recipeService.getRecipeIngredientId(ingredient.id, data.id).subscribe((data) => {
+            this.ingredientsAmount.push(data.amount);
+            this.calculate(data.ingredient, data.amount);
+            this.ingredient.push(data.ingredient);
+          });
+        })
       );
     });
   }
 
   // tslint:disable-next-line: typedef
-  async getIngredientName(id: number) {
-    // tslint:disable-next-line: deprecation
-    this._recipeService.getIngredient(id).subscribe((temp) => {
-      this.ingredient.push(temp);
-      this.ingredient.sort((a: Ingredient, b: Ingredient) =>
-        a.id > b.id ? 1 : -1
-      );
-    });
+  calculate(temp: Ingredient, amount: IngredientsForRecipe) {
+    this.grams = this.toGrams(amount);
+    this.temporary = (amount.amount * this.grams);
+    this.temporary = this.temporary / 100;
+    this.totalCalories = this.totalCalories + (this.temporary * temp.calories);
+    this.totalCalories = Math.round(this.totalCalories);
+    this.totalCarbs = this.totalCarbs + (this.temporary * temp.carbohydrates);
+    this.totalCarbs = Math.round(this.totalCarbs);
+    this.totalFat = this.totalFat + (this.temporary * temp.fat);
+    this.totalFat = Math.round(this.totalFat);
+    this.totalProteins = this.totalProteins + (this.temporary * temp.proteins);
+    this.totalProteins = Math.round(this.totalProteins);
+  }
+
+  // tslint:disable-next-line: typedef
+  toGrams(amount: IngredientsForRecipe) {
+    if (amount.unit.includes('łyżeczka')
+      || amount.unit.includes('łyżeczki')
+      || amount.unit.includes('łyżeczek')) {
+      return 5;
+    }
+    else if (amount.unit.includes('łyżka')
+      || amount.unit.includes('łyżki')
+      || amount.unit.includes('łyżek')
+    ) {
+      return 15;
+    }
+    else if (amount.unit.includes('ząb')
+    ) {
+      return 5;
+    }
+    else if (amount.unit.includes('szklan')
+    ) {
+      return 250;
+    }
+    else if (amount.unit.includes('szczypt')
+    ) {
+      return 1;
+    }
+    else if (amount.unit.includes('pęcz')
+    ) {
+      return 25;
+    }
+    else if (amount.unit.includes('kg')
+    ) {
+      return 1000;
+    }
+    else if (amount.unit.includes('dag')
+    ) {
+      return 10;
+    }
+    else if (amount.unit.includes('g')
+    ) {
+      return 1;
+    }
+    else if (amount.unit.includes('ml')
+    ) {
+      return 1;
+    }
+    else if (amount.unit.includes('l')
+    ) {
+      return 1000;
+    }
   }
 
   addComment(message): void {
@@ -320,7 +394,7 @@ export class RecipeDetailsComponent implements OnInit {
   recipeStepEdit(stepId: number): void {
     this.router.navigateByUrl('profil/mojeprzepisy/edytuj/kroki/' + stepId + '/przepis/' + this.recipe.id);
   }
-  recipeStepsEdit(stepId: number): void {
+  recipeStepsEdit(): void {
     this.router.navigateByUrl('profil/edytujkroki/' + this.recipe.id);
   }
 
@@ -341,7 +415,6 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   recipeIngredientDelete(ingredientAmountId: number): void {
-    console.log(ingredientAmountId);
     // tslint:disable-next-line: deprecation
     this.ingredietService.deleteIngredient(ingredientAmountId).subscribe(
       response => {

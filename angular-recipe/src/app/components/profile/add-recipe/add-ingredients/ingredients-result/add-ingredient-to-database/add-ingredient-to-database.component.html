@@ -6,9 +6,9 @@
 
       <br><br>
       <br />
-      <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <form *ngIf="!isSucceded" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
         <div class="form-group">
-          <label for="name">Nazwa produktu </label>
+          <label for="name">Nazwa produktu</label>
           <input type="text" class="form-control" name="name" [(ngModel)]="form.name" required minlength="3"
             #name="ngModel" />
           <div class="alert-danger" role="alert" *ngIf="f.submitted && name.invalid">
@@ -17,6 +17,50 @@
             </div>
             <div *ngIf="name.errors.minlength">
               Nazwa produktu musi posiadać przynajmniej 3 znaki
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="calories">Wartość kaloryczna</label> <br>
+          <small>(podaj ilość na 100g produktu)</small>
+          <input type="number" step ="0.1" min="0" class="form-control" pattern="^\d*(\.\d)?$"  name="calories" [(ngModel)]="form.calories" required
+            #calories="ngModel" />
+          <div class="alert-danger" role="alert" *ngIf="f.submitted && calories.invalid">
+            <div *ngIf="calories.errors.required">
+              Musisz podać wartość kalorii
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fat">Tłuszcze</label> <br>
+          <small>(podaj ilość na 100g produktu)</small>
+          <input type="number" step ="0.1" min="0" class="form-control" name="fat" [(ngModel)]="form.fat" required
+            #fat="ngModel" />
+          <div class="alert-danger" role="alert" *ngIf="f.submitted && fat.invalid">
+            <div *ngIf="fat.errors.required">
+              Musisz podać ilość tłuszczy
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="carbohydrates">Węglowodany</label> <br>
+          <small>(podaj ilość na 100g produktu)</small>
+          <input type="number" step ="0.1" min="0" class="form-control" name="carbohydrates" [(ngModel)]="form.carbohydrates" required
+            #carbohydrates="ngModel" />
+          <div class="alert-danger" role="alert" *ngIf="f.submitted && carbohydrates.invalid">
+            <div *ngIf="carbohydrates.errors.required">
+              Musisz podać ilość węglowodanów
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="proteins">Biako</label> <br>
+          <small>(podaj ilość na 100g produktu)</small>
+          <input type="number" step ="0.1" min="0" class="form-control" name="proteins" [(ngModel)]="form.proteins" required
+            #proteins="ngModel" />
+          <div class="alert-danger" role="alert" *ngIf="f.submitted && proteins.invalid">
+            <div *ngIf="proteins.errors.required">
+              Musisz podać ilość białka
             </div>
           </div>
         </div>

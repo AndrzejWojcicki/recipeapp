@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenStorageService: TokenStorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    // tslint:disable-next-line: deprecation
     this.authService.login(this.form).subscribe(
       (data) => {
         this.tokenStorageService.saveToken(data.accessToken);

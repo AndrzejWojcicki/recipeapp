@@ -21,11 +21,13 @@ public class ShoppingList {
     private Long id;
 
     public ShoppingList(User author, String productName,
-                   long quantity, String additionalNote) {
+                   long quantity, String additionalNote,
+                        boolean bought) {
         this.author = author;
         this.productName = productName;
         this.quantity = quantity;
         this.additionalNote = additionalNote;
+        this.bought = bought;
     }
 
     @Column(name = "product_name")
@@ -38,6 +40,9 @@ public class ShoppingList {
 
     @Column(name = "additional_note")
     private String additionalNote;
+
+    @Column(name = "bought")
+    private boolean bought;
 
     @ManyToOne
     @NotNull(message = "Author cannot be null")
