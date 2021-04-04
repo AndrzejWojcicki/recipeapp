@@ -94,6 +94,10 @@ export class ShoppingListComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   onCreate() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
     this.dialog.open(AddDialogComponent);
   }
 }
