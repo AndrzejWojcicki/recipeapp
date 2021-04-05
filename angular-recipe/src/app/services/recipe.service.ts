@@ -90,9 +90,9 @@ export class RecipeService {
   }
 
   getAmountIngredients(recipeId: number): Observable<IngredientsForRecipe[]> {
-    const recipeRatingsUrl = `${this.recipesUrl}/${recipeId}/ingredients`;
+    const ingredientAmountUrl = `${this.recipesUrl}/${recipeId}/ingredients`;
     return this.httpClient
-      .get<GetResponseRecipeIngredients>(recipeRatingsUrl)
+      .get<GetResponseRecipeIngredients>(ingredientAmountUrl)
       .pipe(map((response) => response._embedded.recipeIngredients));
   }
 

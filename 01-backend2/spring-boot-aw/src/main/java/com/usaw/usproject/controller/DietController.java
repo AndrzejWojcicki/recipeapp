@@ -1,9 +1,7 @@
 package com.usaw.usproject.controller;
 
-import com.usaw.usproject.model.RecipeIngredients;
-import com.usaw.usproject.model.UserDiet;
-import com.usaw.usproject.repository.CommentRepository;
-import com.usaw.usproject.repository.DietRepository;
+import com.usaw.usproject.model.*;
+import com.usaw.usproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,22 @@ public class DietController {
 
     @Autowired
     DietRepository dietRepository;
+    @Autowired
+    IngredientRepository ingredientRepository;
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/dietingredient/{id}/{id2}")
+    public DietData getIngredientsData(@Valid @PathVariable("id") Long idAmount, @PathVariable("id2")Long ingredientId) {
+        try {
+            Optional<UserDiet> amount = dietRepository.findById(idAmount);
+            Optional<Ingredient> ingredient = ingredientRepository.findById(ingredientId);
+            DietData ingredientDiet = new DietData(ingredient, amount);
+
+            return (ingredientDiet);
+        } catch (Exception e) {
+            return (null);
+        }
+    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("diet")

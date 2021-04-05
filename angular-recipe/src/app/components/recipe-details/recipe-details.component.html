@@ -9,7 +9,7 @@
           <div>
             <li class="list-group-item">
               <div class="row">
-                {{ ingredient[i]?.productName }} - {{ ingredientAmount.amount }} {{ingredientAmount.unit}}
+                {{ ingredient[i]?.productName }} - <span>{{ ingredientAmount.amount }} {{ingredientAmount.unit}}</span>
                 <div *ngIf="authorofRecipe === username">
                   &nbsp;
                   <i class="fas fa-pencil-alt fa-sm" (click)="recipeIngredientUpdate(ingredientAmount.id)"
@@ -30,7 +30,7 @@
         <button (click)="ingredientAdd()" type="button" class="btn btn-success mr-1">Dodaj składnik <i class="far fa-plus-square"></i></button>
       </div>
       <div *ngIf="username"><button (click)="ingredientToShoppingList()" type="button" class="btn btn-outline-success mr-1">Dodaj do listy zakupów <i class="fas fa-cart-plus"></i></button></div>
-
+      <div *ngIf="username"><button (click)="ingredientToDiet()" type="button" class="btn btn-outline-success mr-1">Dodaj do bilansu użytkownika <i class="fas fa-balance-scale-left"></i></button></div>
       <hr>
     </div>
   </div>
@@ -173,8 +173,8 @@
         <pre>Twoja ocena: <b>{{currentRate}}</b></pre>
         <div class="row d-flex justify-content-center">
           <a class="badge badge-success mr-2" *ngIf="!rateAdded" (click)="addRate(currentRate)">Dodaj ocenę</a>
-          <a class="badge badge-danger mr-2" *ngIf="rateAdded" (click)="editRate(currentRate)">Edytuj ocenę</a>
-          <a class="badge badge-warning" *ngIf="rateAdded" (click)="deleteRate()">Usuń ocenę</a>
+          <a class="badge badge-warning mr-2" *ngIf="rateAdded" (click)="editRate(currentRate)">Edytuj ocenę</a>
+          <a class="badge badge-danger" *ngIf="rateAdded" (click)="deleteRate()">Usuń ocenę</a>
         </div>
       </div>
     </div>

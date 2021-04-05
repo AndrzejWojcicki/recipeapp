@@ -16,6 +16,7 @@ import localePl from '@angular/common/locales/pl';
 import { Ingredient } from 'src/app/common/ingredient';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
 import { ShoppingListService } from 'src/app/services/shoppingList.service';
+import { DietsService } from 'src/app/services/diet.service';
 
 registerLocaleData(localePl, 'pl');
 
@@ -75,7 +76,8 @@ export class RecipeDetailsComponent implements OnInit {
     private ratingService: RatingService,
     private stepService: StepsService,
     private ingredietService: IngredientsService,
-    private shoppingListService: ShoppingListService
+    private shoppingListService: ShoppingListService,
+    private dietService: DietsService,
   ) { }
 
   ngOnInit(): void {
@@ -440,6 +442,13 @@ export class RecipeDetailsComponent implements OnInit {
     );
   }
 
+  // tslint:disable-next-line: typedef
+  ingredientToDiet() {
+    this.tempArray.forEach((ing) =>
+      this.addIngredientToDiet(ing)
+    );
+  }
+
   addItemToShoppingList(ingredientData): void {
     const listPack = {
       // tslint:disable-next-line: quotemark object-literal-key-quotes
@@ -463,5 +472,25 @@ export class RecipeDetailsComponent implements OnInit {
       }
     );
 
+  }
+  addIngredientToDiet(ingredientData): void {
+    const listPack = {
+      // tslint:disable-next-line: object-literal-key-quotes
+      user: { 'user_id': this.user.id },
+      // tslint:disable-next-line: quotemark object-literal-key-quotes
+      ingredient: { 'id': ingredientData.ingredient.id },
+      amount: ingredientData.amount.amount,
+      unit: ingredientData.amount.unit
+    };
+    this.dietService.addDiet(listPack).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigateByUrl('profil/dieta');
+      },
+      (error) => {
+        console.log(error);
+        this.router.navigateByUrl('profil/dieta');
+      }
+    );
   }
 }
