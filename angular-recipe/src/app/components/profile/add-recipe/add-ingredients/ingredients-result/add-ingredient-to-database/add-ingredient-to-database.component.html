@@ -29,38 +29,50 @@
             <div *ngIf="calories.errors.required">
               Musisz podać wartość kalorii
             </div>
+            <div *ngIf="calories.errors.pattern">
+              Zły format danych
+            </div>
           </div>
         </div>
         <div class="form-group">
           <label for="fat">Tłuszcze</label> <br>
           <small>(podaj ilość na 100g produktu)</small>
-          <input type="number" step ="0.1" min="0" class="form-control" name="fat" [(ngModel)]="form.fat" required
+          <input type="number" step ="0.1" min="0" pattern="^\d*(\.\d)?$" class="form-control" name="fat" [(ngModel)]="form.fat" required
             #fat="ngModel" />
           <div class="alert-danger" role="alert" *ngIf="f.submitted && fat.invalid">
             <div *ngIf="fat.errors.required">
               Musisz podać ilość tłuszczy
+            </div>
+            <div *ngIf="fat.errors.pattern">
+              Zły format danych
             </div>
           </div>
         </div>
         <div class="form-group">
           <label for="carbohydrates">Węglowodany</label> <br>
           <small>(podaj ilość na 100g produktu)</small>
-          <input type="number" step ="0.1" min="0" class="form-control" name="carbohydrates" [(ngModel)]="form.carbohydrates" required
+          <input type="number" step ="0.1" min="0" class="form-control" pattern="^\d*(\.\d)?$" name="carbohydrates" [(ngModel)]="form.carbohydrates" required
             #carbohydrates="ngModel" />
           <div class="alert-danger" role="alert" *ngIf="f.submitted && carbohydrates.invalid">
             <div *ngIf="carbohydrates.errors.required">
               Musisz podać ilość węglowodanów
+            </div>
+            <div *ngIf="carbohydrates.errors.pattern">
+              Zły format danych
             </div>
           </div>
         </div>
         <div class="form-group">
           <label for="proteins">Biako</label> <br>
           <small>(podaj ilość na 100g produktu)</small>
-          <input type="number" step ="0.1" min="0" class="form-control" name="proteins" [(ngModel)]="form.proteins" required
+          <input type="number" step ="0.1" min="0" class="form-control" pattern="^\d*(\.\d)?$" name="proteins" [(ngModel)]="form.proteins" required
             #proteins="ngModel" />
           <div class="alert-danger" role="alert" *ngIf="f.submitted && proteins.invalid">
             <div *ngIf="proteins.errors.required">
               Musisz podać ilość białka
+            </div>
+            <div *ngIf="proteins.errors.pattern">
+              Zły format danych
             </div>
           </div>
         </div>

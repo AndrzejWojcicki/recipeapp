@@ -21,7 +21,7 @@
         <a *ngIf="shoppingItem.quantity > 1" type="button" (click)="quantityDown(shoppingItem)"><i class="far fa-arrow-alt-circle-down"></i></a>
       </td>
       <td class="align-middle">{{shoppingItem.additionalNote}}</td>
-      <td class="align-middle"><a type="button"><i class="fas fa-pen-square"></i></a> &nbsp;
+      <td class="align-middle"><a type="button" (click)="onEdit(shoppingItem)"><i class="fas fa-pen-square"></i></a> &nbsp;
         <a type="button" (click)="delete(shoppingItem)"><i class="far fa-minus-square"></i></a> <br>
         <a type="checkbox" (click)="check(shoppingItem)" >
           <i *ngIf="!shoppingItem.bought" class="far fa-clipboard"></i>

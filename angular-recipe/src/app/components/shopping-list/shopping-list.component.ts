@@ -5,6 +5,8 @@ import { User } from 'src/app/common/user';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddDialogComponent } from './add-dialog/add-dialog.component';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-list',
@@ -19,6 +21,7 @@ export class ShoppingListComponent implements OnInit {
 
   constructor(
     private token: TokenStorageService,
+    private router: Router,
     // tslint:disable-next-line: variable-name
     private _shoppingService: ShoppingListService,
     private dialog: MatDialog
@@ -98,6 +101,15 @@ export class ShoppingListComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
-    this.dialog.open(AddDialogComponent);
+    const dialogRef = this.dialog.open(AddDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      location.reload();
+    });
+  }
+
+  // tslint:disable-next-line: typedef
+  onEdit(shoppingListId: ShoppingList) {
+    this.router.navigateByUrl('profil/lista-zakupow/' + shoppingListId.id);
   }
 }
+

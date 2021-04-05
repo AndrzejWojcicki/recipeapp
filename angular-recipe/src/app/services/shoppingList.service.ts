@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class ShoppingListService {
   private listUrl = 'http://localhost:8080/shoppingList';
   private getusersUrl = 'http://localhost:8080/api/users/';
+  private listItemURL = 'http://localhost:8080/api/shoppingList/';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -27,6 +28,9 @@ export class ShoppingListService {
   getShoppingList(userId: number): Observable<GetResponseSteps> {
     const shoppingListUrl = `${this.getusersUrl}${userId}/shoppingLists`;
     return this.httpClient.get<GetResponseSteps>(shoppingListUrl);
+  }
+  getListItem(itemId: number): Observable<ShoppingList> {
+    return this.httpClient.get<ShoppingList>(`${this.listItemURL}${itemId}`);
   }
 }
 

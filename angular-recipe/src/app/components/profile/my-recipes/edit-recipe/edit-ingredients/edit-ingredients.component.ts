@@ -143,29 +143,35 @@ export class EditIngredientsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.unitTranslation();
-    const ingredientPack = {
-      // tslint:disable-next-line: quotemark object-literal-key-quotes
-      recipe: { "id": this.addedRecipeId },
-      // tslint:disable-next-line: quotemark object-literal-key-quotes
-      ingredient: { "id": this.ingredient.id },
-      amount: this.form.amount,
-      unit: this.tempUnit
-    };
+    const regex = new RegExp(/^\d*(\.\d+)?$/);
+    if (regex.test(this.form.amount)) {
+      this.unitTranslation();
+      const ingredientPack = {
+        // tslint:disable-next-line: quotemark object-literal-key-quotes
+        recipe: { "id": this.addedRecipeId },
+        // tslint:disable-next-line: quotemark object-literal-key-quotes
+        ingredient: { "id": this.ingredient.id },
+        amount: this.form.amount,
+        unit: this.tempUnit
+      };
 
-    // tslint:disable-next-line: deprecation
-    this.ingredientsSerivce.updateIngredient(this.addedIngredient, ingredientPack).subscribe(
-      (response) => {
-        console.log(response);
-        this.isSucceded = true;
-      },
-      (error) => {
-        console.log(error);
-        this.isFailed = true;
-        this.errorMessage = error.error.message;
-      }
-    );
-
+      // tslint:disable-next-line: deprecation
+      this.ingredientsSerivce.updateIngredient(this.addedIngredient, ingredientPack).subscribe(
+        (response) => {
+          console.log(response);
+          this.isSucceded = true;
+        },
+        (error) => {
+          console.log(error);
+          this.isFailed = true;
+          this.errorMessage = error.error.message;
+        }
+      );
+    }
+    else {
+      this.form.amount.invalid = true;
+      this.form.amount.errors.pattern = true;
+    }
   }
 
   // tslint:disable-next-line: typedef

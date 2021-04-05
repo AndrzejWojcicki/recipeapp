@@ -28,25 +28,40 @@ export class AddIngredientToDatabaseComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const ingredientPack = {
-      productName: this.form.name,
-      calories: this.form.calories,
-      fat: this.form.fat,
-      carbohydrates: this.form.carbohydrates,
-      proteins: this.form.proteins
-    };
-    // tslint:disable-next-line: deprecation
-    this.ingredientsSerivce.addIngredient(ingredientPack).subscribe(
-      (response) => {
-        console.log(response);
-        this.isSucceded = true;
-      },
-      (error) => {
-        console.log(error);
-        this.isFailed = true;
-        this.errorMessage = error.error.message;
-      }
-    );
+    const regex = new RegExp(/^\d*(\.\d)?$/);
+    if (!regex.test(this.form.calories)) {
+      this.form.calories.invalid = true;
+      this.form.calories.errors.pattern = true;
+    } else if (!regex.test(this.form.fat)) {
+      this.form.fat.invalid = true;
+      this.form.fat.errors.pattern = true;
+    } else if (!regex.test(this.form.carbohydrates)) {
+      this.form.carbohydrates.invalid = true;
+      this.form.carbohydrates.errors.pattern = true;
+    } else if (!regex.test(this.form.proteins)) {
+      this.form.proteins.invalid = true;
+      this.form.proteins.errors.pattern = true;
+    } else {
+      const ingredientPack = {
+        productName: this.form.name,
+        calories: this.form.calories,
+        fat: this.form.fat,
+        carbohydrates: this.form.carbohydrates,
+        proteins: this.form.proteins
+      };
+      // tslint:disable-next-line: deprecation
+      this.ingredientsSerivce.addIngredient(ingredientPack).subscribe(
+        (response) => {
+          console.log(response);
+          this.isSucceded = true;
+        },
+        (error) => {
+          console.log(error);
+          this.isFailed = true;
+          this.errorMessage = error.error.message;
+        }
+      );
+    }
   }
 
   returnToRecipe(): void {

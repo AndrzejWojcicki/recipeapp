@@ -38,6 +38,7 @@ import { ShoppingListComponent } from './app/components/shopping-list/shopping-l
 import { CaloricBalanceComponent } from './app/components/caloric-balance/caloric-balance.component';
 import { ImageUploadComponent } from './app/components/image-upload/image-upload.component';
 import { AddDialogComponent } from './app/components/shopping-list/add-dialog/add-dialog.component';
+import { EditDialogComponent } from './app/components/shopping-list/edit-dialog/edit-dialog.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
@@ -56,6 +57,7 @@ const routes: Routes = [
   { path: 'profil/edit/:id', component: EditProfileComponent },
   { path: 'profil/dodajprzepis', component: AddRecipeComponent },
   { path: 'profil/mojeprzepisy', component: MyRecipesComponent },
+  { path: 'profil/lista-zakupow/:id', component: EditDialogComponent },
   { path: 'profil/lista-zakupow', component: ShoppingListComponent },
   { path: 'profil/dieta', component: CaloricBalanceComponent },
   { path: 'profil', component: ProfileComponent },
@@ -93,7 +95,8 @@ const routes: Routes = [
     ShoppingListComponent,
     CaloricBalanceComponent,
     ImageUploadComponent,
-    AddDialogComponent
+    AddDialogComponent,
+    EditDialogComponent
   ],
   imports: [
     BrowserModule,
