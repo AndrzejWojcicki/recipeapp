@@ -18,7 +18,7 @@
       <td class="align-middle">{{shoppingItem.quantity}}
       </td>
       <td class="align-middle"><a type="button" (click)="quantityUp(shoppingItem)"><i class="far fa-arrow-alt-circle-up"></i></a> <br>
-        <a *ngIf="shoppingItem.quantity > 1" type="button" (click)="quantityDown(shoppingItem)"><i class="far fa-arrow-alt-circle-down"></i></a>
+        <a type="button" *ngIf="shoppingItem.quantity > 1"  (click)="quantityDown(shoppingItem)"><i class="far fa-arrow-alt-circle-down"></i></a>
       </td>
       <td class="align-middle">{{shoppingItem.additionalNote}}</td>
       <td class="align-middle"><a type="button" (click)="onEdit(shoppingItem)"><i class="fas fa-pen-square"></i></a> &nbsp;

@@ -26,3 +26,7 @@
 .title {
   display: inline;
 }
+
+button {
+  margin: 5px;
+}

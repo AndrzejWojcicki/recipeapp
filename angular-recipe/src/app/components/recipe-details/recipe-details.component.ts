@@ -15,6 +15,7 @@ import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { Ingredient } from 'src/app/common/ingredient';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
+import { ShoppingListService } from 'src/app/services/shoppingList.service';
 
 registerLocaleData(localePl, 'pl');
 
@@ -37,6 +38,7 @@ export class RecipeDetailsComponent implements OnInit {
   ingredientsAmount: IngredientsForRecipe[] = new Array();
   ingredient: Ingredient[] = new Array();
   user;
+  tempArray = new Array();
 
   // comments checking section
   message: string;
@@ -72,7 +74,8 @@ export class RecipeDetailsComponent implements OnInit {
     private commentService: CommentsService,
     private ratingService: RatingService,
     private stepService: StepsService,
-    private ingredietService: IngredientsService
+    private ingredietService: IngredientsService,
+    private shoppingListService: ShoppingListService
   ) { }
 
   ngOnInit(): void {
@@ -260,12 +263,12 @@ export class RecipeDetailsComponent implements OnInit {
         a.id > b.id ? 1 : -1
       );
       this.tempIA = data;
-      console.log(this.tempIA);
       this.tempIA.forEach((ingredient) =>
         // tslint:disable-next-line: no-shadowed-variable
         this._recipeService.getIngredient(ingredient.id).subscribe((data) => {
           // tslint:disable-next-line: no-shadowed-variable
           this._recipeService.getRecipeIngredientId(ingredient.id, data.id).subscribe((data) => {
+            this.tempArray.push(data);
             this.ingredientsAmount.push(data.amount);
             this.calculate(data.ingredient, data.amount);
             this.ingredient.push(data.ingredient);
@@ -430,5 +433,35 @@ export class RecipeDetailsComponent implements OnInit {
     window.location.reload();
   }
 
+  // tslint:disable-next-line: typedef
+  ingredientToShoppingList() {
+    this.tempArray.forEach((ing) =>
+      this.addItemToShoppingList(ing)
+    );
+  }
 
+  addItemToShoppingList(ingredientData): void {
+    const listPack = {
+      // tslint:disable-next-line: quotemark object-literal-key-quotes
+      productName: ingredientData.ingredient.productName,
+      quantity: 1,
+      additionalNote: 'dodane z przepisu' + ' ' + this.recipe.name + ' ilość składnika w przepisie '
+        + ingredientData.amount.amount + ingredientData.amount.unit,
+      bought: false,
+      // tslint:disable-next-line: quotemark object-literal-key-quotes
+      author: { "user_id": this.user.id }
+    };
+    // tslint:disable-next-line: deprecation
+    this.shoppingListService.addShoppingList(listPack).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigateByUrl('profil/lista-zakupow');
+      },
+      (error) => {
+        console.log(error);
+        this.router.navigateByUrl('profil/lista-zakupow');
+      }
+    );
+
+  }
 }

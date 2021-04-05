@@ -27,8 +27,11 @@
       </div>
       <div *ngIf="authorofRecipe === username">
         <hr>
-        <button (click)="ingredientAdd()" type="button" class="btn btn-success mr-1">Dodaj</button>
+        <button (click)="ingredientAdd()" type="button" class="btn btn-success mr-1">Dodaj składnik <i class="far fa-plus-square"></i></button>
       </div>
+      <div *ngIf="username"><button (click)="ingredientToShoppingList()" type="button" class="btn btn-outline-success mr-1">Dodaj do listy zakupów <i class="fas fa-cart-plus"></i></button></div>
+
+      <hr>
     </div>
   </div>
   <!-- /.col-lg-4 -->
