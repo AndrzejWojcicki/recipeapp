@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/common/user';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
 import { UserDetailsService } from 'src/app/services/userdetails.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-caloric-balance',
@@ -42,7 +43,8 @@ export class CaloricBalanceComponent implements OnInit {
   constructor(
     private token: TokenStorageService,
     private userDetials: UserDetailsService,
-    private dietService: DietsService
+    private dietService: DietsService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class CaloricBalanceComponent implements OnInit {
         this.dietService.getIngredient(amount.id).subscribe((ingredient) => {
           this.dietService.getDietIngredientId(amount.id, ingredient.id).subscribe((userDietPack) => {
             this.tempArray.push(userDietPack);
+            // tslint:disable-next-line: no-shadowed-variable
             this.calculate(userDietPack.ingredient, userDietPack.diet);
             this.procCalories = Math.round((this.totalCalories / this.user.calories) * 100);
             this.procProteins = Math.round((this.totalProteins / this.user.proteins) * 100);
@@ -80,6 +83,30 @@ export class CaloricBalanceComponent implements OnInit {
         })
       );
     });
+  }
+
+  // tslint:disable-next-line: typedef
+  round(data, text: string) {
+    this.productCalories = ((this.toGrams(data.diet) * data.diet.amount) / 100) * data.ingredient.calories;
+    this.productCalories = Math.round(this.productCalories);
+    if (text === 'kalorie') {
+      return this.productCalories;
+    }
+    this.productProteins = ((this.toGrams(data.diet) * data.diet.amount) / 100) * data.ingredient.proteins;
+    this.productProteins = Math.round(this.productProteins);
+    if (text === 'bialko') {
+      return this.productProteins;
+    }
+    this.productFat = ((this.toGrams(data.diet) * data.diet.amount) / 100) * data.ingredient.fat;
+    this.productFat = Math.round(this.productFat);
+    if (text === 'tluszcz') {
+      return this.productFat;
+    }
+    this.productCarbs = ((this.toGrams(data.diet) * data.diet.amount) / 100) * data.ingredient.carbohydrates;
+    this.productCarbs = Math.round(this.productCarbs);
+    if (text === 'wegle') {
+      return this.productCarbs;
+    }
   }
 
   // tslint:disable-next-line: typedef
@@ -158,6 +185,14 @@ export class CaloricBalanceComponent implements OnInit {
     window.location.reload();
   }
 
+  editUserDiet(dietId: number): void {
+    this.router.navigateByUrl('profil/dieta/edytuj/' + dietId);
+  }
+
+  addToDiet(): void {
+    this.router.navigateByUrl('profil/dieta/dodajprodukt');
+  }
+
   deleteAll(): void {
     this.tempArray.forEach((diet) =>
       this.dietService.deleteDiet(diet.diet.id).subscribe(response => {
@@ -168,5 +203,9 @@ export class CaloricBalanceComponent implements OnInit {
         })
     );
     window.location.reload();
+  }
+
+  goToUserEdit(): void {
+    this.router.navigateByUrl('profil/edit/' + this.currentUser.id);
   }
 }

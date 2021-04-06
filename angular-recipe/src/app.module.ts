@@ -39,6 +39,10 @@ import { CaloricBalanceComponent } from './app/components/caloric-balance/calori
 import { ImageUploadComponent } from './app/components/image-upload/image-upload.component';
 import { AddDialogComponent } from './app/components/shopping-list/add-dialog/add-dialog.component';
 import { EditDialogComponent } from './app/components/shopping-list/edit-dialog/edit-dialog.component';
+import { AddIngredientToDietComponent } from './app/components/caloric-balance/add-ingredient-to-diet/add-ingredient-to-diet.component';
+import { IngredientsToDietResultComponent } from './app/components/caloric-balance/add-ingredient-to-diet/ingredients-to-diet-result/ingredients-to-diet-result.component';
+import { IngredientToDatabseComponent } from './app/components/caloric-balance/add-ingredient-to-diet/ingredients-to-diet-result/ingredient-to-databse/ingredient-to-databse.component';
+import { EditDietComponent } from './app/components/caloric-balance/edit-diet/edit-diet.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
@@ -48,7 +52,7 @@ const routes: Routes = [
   { path: 'profil/mojeprzepisy/edytuj/skladnik/:id/przepis/:recipeId', component: EditIngredientsComponent },
   { path: 'profil/mojeprzepisy/edytuj/kroki/:id/przepis/:recipeId', component: EditStepComponent },
   { path: 'profil/mojeprzepisy/edytuj/:id', component: EditRecipeComponent },
-  { path: 'profil/dodajskladnik/:id/searchIngredient/:searchName', component: IngredientsResultComponent },
+  { path: 'profil/dodajskladnik/:id/szukaj/:searchName', component: IngredientsResultComponent },
   { path: 'profil/dodajskladnik/:id', component: AddIngredientsComponent },
   { path: 'profil/dodajprodukt', component: AddIngredientToDatabaseComponent },
   { path: 'profil/dodajkrok/:id', component: AddStepComponent },
@@ -60,6 +64,10 @@ const routes: Routes = [
   { path: 'profil/lista-zakupow/:id', component: EditDialogComponent },
   { path: 'profil/lista-zakupow', component: ShoppingListComponent },
   { path: 'profil/dieta', component: CaloricBalanceComponent },
+  { path: 'profil/dieta/dodajprodukt', component: AddIngredientToDietComponent },
+  { path: 'profil/dieta/dodajprodukt/szukaj/:searchName', component: IngredientsToDietResultComponent },
+  { path: 'profil/dieta/edytuj/:id', component: EditDietComponent },
+  { path: 'dodajprodukt', component: IngredientToDatabseComponent },
   { path: 'profil', component: ProfileComponent },
   { path: 'FAQ-zdjecia', component: ImageUploadComponent },
   { path: 'szukaj/:keyword', component: RecipeListComponent },
@@ -96,7 +104,11 @@ const routes: Routes = [
     CaloricBalanceComponent,
     ImageUploadComponent,
     AddDialogComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    AddIngredientToDietComponent,
+    IngredientsToDietResultComponent,
+    IngredientToDatabseComponent,
+    EditDietComponent
   ],
   imports: [
     BrowserModule,

@@ -20,8 +20,8 @@ export class DietsService {
     return this.httpClient.post(`${this.crudDiteUrl}`, data);
   }
 
-  updateDiet(dietId: number): Observable<object> {
-    return this.httpClient.delete(`${this.crudDiteUrl}/${dietId}`);
+  updateDiet(dietId: number, data): Observable<object> {
+    return this.httpClient.put(`${this.crudDiteUrl}/${dietId}`, data);
   }
 
   deleteDiet(dietId: number): Observable<object> {
@@ -33,6 +33,10 @@ export class DietsService {
     return this.httpClient
       .get<GetResponseAmountIngredients>(ingredientAmountUrl)
       .pipe(map((response) => response._embedded.userDiet));
+  }
+  getAmountIngredient(userId: number): Observable<UserDiet> {
+    const ingredientAmountUrl = `${this.dietUrl}/${userId}`;
+    return this.httpClient.get<UserDiet>(ingredientAmountUrl);
   }
 
   getIngredient(ingredientId: number): Observable<Ingredient> {

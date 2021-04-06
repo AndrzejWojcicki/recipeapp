@@ -1,5 +1,4 @@
 <div class="container" *ngIf="currentUser; else loggedOut">
-  <div *ngIf="ownRecipe; else notAuthor">
     <div class="row">
       <div class="col"></div>
       <div class="col-6 center">
@@ -43,7 +42,7 @@
           </div>
 
           <div class="d-flex justify-content-center">
-            <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+            <button (click)="returnToDiet()" class="btn btn-secondary btn-sm">
               Powrót
             </button>
           </div>
@@ -51,7 +50,7 @@
           <div class="alert alert-warning text-center" role="alert" *ngIf="f.submitted && isFailed">
             Edycja nie powiodła się. Sprawdź czy podałeś prawidłowe dane.<br />{{ errorMessage }}
             <div class="d-flex justify-content-center">
-              <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+              <button (click)="returnToDiet()" class="btn btn-secondary btn-sm">
                 Powrót
               </button>
             </div>
@@ -63,7 +62,7 @@
             Edycja powiodła się!
           </div>
           <div class="d-flex justify-content-center">
-            <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
+            <button (click)="returnToDiet()" class="btn btn-secondary btn-sm">
               Powrót
             </button>
           </div>
@@ -76,6 +75,4 @@
       <div class="col"></div>
     </div>
   </div>
-  <ng-template #notAuthor> To nie twój przepis !</ng-template>
-</div>
 <ng-template #loggedOut> Zaloguj się !</ng-template>

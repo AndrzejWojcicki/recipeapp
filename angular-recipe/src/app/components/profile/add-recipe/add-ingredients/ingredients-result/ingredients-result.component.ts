@@ -77,7 +77,7 @@ export class IngredientsResultComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const regex = new RegExp(/^\d*(\.\d+)?$/);
+    const regex = new RegExp(/^\d*(\.\d(\d)?)?$/);
     if (regex.test(this.form.amount)) {
       this.unitTranslation();
       const ingredientPack = {
@@ -88,7 +88,6 @@ export class IngredientsResultComponent implements OnInit {
         amount: this.form.amount,
         unit: this.tempUnit
       };
-      console.log(ingredientPack);
       this.ingredientsSerivce.addIngredientAmount(ingredientPack).subscribe(
         (response) => {
           console.log(response);
@@ -189,7 +188,7 @@ export class IngredientsResultComponent implements OnInit {
     this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
   }
 
-  addRecipeToDatabase(): void {
+  addIngredientToDatabase(): void {
     this.router.navigateByUrl('profil/dodajprodukt');
   }
 

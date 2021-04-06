@@ -4,11 +4,11 @@ import { TokenStorageService } from 'src/app/services/authentication/token-stora
 import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
-  selector: 'app-add-ingredients',
-  templateUrl: './add-ingredients.component.html',
-  styleUrls: ['./add-ingredients.component.css']
+  selector: 'app-add-ingredient-to-diet',
+  templateUrl: './add-ingredient-to-diet.component.html',
+  styleUrls: ['./add-ingredient-to-diet.component.css']
 })
-export class AddIngredientsComponent implements OnInit {
+export class AddIngredientToDietComponent implements OnInit {
 
   currentUser: any;
   errorMessage = '';
@@ -26,25 +26,11 @@ export class AddIngredientsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('id');
     this.currentUser = this.token.getUser();
-    if (this.currentUser) {
-      this.checkAuthor();
-    }
   }
 
-  checkAuthor(): void {
-    this.recipeService.getRecipeAuthor(this.addedRecipeId).subscribe(
-      (data) => {
-        if (data.user_id === this.currentUser.id) {
-          this.ownRecipe = true;
-        }
-      }
-    );
-  }
-
-  returnToRecipe(): void {
-    this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
+  returnToDiet(): void {
+    this.router.navigateByUrl('profil/dieta');
   }
 
   searchIngredient(searchProductName: string): void {
@@ -56,7 +42,7 @@ export class AddIngredientsComponent implements OnInit {
       this.errorMessage = 'Nazwa produktu musi być dłuższa niż 2 znaki!';
       this.isValid = false;
     } else {
-      this.router.navigateByUrl('profil/dodajskladnik/' + this.addedRecipeId + '/szukaj/' + searchProductName);
+      this.router.navigateByUrl('profil/dieta/dodajprodukt/szukaj/' + searchProductName);
     }
   }
 }

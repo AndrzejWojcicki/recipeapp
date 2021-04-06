@@ -1,24 +1,22 @@
-import { IngredientsForRecipe } from './../../../../../common/ingredients-for-recipe';
+import { IngredientsService } from './../../../services/ingredients.service';
+import { DietsService } from 'src/app/services/diet.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
-import { IngredientsService } from 'src/app/services/ingredients.service';
-import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/common/ingredient';
 
 @Component({
-  selector: 'app-edit-ingredients',
-  templateUrl: './edit-ingredients.component.html',
-  styleUrls: ['./edit-ingredients.component.css']
+  selector: 'app-edit-diet',
+  templateUrl: './edit-diet.component.html',
+  styleUrls: ['./edit-diet.component.css']
 })
-export class EditIngredientsComponent implements OnInit {
+export class EditDietComponent implements OnInit {
 
   currentUser: any;
   isSucceded = false;
   isFailed = false;
   errorMessage = '';
-  addedRecipeId: number;
-  addedIngredient: number;
+  addedDiet: number;
   ownRecipe = false;
   ingredient = new Ingredient();
   form: any = {};
@@ -37,35 +35,37 @@ export class EditIngredientsComponent implements OnInit {
     'pęczek'
   ];
 
+
   constructor(
     // tslint:disable-next-line: variable-name
     private _activatedRoute: ActivatedRoute,
     private token: TokenStorageService,
-    private recipeService: RecipeService,
+    private dietSerivce: DietsService,
     private ingredientsSerivce: IngredientsService,
-    private router: Router
-  ) { }
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('recipeId');
-    this.addedIngredient = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.addedDiet = +this._activatedRoute.snapshot.paramMap.get('id');
     this.currentUser = this.token.getUser();
-    if (this.currentUser) {
-      this.checkAuthor();
-    }
-    if (this.addedIngredient) {
-      this.getIngredientAmountInfo();
-      this.getIngredientInfo();
-    }
+    this.getIngredientAmountInfo();
+    this.getIngredientInfo();
   }
 
-  checkAuthor(): void {
+  getIngredientAmountInfo(): void {
     // tslint:disable-next-line: deprecation
-    this.recipeService.getRecipeAuthor(this.addedRecipeId).subscribe(
+    this.dietSerivce.getAmountIngredient(this.addedDiet).subscribe(
       (data) => {
-        if (data.user_id === this.currentUser.id) {
-          this.ownRecipe = true;
-        }
+        this.form.amount = data.amount;
+        this.form.unit = this.toUnit(data.unit);
+      }
+    );
+  }
+
+  getIngredientInfo(): void {
+    // tslint:disable-next-line: deprecation
+    this.dietSerivce.getIngredient(this.addedDiet).subscribe(
+      (data) => {
+        this.ingredient = data;
       }
     );
   }
@@ -121,34 +121,13 @@ export class EditIngredientsComponent implements OnInit {
     }
   }
 
-
-
-  getIngredientAmountInfo(): void {
-    // tslint:disable-next-line: deprecation
-    this.ingredientsSerivce.getIngredientAmountData(this.addedIngredient).subscribe(
-      (data) => {
-        this.form.amount = data.amount;
-        this.form.unit = this.toUnit(data.unit);
-      }
-    );
-  }
-
-  getIngredientInfo(): void {
-    // tslint:disable-next-line: deprecation
-    this.ingredientsSerivce.getIngredientData(this.addedIngredient).subscribe(
-      (data) => {
-        this.ingredient = data;
-      }
-    );
-  }
-
   onSubmit(): void {
     const regex = new RegExp(/^\d*(\.\d(\d)?)?$/);
     if (regex.test(this.form.amount)) {
       this.unitTranslation();
-      const ingredientPack = {
+      const dietPack = {
         // tslint:disable-next-line: quotemark object-literal-key-quotes
-        recipe: { "id": this.addedRecipeId },
+        user: { "user_id": this.currentUser.id },
         // tslint:disable-next-line: quotemark object-literal-key-quotes
         ingredient: { "id": this.ingredient.id },
         amount: this.form.amount,
@@ -156,7 +135,7 @@ export class EditIngredientsComponent implements OnInit {
       };
 
       // tslint:disable-next-line: deprecation
-      this.ingredientsSerivce.updateIngredient(this.addedIngredient, ingredientPack).subscribe(
+      this.dietSerivce.updateDiet(this.addedDiet, dietPack).subscribe(
         (response) => {
           console.log(response);
           this.isSucceded = true;
@@ -253,7 +232,7 @@ export class EditIngredientsComponent implements OnInit {
     }
   }
 
-  returnToRecipe(): void {
-    this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
+  returnToDiet(): void {
+    this.router.navigateByUrl('profil/dieta');
   }
 }

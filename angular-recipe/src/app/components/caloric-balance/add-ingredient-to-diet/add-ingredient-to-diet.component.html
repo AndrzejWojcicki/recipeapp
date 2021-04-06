@@ -1,5 +1,4 @@
 <div class="container" *ngIf="currentUser; else loggedOut">
-  <div *ngIf="ownRecipe; else notAuthor">
     <div class="row">
       <div class="col"></div>
       <div class="col-10 center">
@@ -20,8 +19,8 @@
             </div>
             <br>
             <div class="d-flex justify-content-center">
-              <button (click)="returnToRecipe()" class="btn btn-secondary btn-sm">
-                Wróć do przepisu
+              <button (click)="returnToDiet()" class="btn btn-secondary btn-sm">
+                Wróć do bilansu kalorycznego
               </button>
             </div>
           </div>
@@ -31,7 +30,5 @@
       </div>
       <div class="col"></div>
     </div>
-  </div>
-  <ng-template #notAuthor> To nie twój przepis !</ng-template>
 </div>
 <ng-template #loggedOut> Zaloguj się !</ng-template>

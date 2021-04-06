@@ -1,27 +1,28 @@
-import { IngredientsForRecipe } from './../../../../../common/ingredients-for-recipe';
+import { DietsService } from 'src/app/services/diet.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Ingredient } from 'src/app/common/ingredient';
 import { TokenStorageService } from 'src/app/services/authentication/token-storage.service';
 import { IngredientsService } from 'src/app/services/ingredients.service';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { Ingredient } from 'src/app/common/ingredient';
 
 @Component({
-  selector: 'app-edit-ingredients',
-  templateUrl: './edit-ingredients.component.html',
-  styleUrls: ['./edit-ingredients.component.css']
+  selector: 'app-ingredients-to-diet-result',
+  templateUrl: './ingredients-to-diet-result.component.html',
+  styleUrls: ['./ingredients-to-diet-result.component.css']
 })
-export class EditIngredientsComponent implements OnInit {
+export class IngredientsToDietResultComponent implements OnInit {
 
   currentUser: any;
   isSucceded = false;
   isFailed = false;
   errorMessage = '';
   addedRecipeId: number;
-  addedIngredient: number;
   ownRecipe = false;
-  ingredient = new Ingredient();
+  searchProductName = '';
+  isValid = true;
   form: any = {};
+  ingredients: Ingredient[] = [];
   tempUnit = '';
   units = [
     'g',
@@ -41,103 +42,22 @@ export class EditIngredientsComponent implements OnInit {
     // tslint:disable-next-line: variable-name
     private _activatedRoute: ActivatedRoute,
     private token: TokenStorageService,
-    private recipeService: RecipeService,
+    private dietsService: DietsService,
     private ingredientsSerivce: IngredientsService,
-    private router: Router
-  ) { }
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.addedRecipeId = +this._activatedRoute.snapshot.paramMap.get('recipeId');
-    this.addedIngredient = +this._activatedRoute.snapshot.paramMap.get('id');
+    this.searchProductName = this._activatedRoute.snapshot.paramMap.get('searchName');
     this.currentUser = this.token.getUser();
-    if (this.currentUser) {
-      this.checkAuthor();
-    }
-    if (this.addedIngredient) {
-      this.getIngredientAmountInfo();
-      this.getIngredientInfo();
+    if (this.searchProductName !== '') {
+      this.getIngredients();
     }
   }
 
-  checkAuthor(): void {
-    // tslint:disable-next-line: deprecation
-    this.recipeService.getRecipeAuthor(this.addedRecipeId).subscribe(
+  getIngredients(): void {
+    this.ingredientsSerivce.searchIngredients(this.searchProductName).subscribe(
       (data) => {
-        if (data.user_id === this.currentUser.id) {
-          this.ownRecipe = true;
-        }
-      }
-    );
-  }
-
-  // tslint:disable-next-line: typedef
-  toUnit(unit: string) {
-    if (unit.includes('łyżeczka')
-      || unit.includes('łyżeczki')
-      || unit.includes('łyżeczek')) {
-      return 'łyżeczka';
-    }
-    else if (unit.includes('łyżka')
-      || unit.includes('łyżki')
-      || unit.includes('łyżek')
-    ) {
-      return 'łyżka';
-    }
-    else if (unit.includes('ząb')
-    ) {
-      return 'ząbek';
-    }
-    else if (unit.includes('szklan')
-    ) {
-      return 'szklanka';
-    }
-    else if (unit.includes('szczypt')
-    ) {
-      return 'szczypta';
-    }
-    else if (unit.includes('pęcz')
-    ) {
-      return 'pęczek';
-    }
-    else if (unit.includes('kg')
-    ) {
-      return 'kg';
-    }
-    else if (unit.includes('dag')
-    ) {
-      return 'dag';
-    }
-    else if (unit.includes('g')
-    ) {
-      return 'g';
-    }
-    else if (unit.includes('ml')
-    ) {
-      return 'ml';
-    }
-    else if (unit.includes('l')
-    ) {
-      return 'l';
-    }
-  }
-
-
-
-  getIngredientAmountInfo(): void {
-    // tslint:disable-next-line: deprecation
-    this.ingredientsSerivce.getIngredientAmountData(this.addedIngredient).subscribe(
-      (data) => {
-        this.form.amount = data.amount;
-        this.form.unit = this.toUnit(data.unit);
-      }
-    );
-  }
-
-  getIngredientInfo(): void {
-    // tslint:disable-next-line: deprecation
-    this.ingredientsSerivce.getIngredientData(this.addedIngredient).subscribe(
-      (data) => {
-        this.ingredient = data;
+        this.ingredients = data._embedded.ingredients;
       }
     );
   }
@@ -146,17 +66,16 @@ export class EditIngredientsComponent implements OnInit {
     const regex = new RegExp(/^\d*(\.\d(\d)?)?$/);
     if (regex.test(this.form.amount)) {
       this.unitTranslation();
-      const ingredientPack = {
+      const dietPack = {
         // tslint:disable-next-line: quotemark object-literal-key-quotes
-        recipe: { "id": this.addedRecipeId },
+        user: { "user_id": this.currentUser.id },
         // tslint:disable-next-line: quotemark object-literal-key-quotes
-        ingredient: { "id": this.ingredient.id },
+        ingredient: { "id": this.form.productName },
         amount: this.form.amount,
         unit: this.tempUnit
       };
-
-      // tslint:disable-next-line: deprecation
-      this.ingredientsSerivce.updateIngredient(this.addedIngredient, ingredientPack).subscribe(
+      console.log(dietPack);
+      this.dietsService.addDiet(dietPack).subscribe(
         (response) => {
           console.log(response);
           this.isSucceded = true;
@@ -253,7 +172,15 @@ export class EditIngredientsComponent implements OnInit {
     }
   }
 
-  returnToRecipe(): void {
-    this.router.navigateByUrl('przepisy/' + this.addedRecipeId);
+  returnToDiet(): void {
+    this.router.navigateByUrl('profil/dieta');
+  }
+
+  addIngredientToDatabase(): void {
+    this.router.navigateByUrl('dodajprodukt');
+  }
+
+  returnToAdding(): void {
+    this.router.navigateByUrl('profil/dieta/dodajprodukt');
   }
 }

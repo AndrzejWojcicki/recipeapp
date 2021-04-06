@@ -19,3 +19,15 @@ h5 {
   margin: 8px;
   padding: 6px 12px;
 }
+
+a {
+  color: #007bff !important;
+  text-decoration: none !important;
+  background-color: transparent !important;
+  cursor: pointer !important;
+}
+
+a:hover {
+  color: #0056b3 !important;
+  text-decoration: underline !important;
+}
