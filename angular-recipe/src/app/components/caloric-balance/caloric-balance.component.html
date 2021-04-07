@@ -22,7 +22,7 @@
               <div class="progress" *ngIf="this.procCalories < 100 && this.user.calories">
                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [style.width]="this.procCalories + '%'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{this.procCalories}}%</div>
               </div>
-              <div class="progress" *ngIf="this.procCalories < 100 && this.user.calories">
+              <div class="progress" *ngIf="this.procCalories >= 100 && this.user.calories">
                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" [style.width]="this.procCalories + '%'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{this.procCalories}}%</div>
               </div>
               <p>Kalorie: {{this.totalCalories}}<span *ngIf="this.user.calories" > /{{this.user.calories}}</span> kcal</p>

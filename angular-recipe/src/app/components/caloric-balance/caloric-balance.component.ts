@@ -73,6 +73,14 @@ export class CaloricBalanceComponent implements OnInit {
         this.dietService.getIngredient(amount.id).subscribe((ingredient) => {
           this.dietService.getDietIngredientId(amount.id, ingredient.id).subscribe((userDietPack) => {
             this.tempArray.push(userDietPack);
+            this.tempArray.sort((a, b) => // tslint:disable-next-line: no-unused-expression
+              // tslint:disable-next-line: no-unused-expression
+              // tslint:disable-next-line: no-unused-expression
+              // tslint:disable-next-line: no-unused-expression
+              // tslint:disable-next-line: no-unused-expression
+              // tslint:disable-next-line: no-unused-expression
+              // tslint:disable-next-line: no-unused-expression
+              (a.diet.id > b.diet.id) ? 1 : -1);
             // tslint:disable-next-line: no-shadowed-variable
             this.calculate(userDietPack.ingredient, userDietPack.diet);
             this.procCalories = Math.round((this.totalCalories / this.user.calories) * 100);

@@ -15,7 +15,7 @@
               <label for="productName">Nazwa produktu</label>
               <select class="form-control" [(ngModel)]="form.productName" name="productName" required
                 #productName="ngModel">
-                <option *ngFor="let ingr of ingredients" [value]="ingr.id">{{ ingr.productName }}</option>
+                <option *ngFor="let ingr of ingredients" [value]="ingr.id">{{ingr.productName}} kal:{{ingr.calories}} b:{{ingr.proteins}} t:{{ingr.fat}} w:{{ingr.carbohydrates}}</option>
               </select>
               <div class="alert-danger" role="alert" *ngIf="f.submitted && productName.invalid">
                 <div *ngIf="productName.errors.required">
@@ -26,6 +26,12 @@
 
             <div class="form-group">
               <label for="unit">Jednostka</label>
+              <br>
+              <small>
+                  <a routerLink="/FAQ-jednostki">
+                    (Tabela zamiany jednostki na gramy)
+                  </a>
+              </small>
               <select class="form-control" [(ngModel)]="form.unit" name="unit" required
                 #unit="ngModel">
                 <option *ngFor="let unit of units" [value]="unit">{{ unit }}</option>

@@ -27,26 +27,32 @@ export class AddDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const listPack = {
-      // tslint:disable-next-line: quotemark object-literal-key-quotes
-      productName: this.form.name,
-      quantity: this.form.quantity,
-      additionalNote: this.form.additionalinfo,
-      bought: false,
-      // tslint:disable-next-line: quotemark object-literal-key-quotes
-      author: { "user_id": this.currentUser.id }
-    };
-    // tslint:disable-next-line: deprecation
-    this.shoppingListService.addShoppingList(listPack).subscribe(
-      (response) => {
-        console.log(response);
-        this.isSucceded = true;
-      },
-      (error) => {
-        console.log(error);
-        this.isFailed = true;
-        this.errorMessage = error.error.message;
-      }
-    );
+    const regex = new RegExp(/^\d+$/);
+    if (regex.test(this.form.quantity)) {
+      const listPack = {
+        // tslint:disable-next-line: quotemark object-literal-key-quotes
+        productName: this.form.name,
+        quantity: this.form.quantity,
+        additionalNote: this.form.additionalinfo,
+        bought: false,
+        // tslint:disable-next-line: quotemark object-literal-key-quotes
+        author: { "user_id": this.currentUser.id }
+      };
+      // tslint:disable-next-line: deprecation
+      this.shoppingListService.addShoppingList(listPack).subscribe(
+        (response) => {
+          console.log(response);
+          this.isSucceded = true;
+        },
+        (error) => {
+          console.log(error);
+          this.isFailed = true;
+          this.errorMessage = error.error.message;
+        }
+      );
+    } else {
+      this.form.quantity.invalid = true;
+      this.form.quantity.errors.pattern = true;
+    }
   }
 }

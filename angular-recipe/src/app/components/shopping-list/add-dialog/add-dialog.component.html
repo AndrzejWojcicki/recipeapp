@@ -15,11 +15,14 @@
 
   <div class="form-group">
     <label for="quantity">Ilość</label> <br>
-    <input type="number" step ="1" min="1" class="form-control" name="quantity" [(ngModel)]="form.quantity" required
+    <input type="number" step ="1" min="1" class="form-control" pattern="^\d+$" name="quantity" [(ngModel)]="form.quantity" required
       #quantity="ngModel" />
     <div class="alert-danger" role="alert" *ngIf="f.submitted && quantity.invalid">
       <div *ngIf="quantity.errors.required">
         Musisz podać ilość
+      </div>
+      <div *ngIf="quantity.errors.pattern">
+        Zły format danych
       </div>
     </div>
   </div>

@@ -43,6 +43,7 @@ import { AddIngredientToDietComponent } from './app/components/caloric-balance/a
 import { IngredientsToDietResultComponent } from './app/components/caloric-balance/add-ingredient-to-diet/ingredients-to-diet-result/ingredients-to-diet-result.component';
 import { IngredientToDatabseComponent } from './app/components/caloric-balance/add-ingredient-to-diet/ingredients-to-diet-result/ingredient-to-databse/ingredient-to-databse.component';
 import { EditDietComponent } from './app/components/caloric-balance/edit-diet/edit-diet.component';
+import { FAQUnitComponent } from './app/components/faq-unit/faq-unit.component';
 
 const routes: Routes = [
   { path: 'przepisy/:id', component: RecipeDetailsComponent },
@@ -70,6 +71,7 @@ const routes: Routes = [
   { path: 'dodajprodukt', component: IngredientToDatabseComponent },
   { path: 'profil', component: ProfileComponent },
   { path: 'FAQ-zdjecia', component: ImageUploadComponent },
+  { path: 'FAQ-jednostki', component: FAQUnitComponent },
   { path: 'szukaj/:keyword', component: RecipeListComponent },
   { path: 'kategoria/:id', component: RecipeListComponent },
   { path: '', redirectTo: '/przepisy', pathMatch: 'full' },
@@ -108,7 +110,8 @@ const routes: Routes = [
     AddIngredientToDietComponent,
     IngredientsToDietResultComponent,
     IngredientToDatabseComponent,
-    EditDietComponent
+    EditDietComponent,
+    FAQUnitComponent
   ],
   imports: [
     BrowserModule,
